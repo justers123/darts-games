@@ -65,6 +65,12 @@
       display: flex;
       flex-direction: column;
     }
+    #app.app-fullscreen {
+      height: 100dvh;
+      min-height: 100dvh;
+      max-height: 100dvh;
+      overflow: hidden;
+    }
 
     button {
       font: inherit;
@@ -586,21 +592,37 @@
       margin: 8px 0;
     }
 
+    .wordle-view {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .wordle-view > * { flex-shrink: 0; }
+    .wordle-view > .wordle-grid {
+      flex: 1 1 0;
+      min-height: 0;
+      overflow-y: auto;
+      margin: 4px 0;
+      gap: 4px;
+    }
+
     .wordle-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
+      gap: 4px;
     }
 
     .wordle-cell {
-      aspect-ratio: 2 / 1;
+      aspect-ratio: unset;
+      min-height: 34px;
       background: var(--bg-3);
-      border-radius: 8px;
+      border-radius: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 800;
-      font-size: 16px;
+      font-size: 15px;
       color: var(--fg);
       border: 2px solid transparent;
       transition: background .25s, transform .25s;
@@ -653,22 +675,22 @@
 
     .wordle-keyboard {
       display: grid;
-      gap: 8px;
-      margin-top: 12px;
+      gap: 5px;
+      margin-top: 4px;
     }
 
     .wordle-numbers {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 6px;
+      gap: 5px;
     }
 
     .wordle-numbers button {
-      padding: 14px 0;
+      padding: 10px 0;
       font-weight: 700;
       background: var(--bg-2);
-      font-size: 15px;
-      min-height: 48px;
+      font-size: 14px;
+      min-height: 42px;
       transition: background .25s, color .25s;
     }
 
@@ -688,31 +710,31 @@
     }
 
     .wordle-difficulty {
-      margin: 6px 0 10px;
+      margin: 4px 0 4px;
     }
 
     .wordle-difficulty-label {
-      font-size: 11px;
+      font-size: 10px;
       color: var(--fg-dim);
       text-transform: uppercase;
       letter-spacing: .5px;
-      margin: 2px 2px 6px;
+      margin: 0 2px 4px;
     }
 
     .wordle-difficulty-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 6px;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 4px;
     }
 
     .wordle-difficulty-grid button {
-      padding: 12px 4px;
+      padding: 8px 2px;
       font-weight: 800;
       background: var(--bg-2);
       border: 2px solid transparent;
-      font-size: 17px;
+      font-size: 14px;
       line-height: 1.1;
-      min-height: 48px;
+      min-height: 38px;
     }
 
     .wordle-difficulty-grid button.active {
@@ -724,48 +746,44 @@
     .wordle-actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 8px;
+      gap: 6px;
+      margin-top: 4px;
     }
 
     .wordle-actions button {
-      padding: 14px;
+      padding: 11px;
       font-weight: 700;
-      min-height: 52px;
-      font-size: 15px;
+      min-height: 44px;
+      font-size: 14px;
     }
 
-    .wordle-help {
-      font-size: 13px;
-      color: var(--fg-dim);
-      padding: 10px 12px;
-      background: var(--bg-2);
-      border-radius: 10px;
-      margin: 10px 0;
-    }
+    .wordle-help { display: none; }
 
     .stats-row {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      margin-top: 12px;
+      gap: 6px;
+      margin-top: 6px;
     }
 
     .stat {
       background: var(--bg-3);
-      border-radius: 8px;
-      padding: 10px 4px;
+      border-radius: 6px;
+      padding: 5px 4px;
       text-align: center;
     }
 
     .stat .v {
       font-weight: 800;
-      font-size: 20px;
+      font-size: 15px;
+      line-height: 1.15;
     }
 
     .stat .k {
-      font-size: 11px;
+      font-size: 9px;
       color: var(--fg-dim);
+      letter-spacing: .5px;
+      text-transform: uppercase;
     }
 
     .toast {
@@ -2100,17 +2118,16 @@
         bar.appendChild(back);
         bar.appendChild(title);
         bar.appendChild(actions);
-        root.appendChild(bar);
 
-        root.appendChild(el('div', 'wordle-help',
-          'Guess the secret 3-dart combo (singles only, 1–20). Green = right number, right slot. Yellow = right number, wrong slot. Grey = not in the combo.'
-        ));
+        var view = el('div', 'wordle-view');
+        view.appendChild(bar);
+        root.appendChild(view);
 
         var difficultyRow = el('div', 'wordle-difficulty');
-        root.appendChild(difficultyRow);
+        view.appendChild(difficultyRow);
 
         var grid = el('div', 'wordle-grid');
-        root.appendChild(grid);
+        view.appendChild(grid);
 
         var keyboard = el('div', 'wordle-keyboard');
         var numRow1 = el('div', 'wordle-numbers');
@@ -2123,10 +2140,10 @@
         keyboard.appendChild(numRow3);
         keyboard.appendChild(numRow4);
         keyboard.appendChild(actionRow);
-        root.appendChild(keyboard);
+        view.appendChild(keyboard);
 
         var statsBox = el('div');
-        root.appendChild(statsBox);
+        view.appendChild(statsBox);
 
         function redraw() {
           drawDifficulty();
@@ -2180,6 +2197,7 @@
 
         function drawGrid() {
           grid.innerHTML = '';
+          var currentRowEl = null;
           for (var r = 0; r < game.maxGuesses; r++) {
             var row = el('div', 'wordle-row');
             for (var c = 0; c < WD_DARTS; c++) {
@@ -2199,7 +2217,11 @@
               }
               row.appendChild(cell);
             }
+            if (r === game.guesses.length) currentRowEl = row;
             grid.appendChild(row);
+          }
+          if (currentRowEl) {
+            requestAnimationFrame(function () { currentRowEl.scrollIntoView({ block: 'nearest' }); });
           }
         }
 
@@ -3424,9 +3446,11 @@
 
       function route() {
         var hash = location.hash || '#/';
+        var isWordle = hash.indexOf('#/wordle') === 0;
+        root.classList.toggle('app-fullscreen', isWordle);
         if (hash.indexOf('#/dartquest') === 0) renderDartQuest(root);
         else if (hash.indexOf('#/golfdarts') === 0) renderGolfDarts(root);
-        else if (hash.indexOf('#/wordle') === 0) renderWordleDarts(root);
+        else if (isWordle) renderWordleDarts(root);
         else renderHome();
         window.scrollTo(0, 0);
       }

@@ -1,0 +1,3439 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Darts Games</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="Dart Games" />
+  <link rel="manifest" href="site.webmanifest" />
+  <meta name="theme-color" content="#0f1115">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    :root {
+      --bg: #0f1115;
+      --bg-2: #171a21;
+      --bg-3: #1f232c;
+      --fg: #e8ecf1;
+      --fg-dim: #9aa3b2;
+      --accent: #e63946;
+      --accent-2: #f4a261;
+      --green: #2a9d8f;
+      --yellow: #e9c46a;
+      --grey: #3a3f48;
+      --red: #c9372c;
+      --board-cream: #e7d7a7;
+      --board-dark: #18181b;
+      --shadow: 0 10px 30px rgba(0, 0, 0, .4);
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.4;
+      overscroll-behavior: none;
+      touch-action: manipulation;
+    }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+
+    #app {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    button {
+      font: inherit;
+      border: none;
+      background: var(--bg-3);
+      color: var(--fg);
+      padding: 12px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      user-select: none;
+      min-height: 44px;
+      touch-action: manipulation;
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    button:disabled {
+      opacity: .4;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--bg-3);
+      color: var(--fg-dim);
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+    }
+
+    .subtitle {
+      color: var(--fg-dim);
+      font-size: 14px;
+    }
+
+    .home-header {
+      padding: 32px 8px 8px;
+      text-align: center;
+    }
+
+    .home-header h1 {
+      font-size: 40px;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -1px;
+    }
+
+    .home-dart {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 10px;
+      filter: drop-shadow(0 6px 14px rgba(230, 57, 70, 0.35));
+    }
+
+    .home-dart svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .home-tiles {
+      display: grid;
+      gap: 16px;
+      margin-top: 32px;
+    }
+
+    .tile {
+      display: block;
+      padding: 24px;
+      background: linear-gradient(145deg, var(--bg-2), var(--bg-3));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      text-align: left;
+      border: 1px solid #262a34;
+      transition: transform .15s ease, border-color .15s ease;
+      width: 100%;
+    }
+
+    .tile:active {
+      transform: scale(0.98);
+      border-color: var(--accent);
+    }
+
+    .tile h2 {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .tile p {
+      color: var(--fg-dim);
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .tile .tile-stat {
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--accent-2);
+    }
+
+    .bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 4px;
+      gap: 8px;
+    }
+
+    .bar h2 {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .bar .bar-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .bar button {
+      padding: 10px 14px;
+      font-size: 14px;
+      min-height: 44px;
+    }
+
+    .dartboard-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      max-width: 420px;
+      margin: 8px auto;
+      touch-action: none;
+    }
+
+    .dartboard-wrap svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .dart-marker {
+      pointer-events: none;
+      filter: drop-shadow(0 2px 2px rgba(0, 0, 0, .6));
+    }
+
+    .dq-keys {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .dq-keys-row {
+      display: grid;
+      gap: 8px;
+    }
+
+    .dq-keys-row.cols-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dq-keys-row.cols-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .dq-keys-row.cols-4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .dq-key {
+      padding: 16px 6px;
+      min-height: 56px;
+      font-weight: 800;
+      font-size: 16px;
+      border-radius: 10px;
+      background: var(--bg-2);
+      border: 2px solid var(--bg-3);
+      color: var(--fg);
+      box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .dq-key small {
+      display: block;
+      font-size: 10px;
+      font-weight: 500;
+      opacity: 0.7;
+      letter-spacing: 0;
+      text-transform: none;
+      margin-top: 3px;
+    }
+
+    .dq-key.bull {
+      background: #dc2626;
+      color: white;
+      border-color: #991b1b;
+    }
+
+    .dq-key.twentyfive {
+      background: #16a34a;
+      color: white;
+      border-color: #166534;
+    }
+
+    .dq-key.treble {
+      background: #ea580c;
+      color: white;
+      border-color: #9a3412;
+    }
+
+    .dq-key:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+    }
+
+    .dq-key:disabled {
+      opacity: 0.5;
+    }
+
+    .enemy-card {
+      background: linear-gradient(145deg, #2a1a1a, #1a1418);
+      border: 1px solid #3a2a2a;
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      margin-bottom: 10px;
+    }
+
+    .enemy-card .enemy-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .enemy-card .enemy-name {
+      font-weight: 800;
+      font-size: 18px;
+    }
+
+    .enemy-card .enemy-level {
+      font-size: 12px;
+      color: var(--fg-dim);
+    }
+
+    .enemy-emoji {
+      font-size: 40px;
+      line-height: 1;
+    }
+
+    .hp-bar {
+      height: 10px;
+      border-radius: 6px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, .08);
+      position: relative;
+    }
+
+    .hp-bar>span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width .35s ease;
+    }
+
+    .hp-bar.player>span {
+      background: linear-gradient(90deg, var(--green), #72d3c2);
+    }
+
+    .hp-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--fg-dim);
+      margin-top: 4px;
+    }
+
+    .player-card {
+      background: linear-gradient(145deg, #12201e, #0e1a19);
+      border: 1px solid #223a36;
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      margin-top: 12px;
+    }
+
+    .turn-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 10px 4px;
+      font-size: 14px;
+    }
+
+    .dart-slots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dart-slot {
+      width: 56px;
+      min-height: 30px;
+      padding: 4px 6px;
+      border-radius: 6px;
+      background: var(--bg-3);
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--fg-dim);
+    }
+
+    .dart-slot.filled {
+      background: var(--accent);
+      color: white;
+    }
+
+    .log {
+      max-height: 120px;
+      overflow-y: auto;
+      background: var(--bg-2);
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      color: var(--fg-dim);
+      margin-top: 10px;
+    }
+
+    .log div {
+      margin: 2px 0;
+    }
+
+    .log .you {
+      color: var(--green);
+    }
+
+    .log .enemy {
+      color: var(--accent);
+    }
+
+    .log .sys {
+      color: var(--accent-2);
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 12, 16, .85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 10;
+    }
+
+    .overlay-card {
+      background: var(--bg-2);
+      border-radius: var(--radius);
+      padding: 24px;
+      max-width: 360px;
+      width: 100%;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .overlay-card h3 {
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+
+    .overlay-card p {
+      color: var(--fg-dim);
+      margin: 6px 0 18px;
+    }
+
+    .overlay-actions {
+      display: grid;
+      gap: 10px;
+    }
+
+    .tile {
+      position: relative;
+    }
+
+    .tile-rules-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--fg);
+      border: 1px solid #262a34;
+      border-radius: 999px;
+      font-size: 13px;
+      padding: 10px 16px;
+      min-height: 40px;
+      cursor: pointer;
+    }
+
+    .tile-rules-btn:active {
+      transform: scale(0.96);
+    }
+
+    .rules-card {
+      text-align: left;
+      max-width: 420px;
+    }
+
+    .rules-card h3 {
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    .rules-card h4 {
+      margin: 14px 0 6px;
+      color: var(--accent-2);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+
+    .rules-card h4:first-of-type {
+      margin-top: 0;
+    }
+
+    .rules-card ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--fg-dim);
+      font-size: 14px;
+    }
+
+    .rules-card li {
+      margin: 4px 0;
+    }
+
+    .rules-card li strong {
+      color: var(--fg);
+    }
+
+    .rules-card .overlay-actions {
+      margin-top: 18px;
+    }
+
+    .link-like {
+      background: none;
+      border: none;
+      padding: 0;
+      color: var(--accent-2);
+      font: inherit;
+      min-height: 0;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .link-like:active {
+      transform: none;
+    }
+
+    .clear-list {
+      display: grid;
+      gap: 8px;
+      margin: 6px 0 14px;
+    }
+
+    .clear-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      background: var(--bg-3);
+      border-radius: 8px;
+    }
+
+    .clear-row-text {
+      flex: 1;
+      text-align: left;
+      min-width: 0;
+    }
+
+    .clear-row-title {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--fg);
+    }
+
+    .clear-row-desc {
+      font-size: 12px;
+      color: var(--fg-dim);
+      margin-top: 2px;
+      line-height: 1.3;
+    }
+
+    .clear-row button {
+      padding: 8px 14px;
+      min-height: 40px;
+      font-size: 13px;
+      flex: 0 0 auto;
+    }
+
+    .wordle-grid {
+      display: grid;
+      gap: 6px;
+      margin: 8px 0;
+    }
+
+    .wordle-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+
+    .wordle-cell {
+      aspect-ratio: 2 / 1;
+      background: var(--bg-3);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 16px;
+      color: var(--fg);
+      border: 2px solid transparent;
+      transition: background .25s, transform .25s;
+    }
+
+    .wordle-cell.current {
+      border-color: var(--accent);
+    }
+
+    .wordle-cell.filled {
+      background: var(--bg-2);
+      border-color: #384050;
+    }
+
+    .wordle-cell.hit {
+      background: var(--green);
+      color: white;
+      border-color: transparent;
+    }
+
+    .wordle-cell.close {
+      background: var(--yellow);
+      color: #111;
+      border-color: transparent;
+    }
+
+    .wordle-cell.miss {
+      background: var(--grey);
+      color: var(--fg-dim);
+      border-color: transparent;
+    }
+
+    .wordle-cell.reveal {
+      animation: reveal .4s ease both;
+    }
+
+    @keyframes reveal {
+      0% {
+        transform: scaleY(1);
+      }
+
+      50% {
+        transform: scaleY(0);
+      }
+
+      100% {
+        transform: scaleY(1);
+      }
+    }
+
+    .wordle-keyboard {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .wordle-numbers {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+    }
+
+    .wordle-numbers button {
+      padding: 14px 0;
+      font-weight: 700;
+      background: var(--bg-2);
+      font-size: 15px;
+      min-height: 48px;
+      transition: background .25s, color .25s;
+    }
+
+    .wordle-numbers button.key-hit {
+      background: var(--green);
+      color: white;
+    }
+
+    .wordle-numbers button.key-close {
+      background: var(--yellow);
+      color: #111;
+    }
+
+    .wordle-numbers button.key-miss {
+      background: var(--grey);
+      color: var(--fg-dim);
+    }
+
+    .wordle-difficulty {
+      margin: 6px 0 10px;
+    }
+
+    .wordle-difficulty-label {
+      font-size: 11px;
+      color: var(--fg-dim);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin: 2px 2px 6px;
+    }
+
+    .wordle-difficulty-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+
+    .wordle-difficulty-grid button {
+      padding: 12px 4px;
+      font-weight: 800;
+      background: var(--bg-2);
+      border: 2px solid transparent;
+      font-size: 17px;
+      line-height: 1.1;
+      min-height: 48px;
+    }
+
+    .wordle-difficulty-grid button.active {
+      border-color: var(--accent);
+      background: var(--bg-3);
+      color: var(--accent-2);
+    }
+
+    .wordle-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .wordle-actions button {
+      padding: 14px;
+      font-weight: 700;
+      min-height: 52px;
+      font-size: 15px;
+    }
+
+    .wordle-help {
+      font-size: 13px;
+      color: var(--fg-dim);
+      padding: 10px 12px;
+      background: var(--bg-2);
+      border-radius: 10px;
+      margin: 10px 0;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .stat {
+      background: var(--bg-3);
+      border-radius: 8px;
+      padding: 10px 4px;
+      text-align: center;
+    }
+
+    .stat .v {
+      font-weight: 800;
+      font-size: 20px;
+    }
+
+    .stat .k {
+      font-size: 11px;
+      color: var(--fg-dim);
+    }
+
+    .toast {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--bg-3);
+      color: var(--fg);
+      padding: 10px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      box-shadow: var(--shadow);
+      z-index: 20;
+      animation: toast-in .25s ease;
+    }
+
+    @keyframes toast-in {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+    }
+
+    .flex-spacer {
+      flex: 1;
+    }
+
+    /* ============ GOLF DARTS (90s arcade) ============ */
+    .gd-root {
+      --gd-green: #0a6b2f;
+      --gd-green-dark: #074d22;
+      --gd-fairway: #4fa862;
+      --gd-yellow: #fde047;
+      --gd-gold: #f59e0b;
+      --gd-red: #ef4444;
+      --gd-cream: #fff8dc;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    .gd-hero {
+      background: repeating-linear-gradient(45deg, var(--gd-green) 0 20px, var(--gd-green-dark) 20px 40px);
+      border: 3px solid var(--gd-yellow);
+      border-radius: 10px;
+      padding: 14px 10px;
+      text-align: center;
+      color: var(--gd-cream);
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.6);
+      box-shadow: 0 0 0 3px var(--gd-green-dark), 0 6px 0 rgba(0, 0, 0, 0.35);
+      margin-top: 8px;
+    }
+
+    .gd-hero h3 {
+      font-size: 18px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 900;
+      color: var(--gd-yellow);
+    }
+
+    .gd-hero .gd-sub {
+      font-size: 13px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-top: 6px;
+      opacity: 0.95;
+    }
+
+    .gd-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .gd-stat {
+      background: #000;
+      color: var(--gd-yellow);
+      border: 2px solid var(--gd-yellow);
+      border-radius: 6px;
+      padding: 10px 6px;
+      text-align: center;
+      box-shadow: 0 3px 0 rgba(0, 0, 0, 0.4);
+    }
+
+    .gd-stat-k {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gd-cream);
+      opacity: 0.7;
+    }
+
+    .gd-stat-v {
+      font-size: 22px;
+      font-weight: 900;
+      margin-top: 4px;
+      line-height: 1;
+    }
+
+    .gd-stat.under .gd-stat-v {
+      color: #34d399;
+    }
+
+    .gd-stat.over .gd-stat-v {
+      color: var(--gd-red);
+    }
+
+    .gd-card {
+      margin-top: 12px;
+      background: var(--gd-green-dark);
+      border: 2px solid var(--gd-yellow);
+      border-radius: 8px;
+      padding: 10px;
+      box-shadow: 0 3px 0 rgba(0, 0, 0, 0.4);
+    }
+
+    .gd-card-title {
+      color: var(--gd-yellow);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .gd-nine-label {
+      grid-column: 1 / -1;
+      color: var(--gd-cream);
+      opacity: 0.7;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin: 4px 0 2px;
+    }
+
+    .gd-nine-label:first-child {
+      margin-top: 0;
+    }
+
+    .gd-holes {
+      display: grid;
+      grid-template-columns: repeat(9, 1fr);
+      gap: 4px;
+    }
+
+    .gd-hole {
+      aspect-ratio: 1 / 1;
+      background: rgba(0, 0, 0, 0.45);
+      color: var(--gd-cream);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 800;
+      border: 2px solid transparent;
+    }
+
+    .gd-hole.current {
+      border-color: var(--gd-yellow);
+      animation: gdPulse 1s ease-in-out infinite;
+    }
+
+    .gd-hole.eagle {
+      background: var(--gd-gold);
+      color: #111;
+    }
+
+    .gd-hole.birdie {
+      background: #16a34a;
+      color: white;
+    }
+
+    .gd-hole.par {
+      background: #475569;
+      color: white;
+    }
+
+    .gd-hole.bogey {
+      background: #b45309;
+      color: white;
+    }
+
+    .gd-hole.double {
+      background: #dc2626;
+      color: white;
+    }
+
+    .gd-hole.triple {
+      background: #7f1d1d;
+      color: white;
+    }
+
+    @keyframes gdPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(253, 224, 71, .8);
+      }
+
+      50% {
+        box-shadow: 0 0 0 4px rgba(253, 224, 71, .8);
+      }
+    }
+
+    .gd-rounds-summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .gd-r {
+      background: #000;
+      border: 2px solid #333;
+      border-radius: 6px;
+      padding: 8px 4px;
+      text-align: center;
+    }
+
+    .gd-r-k {
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gd-cream);
+      opacity: 0.7;
+    }
+
+    .gd-r-v {
+      font-size: 16px;
+      font-weight: 900;
+      color: var(--gd-cream);
+      margin-top: 2px;
+    }
+
+    .gd-r.active {
+      border-color: var(--gd-yellow);
+    }
+
+    .gd-r.done {
+      border-color: var(--gd-fairway);
+    }
+
+    .gd-r-v.under {
+      color: #34d399;
+    }
+
+    .gd-r-v.over {
+      color: var(--gd-red);
+    }
+
+    .gd-bests {
+      margin-top: 10px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--gd-cream);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .gd-best {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--gd-green-dark);
+      border-radius: 6px;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .gd-best-k {
+      opacity: 0.7;
+      font-size: 9px;
+    }
+
+    .gd-best-v {
+      font-weight: 900;
+      font-size: 14px;
+      color: var(--gd-yellow);
+      margin-top: 2px;
+    }
+
+    .gd-best-when {
+      opacity: 0.6;
+      font-size: 9px;
+      margin-top: 2px;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .gd-instruction {
+      color: var(--gd-yellow);
+      text-align: center;
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin: 14px 0 8px;
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+    }
+
+    .gd-keys {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .gd-key {
+      padding: 14px 10px;
+      min-height: 68px;
+      border: 2px solid rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      font-family: 'Courier New', Courier, monospace;
+      font-weight: 800;
+      text-transform: uppercase;
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4);
+      box-shadow: 0 4px 0 rgba(0, 0, 0, 0.4);
+      color: white;
+      text-align: left;
+      line-height: 1.15;
+    }
+
+    .gd-key .gd-key-term {
+      font-size: 15px;
+      letter-spacing: 2px;
+      display: block;
+    }
+
+    .gd-key .gd-key-sub {
+      font-size: 11px;
+      letter-spacing: 1px;
+      opacity: 0.9;
+      display: block;
+      margin-top: 3px;
+    }
+
+    .gd-key.eagle {
+      background: var(--gd-gold);
+      color: #111;
+      text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.3);
+    }
+
+    .gd-key.birdie {
+      background: #16a34a;
+    }
+
+    .gd-key.par {
+      background: #475569;
+    }
+
+    .gd-key.bogey-treble {
+      background: #b45309;
+    }
+
+    .gd-key.bogey-outer {
+      background: #92400e;
+    }
+
+    .gd-key.double {
+      background: #dc2626;
+    }
+
+    .gd-key.triple {
+      background: #7f1d1d;
+    }
+
+    .gd-key.full {
+      grid-column: span 2;
+      text-align: center;
+    }
+
+    .gd-key:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+    }
+
+    .gd-key:disabled {
+      opacity: 0.4;
+    }
+
+    .gd-shot-feedback {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      min-height: 38px;
+      margin-top: 12px;
+      text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.6);
+    }
+
+    .gd-shot-feedback.flash {
+      animation: gdFlash .8s ease-out;
+    }
+
+    @keyframes gdFlash {
+      0% {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+
+      25% {
+        transform: scale(1.18);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .gd-shot-feedback.eagle {
+      color: var(--gd-gold);
+    }
+
+    .gd-shot-feedback.birdie {
+      color: #34d399;
+    }
+
+    .gd-shot-feedback.par {
+      color: var(--gd-cream);
+    }
+
+    .gd-shot-feedback.bogey {
+      color: var(--gd-yellow);
+    }
+
+    .gd-shot-feedback.double {
+      color: #fb923c;
+    }
+
+    .gd-shot-feedback.triple {
+      color: var(--gd-red);
+    }
+
+    .gd-tournament-card {
+      background: repeating-linear-gradient(45deg, var(--gd-green) 0 18px, var(--gd-green-dark) 18px 36px);
+      border: 4px solid var(--gd-yellow);
+      color: var(--gd-cream);
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 0 0 4px var(--gd-green-dark), 0 8px 0 rgba(0, 0, 0, 0.4);
+    }
+
+    .gd-trophy {
+      font-size: 64px;
+      line-height: 1;
+      filter: drop-shadow(3px 3px 0 rgba(0, 0, 0, 0.5));
+      margin-bottom: 8px;
+    }
+
+    .gd-final-title {
+      font-family: 'Courier New', Courier, monospace;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--gd-yellow);
+      text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.6);
+    }
+
+    .gd-final-score {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 56px;
+      font-weight: 900;
+      line-height: 1;
+      margin: 12px 0 6px;
+      text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.6);
+    }
+
+    .gd-final-score.under {
+      color: #34d399;
+    }
+
+    .gd-final-score.over {
+      color: var(--gd-red);
+    }
+
+    .gd-final-score.par {
+      color: var(--gd-yellow);
+    }
+
+    .gd-final-position {
+      font-family: 'Courier New', Courier, monospace;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-size: 14px;
+      color: var(--gd-cream);
+      margin-bottom: 4px;
+    }
+
+    .gd-final-blurb {
+      font-size: 13px;
+      color: var(--gd-cream);
+      margin: 10px 0 18px;
+      opacity: 0.95;
+    }
+
+    .gd-badge-new {
+      display: inline-block;
+      background: var(--gd-yellow);
+      color: #111;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      animation: gdFlash .6s ease-out;
+    }
+  </style>
+</head>
+<body>
+  <main id="app"></main>
+  <script>
+    (function() {
+      'use strict';
+
+      // ============ STORAGE ============
+      var storage = {
+        get: function(key, fallback) {
+          if (fallback === undefined) fallback = null;
+          try {
+            var raw = localStorage.getItem(key);
+            if (raw == null) return fallback;
+            return JSON.parse(raw);
+          } catch (e) {
+            return fallback;
+          }
+        },
+        set: function(key, value) {
+          try {
+            localStorage.setItem(key, JSON.stringify(value));
+          } catch (e) {}
+        },
+        remove: function(key) {
+          try {
+            localStorage.removeItem(key);
+          } catch (e) {}
+        }
+      };
+
+      function el(tag, cls, text) {
+        var e = document.createElement(tag);
+        if (cls) e.className = cls;
+        if (text != null) e.textContent = text;
+        return e;
+      }
+
+      function randInt(a, b) {
+        return Math.floor(a + Math.random() * (b - a + 1));
+      }
+
+      // ============ DARTBOARD ============
+      var BOARD_RADIUS = 170;
+      var DOUBLE_OUTER = 170,
+        DOUBLE_INNER = 162;
+      var TRIPLE_OUTER = 107,
+        TRIPLE_INNER = 99;
+      var BULL_OUTER = 15.9,
+        BULL_INNER = 6.35;
+      var SECTORS = [20, 1, 18, 4, 13, 6, 10, 15, 2, 17, 3, 19, 7, 16, 8, 11, 14, 9, 12, 5];
+      var SVG_NS = 'http://www.w3.org/2000/svg';
+
+      function scoreDart(x, y) {
+        var r = Math.hypot(x, y);
+        if (r <= BULL_INNER) return {
+          segment: 25,
+          multiplier: 2,
+          score: 50,
+          label: 'Bull'
+        };
+        if (r <= BULL_OUTER) return {
+          segment: 25,
+          multiplier: 1,
+          score: 25,
+          label: '25'
+        };
+        if (r > BOARD_RADIUS) return {
+          segment: 0,
+          multiplier: 0,
+          score: 0,
+          label: 'Miss'
+        };
+        var deg = (Math.atan2(x, -y) * 180 / Math.PI + 360) % 360;
+        var shifted = (deg + 9) % 360;
+        var idx = Math.floor(shifted / 18);
+        var segment = SECTORS[idx];
+        var multiplier = 1;
+        if (r >= TRIPLE_INNER && r <= TRIPLE_OUTER) multiplier = 3;
+        else if (r >= DOUBLE_INNER && r <= DOUBLE_OUTER) multiplier = 2;
+        var prefix = multiplier === 3 ? 'T' : multiplier === 2 ? 'D' : '';
+        return {
+          segment: segment,
+          multiplier: multiplier,
+          score: segment * multiplier,
+          label: prefix + segment
+        };
+      }
+
+      function dartLabel(d) {
+        if (!d) return '';
+        if (d.segment === 25 && d.multiplier === 2) return 'Bull';
+        if (d.segment === 25) return '25';
+        if (d.multiplier === 0) return 'Miss';
+        var prefix = d.multiplier === 3 ? 'T' : d.multiplier === 2 ? 'D' : '';
+        return prefix + d.segment;
+      }
+
+      function polar(r, deg) {
+        var rad = (deg - 90) * Math.PI / 180;
+        return [r * Math.cos(rad), r * Math.sin(rad)];
+      }
+
+      function annulusSector(r1, r2, startDeg, endDeg) {
+        var p1 = polar(r2, startDeg);
+        var p2 = polar(r2, endDeg);
+        var p3 = polar(r1, endDeg);
+        var p4 = polar(r1, startDeg);
+        var large = endDeg - startDeg > 180 ? 1 : 0;
+        return 'M ' + p1[0] + ' ' + p1[1] +
+          ' A ' + r2 + ' ' + r2 + ' 0 ' + large + ' 1 ' + p2[0] + ' ' + p2[1] +
+          ' L ' + p3[0] + ' ' + p3[1] +
+          ' A ' + r1 + ' ' + r1 + ' 0 ' + large + ' 0 ' + p4[0] + ' ' + p4[1] +
+          ' Z';
+      }
+
+      function appendPath(svg, d, fill) {
+        var p = document.createElementNS(SVG_NS, 'path');
+        p.setAttribute('d', d);
+        p.setAttribute('fill', fill);
+        svg.appendChild(p);
+      }
+
+      function renderDartboard(svg) {
+        while (svg.firstChild) svg.removeChild(svg.firstChild);
+        svg.setAttribute('viewBox', '-190 -190 380 380');
+
+        var bg = document.createElementNS(SVG_NS, 'circle');
+        bg.setAttribute('r', 188);
+        bg.setAttribute('fill', '#111');
+        svg.appendChild(bg);
+
+        var ring = document.createElementNS(SVG_NS, 'circle');
+        ring.setAttribute('r', 180);
+        ring.setAttribute('fill', '#0b0b0b');
+        ring.setAttribute('stroke', '#3a3a3a');
+        ring.setAttribute('stroke-width', '2');
+        svg.appendChild(ring);
+
+        for (var i = 0; i < 20; i++) {
+          var start = i * 18 - 9;
+          var end = i * 18 + 9;
+          var cream = i % 2 === 0;
+          var single = cream ? '#e7d7a7' : '#18181b';
+          var dtA = cream ? '#c9372c' : '#2a9d8f';
+          var dtB = cream ? '#2a9d8f' : '#c9372c';
+          appendPath(svg, annulusSector(TRIPLE_OUTER, DOUBLE_INNER, start, end), single);
+          appendPath(svg, annulusSector(BULL_OUTER, TRIPLE_INNER, start, end), single);
+          appendPath(svg, annulusSector(TRIPLE_INNER, TRIPLE_OUTER, start, end), dtA);
+          appendPath(svg, annulusSector(DOUBLE_INNER, DOUBLE_OUTER, start, end), dtB);
+        }
+
+        var b25 = document.createElementNS(SVG_NS, 'circle');
+        b25.setAttribute('r', BULL_OUTER);
+        b25.setAttribute('fill', '#2a9d8f');
+        svg.appendChild(b25);
+        var b50 = document.createElementNS(SVG_NS, 'circle');
+        b50.setAttribute('r', BULL_INNER);
+        b50.setAttribute('fill', '#c9372c');
+        svg.appendChild(b50);
+
+        for (var j = 0; j < 20; j++) {
+          var angle = j * 18;
+          var pt = polar(178, angle);
+          var text = document.createElementNS(SVG_NS, 'text');
+          text.setAttribute('x', pt[0]);
+          text.setAttribute('y', pt[1]);
+          text.setAttribute('fill', '#fff');
+          text.setAttribute('font-size', '18');
+          text.setAttribute('font-weight', '800');
+          text.setAttribute('text-anchor', 'middle');
+          text.setAttribute('dominant-baseline', 'central');
+          text.textContent = SECTORS[j];
+          svg.appendChild(text);
+        }
+
+        var wire = document.createElementNS(SVG_NS, 'g');
+        wire.setAttribute('stroke', 'rgba(0,0,0,.35)');
+        wire.setAttribute('stroke-width', '0.5');
+        wire.setAttribute('fill', 'none');
+        [TRIPLE_INNER, TRIPLE_OUTER, DOUBLE_INNER, DOUBLE_OUTER, BULL_OUTER].forEach(function(r) {
+          var c = document.createElementNS(SVG_NS, 'circle');
+          c.setAttribute('r', r);
+          wire.appendChild(c);
+        });
+        for (var k = 0; k < 20; k++) {
+          var a = k * 18 - 9;
+          var a1 = polar(BULL_OUTER, a);
+          var a2 = polar(DOUBLE_OUTER, a);
+          var line = document.createElementNS(SVG_NS, 'line');
+          line.setAttribute('x1', a1[0]);
+          line.setAttribute('y1', a1[1]);
+          line.setAttribute('x2', a2[0]);
+          line.setAttribute('y2', a2[1]);
+          wire.appendChild(line);
+        }
+        svg.appendChild(wire);
+
+        var markers = document.createElementNS(SVG_NS, 'g');
+        markers.setAttribute('class', 'dart-markers');
+        svg.appendChild(markers);
+        return markers;
+      }
+
+      function addDartMarker(markers, x, y) {
+        var g = document.createElementNS(SVG_NS, 'g');
+        g.setAttribute('class', 'dart-marker');
+        g.setAttribute('transform', 'translate(' + x + ' ' + y + ')');
+        var outer = document.createElementNS(SVG_NS, 'circle');
+        outer.setAttribute('r', 5);
+        outer.setAttribute('fill', '#fff');
+        outer.setAttribute('stroke', '#000');
+        outer.setAttribute('stroke-width', '1.2');
+        var inner = document.createElementNS(SVG_NS, 'circle');
+        inner.setAttribute('r', 2);
+        inner.setAttribute('fill', '#e63946');
+        g.appendChild(outer);
+        g.appendChild(inner);
+        markers.appendChild(g);
+        return g;
+      }
+
+      function clearMarkers(markers) {
+        while (markers && markers.firstChild) markers.removeChild(markers.firstChild);
+      }
+
+      function pointerToBoardCoords(evt, svg) {
+        var pt = svg.createSVGPoint();
+        pt.x = evt.clientX;
+        pt.y = evt.clientY;
+        var ctm = svg.getScreenCTM();
+        if (!ctm) return null;
+        var local = pt.matrixTransform(ctm.inverse());
+        return {
+          x: local.x,
+          y: local.y
+        };
+      }
+
+      // ============ DARTQUEST ============
+      var DQ_SAVE = 'dartquest.save';
+      var DQ_BEST = 'dartquest.best';
+      var PLAYER_MAX_HP = 100;
+
+      var ENEMY_POOL = [{
+          name: 'Straw Dummy',
+          emoji: '🎯'
+        },
+        {
+          name: 'Goblin',
+          emoji: '👺'
+        },
+        {
+          name: 'Skeleton',
+          emoji: '💀'
+        },
+        {
+          name: 'Bandit',
+          emoji: '🥷'
+        },
+        {
+          name: 'Werewolf',
+          emoji: '🐺'
+        },
+        {
+          name: 'Ghoul',
+          emoji: '🧟'
+        },
+        {
+          name: 'Vampire',
+          emoji: '🧛'
+        },
+        {
+          name: 'Scorpion',
+          emoji: '🦂'
+        }
+      ];
+      var BOSS_POOL = [{
+          name: 'Orc Warlord',
+          emoji: '👹'
+        },
+        {
+          name: 'Dark Knight',
+          emoji: '⚔️'
+        },
+        {
+          name: 'Lich King',
+          emoji: '☠️'
+        },
+        {
+          name: 'Dragon',
+          emoji: '🐉'
+        },
+        {
+          name: 'Demon Lord',
+          emoji: '😈'
+        }
+      ];
+
+      function makeEnemy(level) {
+        var isBoss = level % 5 === 0;
+        var pool = isBoss ? BOSS_POOL : ENEMY_POOL;
+        var idx = isBoss ?
+          (Math.floor(level / 5) - 1) % BOSS_POOL.length :
+          (level - 1) % ENEMY_POOL.length;
+        var tmpl = pool[idx];
+        var hp = isBoss ? 60 + 28 * level : 30 + 14 * level;
+        var dmg = isBoss ? 8 + Math.floor(level * 2.2) : 4 + Math.floor(level * 1.4);
+        return {
+          name: tmpl.name,
+          emoji: tmpl.emoji,
+          isBoss: isBoss,
+          level: level,
+          maxHp: hp,
+          hp: hp,
+          dmg: dmg
+        };
+      }
+
+      function newQuestGame() {
+        return {
+          level: 1,
+          hp: PLAYER_MAX_HP,
+          enemy: makeEnemy(1),
+          turnDarts: [],
+          turnLabels: [],
+          turnDamage: 0,
+          over: false
+        };
+      }
+
+      function renderDartQuest(root) {
+        root.innerHTML = '';
+        var state = storage.get(DQ_SAVE) || newQuestGame();
+        if (!state.enemy) state.enemy = makeEnemy(state.level);
+
+        var bar = el('div', 'bar');
+        var back = el('button', 'btn-ghost', '← Menu');
+        back.onclick = function() {
+          location.hash = '#/';
+        };
+        var title = el('h2', null, 'DartQuest');
+        var actions = el('div', 'bar-actions');
+        var reset = el('button', 'btn-ghost', 'Restart');
+        reset.onclick = function() {
+          if (confirm('Abandon quest and start over?')) {
+            state = newQuestGame();
+            pending = false;
+            storage.remove(DQ_SAVE);
+            draw();
+            push('A new quest begins…', 'sys');
+          }
+        };
+        actions.appendChild(reset);
+        bar.appendChild(back);
+        bar.appendChild(title);
+        bar.appendChild(actions);
+
+        var enemyCard = el('div', 'enemy-card');
+        var playerCard = el('div', 'player-card');
+        var turnInfo = el('div', 'turn-info');
+        var keys = el('div', 'dq-keys');
+        var logEl = el('div', 'log');
+
+        root.appendChild(bar);
+        root.appendChild(enemyCard);
+        root.appendChild(playerCard);
+        root.appendChild(turnInfo);
+        root.appendChild(keys);
+        root.appendChild(logEl);
+
+        var DQ_TARGETS_ROWS = [{
+            cols: 2,
+            targets: [{
+                kind: 'bull',
+                label: 'BULL',
+                sub: 'Bullseye · 100 dmg'
+              },
+              {
+                kind: 'twentyfive',
+                label: '25',
+                sub: 'Outer bull · 25 dmg'
+              }
+            ]
+          },
+          {
+            cols: 4,
+            targets: [{
+                kind: 'treble',
+                segment: 20,
+                label: 'T20',
+                sub: '90 dmg'
+              },
+              {
+                kind: 'treble',
+                segment: 19,
+                label: 'T19',
+                sub: '85 dmg'
+              },
+              {
+                kind: 'treble',
+                segment: 18,
+                label: 'T18',
+                sub: '81 dmg'
+              },
+              {
+                kind: 'treble',
+                segment: 17,
+                label: 'T17',
+                sub: '76 dmg'
+              }
+            ]
+          },
+          {
+            cols: 4,
+            targets: [{
+                kind: 'single',
+                segment: 20,
+                label: '20',
+                sub: '20 dmg'
+              },
+              {
+                kind: 'single',
+                segment: 19,
+                label: '19',
+                sub: '19 dmg'
+              },
+              {
+                kind: 'single',
+                segment: 18,
+                label: '18',
+                sub: '18 dmg'
+              },
+              {
+                kind: 'single',
+                segment: 17,
+                label: '17',
+                sub: '17 dmg'
+              }
+            ]
+          }
+        ];
+
+        function dqAimCoords(t) {
+          if (t.kind === 'bull') return {
+            x: 0,
+            y: 0,
+            jitter: 4
+          };
+          if (t.kind === 'twentyfive') return {
+            x: 0,
+            y: -(BULL_INNER + BULL_OUTER) / 2,
+            jitter: 4
+          };
+          var idx = SECTORS.indexOf(t.segment);
+          var rad = idx * 18 * Math.PI / 180;
+          var r = t.kind === 'treble' ?
+            (TRIPLE_INNER + TRIPLE_OUTER) / 2 :
+            (BULL_OUTER + TRIPLE_INNER) / 2;
+          return {
+            x: r * Math.sin(rad),
+            y: -r * Math.cos(rad),
+            jitter: 6
+          };
+        }
+
+        function buildKeys() {
+          keys.innerHTML = '';
+          DQ_TARGETS_ROWS.forEach(function(row) {
+            var rowEl = el('div', 'dq-keys-row cols-' + row.cols);
+            row.targets.forEach(function(t) {
+              var b = el('button', 'dq-key ' + t.kind);
+              b.appendChild(document.createTextNode(t.label));
+              if (t.sub) {
+                b.appendChild(el('small', null, t.sub));
+              }
+              b.onclick = function() {
+                throwDart(t);
+              };
+              if (state.over || pending || state.turnDarts.length >= 3) b.disabled = true;
+              rowEl.appendChild(b);
+            });
+            keys.appendChild(rowEl);
+          });
+        }
+
+        var pending = false;
+        var logLines = [];
+
+        function push(msg, cls) {
+          logLines.push({
+            msg: msg,
+            cls: cls || ''
+          });
+          if (logLines.length > 40) logLines.shift();
+          logEl.innerHTML = '';
+          logLines.forEach(function(l) {
+            logEl.appendChild(el('div', l.cls, l.msg));
+          });
+          logEl.scrollTop = logEl.scrollHeight;
+        }
+
+        function draw() {
+          var e = state.enemy;
+          enemyCard.innerHTML = '';
+          var top = el('div', 'enemy-top');
+          var left = el('div');
+          left.appendChild(el('div', 'enemy-level', e.isBoss ? ('Boss · Level ' + e.level) : ('Level ' + e.level)));
+          left.appendChild(el('div', 'enemy-name', e.name));
+          top.appendChild(left);
+          top.appendChild(el('div', 'enemy-emoji', e.emoji));
+          enemyCard.appendChild(top);
+          var hpBar = el('div', 'hp-bar');
+          var hpFill = el('span');
+          hpFill.style.width = Math.max(0, (e.hp / e.maxHp) * 100) + '%';
+          hpBar.appendChild(hpFill);
+          enemyCard.appendChild(hpBar);
+          var hpLabel = el('div', 'hp-label');
+          hpLabel.appendChild(el('span', null, 'HP ' + Math.max(0, e.hp) + ' / ' + e.maxHp));
+          hpLabel.appendChild(el('span', null, 'Attack ' + e.dmg));
+          enemyCard.appendChild(hpLabel);
+
+          playerCard.innerHTML = '';
+          var pLabel = el('div', 'hp-label');
+          pLabel.appendChild(el('span', null, 'You · HP ' + state.hp + ' / ' + PLAYER_MAX_HP));
+          pLabel.appendChild(el('span', null, 'Best Lv ' + storage.get(DQ_BEST, 0)));
+          var pBar = el('div', 'hp-bar player');
+          var pFill = el('span');
+          pFill.style.width = Math.max(0, (state.hp / PLAYER_MAX_HP) * 100) + '%';
+          pBar.appendChild(pFill);
+          playerCard.appendChild(pLabel);
+          playerCard.appendChild(pBar);
+
+          turnInfo.innerHTML = '';
+          var turnText = el('div', null, state.over ? 'Game over' : ('Dart ' + Math.min(state.turnDarts.length + 1, 3) + ' / 3 · pick your aim'));
+          var slots = el('div', 'dart-slots');
+          for (var i = 0; i < 3; i++) {
+            var s = el('div', 'dart-slot');
+            if (state.turnDarts[i]) {
+              s.classList.add('filled');
+              s.textContent = state.turnLabels[i];
+            } else {
+              s.textContent = '—';
+            }
+            slots.appendChild(s);
+          }
+          turnInfo.appendChild(turnText);
+          turnInfo.appendChild(slots);
+
+          buildKeys();
+        }
+
+        draw();
+        push('A wild ' + state.enemy.name + ' appears!', 'sys');
+
+        function throwDart(target) {
+          if (state.over || pending) return;
+          if (state.turnDarts.length >= 3) return;
+          var aim = dqAimCoords(target);
+          var x = aim.x + (Math.random() - 0.5) * aim.jitter * 2;
+          var y = aim.y + (Math.random() - 0.5) * aim.jitter * 2;
+          var dart = scoreDart(x, y);
+
+          var damage = dart.score;
+          var tag = dartLabel(dart);
+          var extra = '';
+          if (dart.multiplier === 3) {
+            damage = Math.floor(damage * 1.5);
+            extra = ' (triple crit!)';
+          }
+          if (dart.segment === 25 && dart.multiplier === 2) {
+            damage = Math.floor(damage * 2);
+            extra = ' (bullseye!)';
+          }
+
+          state.turnDarts.push(dart);
+          state.turnLabels.push(tag);
+          state.turnDamage += damage;
+          push('You hit ' + tag + ' — ' + damage + ' dmg' + extra, 'you');
+          draw();
+
+          if (state.turnDarts.length === 3) {
+            var first = state.turnDarts[0];
+            var allSame = first.segment > 0 && state.turnDarts.every(function(d) {
+              return d.segment === first.segment && d.multiplier === first.multiplier;
+            });
+            if (allSame) {
+              var bonus = Math.floor(state.turnDamage * 0.25);
+              state.turnDamage += bonus;
+              push('3-of-a-kind! ' + tag + ' combo bonus +' + bonus, 'sys');
+            }
+            pending = true;
+            buildKeys();
+            setTimeout(function() {
+              pending = false;
+              endTurn();
+            }, 400);
+          }
+        }
+
+        function endTurn() {
+          state.enemy.hp -= state.turnDamage;
+          push('Total dealt: ' + state.turnDamage, 'sys');
+          state.turnDarts = [];
+          state.turnLabels = [];
+          state.turnDamage = 0;
+
+          if (state.enemy.hp <= 0) {
+            push(state.enemy.name + ' defeated!', 'sys');
+            var heal = state.enemy.isBoss ? 40 : 20;
+            state.hp = Math.min(PLAYER_MAX_HP, state.hp + heal);
+            push('You heal +' + heal + ' HP.', 'you');
+            storage.set(DQ_BEST, Math.max(storage.get(DQ_BEST, 0), state.level));
+            var defeatedLevel = state.level;
+            state.level += 1;
+            state.enemy = makeEnemy(state.level);
+            storage.set(DQ_SAVE, state);
+            draw();
+            showVictoryOverlay(defeatedLevel);
+            return;
+          }
+
+          var incoming = randInt(Math.floor(state.enemy.dmg * 0.7), state.enemy.dmg);
+          state.hp -= incoming;
+          push(state.enemy.name + ' attacks for ' + incoming + ' dmg.', 'enemy');
+
+          if (state.hp <= 0) {
+            state.hp = 0;
+            state.over = true;
+            storage.set(DQ_BEST, Math.max(storage.get(DQ_BEST, 0), state.level - 1));
+            storage.remove(DQ_SAVE);
+            draw();
+            showDefeatOverlay();
+            return;
+          }
+          storage.set(DQ_SAVE, state);
+          draw();
+        }
+
+        function showVictoryOverlay(defeated) {
+          var overlay = el('div', 'overlay');
+          var card = el('div', 'overlay-card');
+          card.appendChild(el('h3', null, '⚔️ Victory!'));
+          card.appendChild(el('p', null, 'You defeated level ' + defeated + '. Ready for level ' + (defeated + 1) + '?'));
+          var a = el('div', 'overlay-actions');
+          var cont = el('button', 'btn-primary', 'Continue');
+          cont.onclick = function() {
+            overlay.remove();
+          };
+          var home = el('button', 'btn-ghost', 'Back to menu');
+          home.onclick = function() {
+            overlay.remove();
+            location.hash = '#/';
+          };
+          a.appendChild(cont);
+          a.appendChild(home);
+          card.appendChild(a);
+          overlay.appendChild(card);
+          document.body.appendChild(overlay);
+        }
+
+        function showDefeatOverlay() {
+          var overlay = el('div', 'overlay');
+          var card = el('div', 'overlay-card');
+          card.appendChild(el('h3', null, '💀 You fell'));
+          var best = storage.get(DQ_BEST, 0);
+          card.appendChild(el('p', null, 'Reached level ' + state.level + '. Best ever: level ' + best + '.'));
+          var a = el('div', 'overlay-actions');
+          var again = el('button', 'btn-primary', 'Try again');
+          again.onclick = function() {
+            overlay.remove();
+            state = newQuestGame();
+            pending = false;
+            storage.remove(DQ_SAVE);
+            draw();
+            push('A new quest begins…', 'sys');
+          };
+          var home = el('button', 'btn-ghost', 'Back to menu');
+          home.onclick = function() {
+            overlay.remove();
+            location.hash = '#/';
+          };
+          a.appendChild(again);
+          a.appendChild(home);
+          card.appendChild(a);
+          overlay.appendChild(card);
+          document.body.appendChild(overlay);
+        }
+      }
+
+      // ============ WORDLE DARTS ============
+      var WD_STATE = 'wordledarts.state';
+      var WD_STATS = 'wordledarts.stats';
+      var WD_DIFFICULTY = 'wordledarts.difficulty';
+      var WD_DARTS = 3;
+      var WD_ROUNDS = [20, 18, 16, 14, 12, 10, 8, 6];
+      var WD_DEFAULT_ROUNDS = 10;
+
+      function getPreferredRounds() {
+        var r = storage.get(WD_DIFFICULTY, WD_DEFAULT_ROUNDS);
+        return WD_ROUNDS.indexOf(r) >= 0 ? r : WD_DEFAULT_ROUNDS;
+      }
+
+      function randomTarget() {
+        var darts = [];
+        var total = 0;
+        for (var i = 0; i < WD_DARTS; i++) {
+          var n = 1 + Math.floor(Math.random() * 20);
+          darts.push({
+            s: n,
+            m: 1
+          });
+          total += n;
+        }
+        return {
+          name: String(total),
+          darts: darts
+        };
+      }
+
+      function labelOf(d) {
+        if (!d) return '';
+        return dartLabel({
+          segment: d.s,
+          multiplier: d.m
+        });
+      }
+
+      function evaluateGuess(guess, target) {
+        var n = guess.length;
+        var result = new Array(n);
+        for (var i = 0; i < n; i++) result[i] = 'miss';
+        var used = new Array(n);
+        for (var j = 0; j < n; j++) used[j] = false;
+        for (var a = 0; a < n; a++) {
+          if (guess[a].s === target[a].s && guess[a].m === target[a].m) {
+            result[a] = 'hit';
+            used[a] = true;
+          }
+        }
+        for (var b = 0; b < n; b++) {
+          if (result[b] === 'hit') continue;
+          for (var c = 0; c < n; c++) {
+            if (used[c]) continue;
+            if (guess[b].s === target[c].s && guess[b].m === target[c].m) {
+              result[b] = 'close';
+              used[c] = true;
+              break;
+            }
+          }
+        }
+        return result;
+      }
+
+      function defaultStats() {
+        return {
+          played: 0,
+          won: 0,
+          streak: 0,
+          maxStreak: 0,
+          distribution: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        };
+      }
+
+      function renderWordleDarts(root) {
+        root.innerHTML = '';
+        var game = storage.get(WD_STATE);
+        var stale = game && (
+          !game.target || !game.target.darts ||
+          game.target.darts.length !== WD_DARTS ||
+          game.target.darts.some(function(d) {
+            return d.m !== 1;
+          }) ||
+          typeof game.maxGuesses !== 'number'
+        );
+        if (!game || game.over || stale) {
+          game = {
+            target: randomTarget(),
+            guesses: [],
+            results: [],
+            current: [],
+            maxGuesses: getPreferredRounds(),
+            over: false,
+            won: false
+          };
+          storage.set(WD_STATE, game);
+        }
+
+        var bar = el('div', 'bar');
+        var back = el('button', 'btn-ghost', '← Menu');
+        back.onclick = function() {
+          location.hash = '#/';
+        };
+        var title = el('h2', null, 'Wordle Darts');
+        var actions = el('div', 'bar-actions');
+        var newBtn = el('button', 'btn-ghost', 'New');
+        newBtn.onclick = function() {
+          if (!game.over && game.guesses.length > 0) {
+            if (!confirm('Give up on this round and start a new one?')) return;
+            registerLoss();
+          }
+          game = {
+            target: randomTarget(),
+            guesses: [],
+            results: [],
+            current: [],
+            maxGuesses: getPreferredRounds(),
+            over: false,
+            won: false
+          };
+          storage.set(WD_STATE, game);
+          redraw();
+        };
+        actions.appendChild(newBtn);
+        bar.appendChild(back);
+        bar.appendChild(title);
+        bar.appendChild(actions);
+        root.appendChild(bar);
+
+        root.appendChild(el('div', 'wordle-help',
+          'Guess the secret 3-dart combo (singles only, 1–20). Green = right number, right slot. Yellow = right number, wrong slot. Grey = not in the combo.'
+        ));
+
+        var difficultyRow = el('div', 'wordle-difficulty');
+        root.appendChild(difficultyRow);
+
+        var grid = el('div', 'wordle-grid');
+        root.appendChild(grid);
+
+        var keyboard = el('div', 'wordle-keyboard');
+        var numRow1 = el('div', 'wordle-numbers');
+        var numRow2 = el('div', 'wordle-numbers');
+        var numRow3 = el('div', 'wordle-numbers');
+        var numRow4 = el('div', 'wordle-numbers');
+        var actionRow = el('div', 'wordle-actions');
+        keyboard.appendChild(numRow1);
+        keyboard.appendChild(numRow2);
+        keyboard.appendChild(numRow3);
+        keyboard.appendChild(numRow4);
+        keyboard.appendChild(actionRow);
+        root.appendChild(keyboard);
+
+        var statsBox = el('div');
+        root.appendChild(statsBox);
+
+        function redraw() {
+          drawDifficulty();
+          drawGrid();
+          drawKeyboard();
+          drawStats();
+        }
+
+        function drawDifficulty() {
+          difficultyRow.innerHTML = '';
+          var header = el('div', 'wordle-difficulty-label', 'Rounds (more = easier)');
+          difficultyRow.appendChild(header);
+          var grid = el('div', 'wordle-difficulty-grid');
+          WD_ROUNDS.forEach(function(r) {
+            var b = el('button', null, String(r));
+            if (game.maxGuesses === r) b.classList.add('active');
+            b.onclick = function() {
+              setDifficulty(r);
+            };
+            grid.appendChild(b);
+          });
+          difficultyRow.appendChild(grid);
+        }
+
+        function setDifficulty(rounds) {
+          storage.set(WD_DIFFICULTY, rounds);
+          if (game.maxGuesses === rounds) return;
+          if (!game.over && game.guesses.length === 0) {
+            game.maxGuesses = rounds;
+            storage.set(WD_STATE, game);
+            redraw();
+            return;
+          }
+          var msg = game.over ?
+            'Start a new ' + rounds + '-round game?' :
+            'Switch to ' + rounds + ' rounds and start a new game?';
+          if (!confirm(msg)) return;
+          if (!game.over) registerLoss();
+          game = {
+            target: randomTarget(),
+            guesses: [],
+            results: [],
+            current: [],
+            maxGuesses: rounds,
+            over: false,
+            won: false
+          };
+          storage.set(WD_STATE, game);
+          redraw();
+        }
+
+        function drawGrid() {
+          grid.innerHTML = '';
+          for (var r = 0; r < game.maxGuesses; r++) {
+            var row = el('div', 'wordle-row');
+            for (var c = 0; c < WD_DARTS; c++) {
+              var cell = el('div', 'wordle-cell');
+              if (r < game.guesses.length) {
+                cell.textContent = labelOf(game.guesses[r][c]);
+                cell.classList.add('filled');
+                cell.classList.add(game.results[r][c]);
+                cell.classList.add('reveal');
+                cell.style.animationDelay = (c * 120) + 'ms';
+              } else if (r === game.guesses.length && !game.over) {
+                cell.classList.add('current');
+                if (game.current[c]) {
+                  cell.textContent = labelOf(game.current[c]);
+                  cell.classList.add('filled');
+                }
+              }
+              row.appendChild(cell);
+            }
+            grid.appendChild(row);
+          }
+        }
+
+        function drawKeyboard() {
+          buildNumRow(numRow1, [1, 2, 3, 4, 5]);
+          buildNumRow(numRow2, [6, 7, 8, 9, 10]);
+          buildNumRow(numRow3, [11, 12, 13, 14, 15]);
+          buildNumRow(numRow4, [16, 17, 18, 19, 20]);
+
+          actionRow.innerHTML = '';
+          var del = el('button', 'btn-ghost', '⌫ Delete');
+          del.onclick = function() {
+            if (game.over || game.current.length === 0) return;
+            game.current.pop();
+            storage.set(WD_STATE, game);
+            drawGrid();
+            drawKeyboard();
+          };
+          var submit = el('button', 'btn-primary', 'Submit');
+          submit.onclick = onSubmit;
+          submit.disabled = game.current.length !== WD_DARTS || game.over;
+          actionRow.appendChild(del);
+          actionRow.appendChild(submit);
+        }
+
+        function buildNumRow(rowEl, nums) {
+          rowEl.innerHTML = '';
+          nums.forEach(function(n) {
+            var b = el('button', null, String(n));
+            var st = keyStatus(n);
+            if (st) b.classList.add('key-' + st);
+            b.onclick = function() {
+              addDart({
+                s: n,
+                m: 1
+              });
+            };
+            rowEl.appendChild(b);
+          });
+        }
+
+        function keyStatus(num) {
+          var best = null;
+          for (var i = 0; i < game.guesses.length; i++) {
+            var guess = game.guesses[i];
+            var result = game.results[i];
+            for (var j = 0; j < guess.length; j++) {
+              if (guess[j].s !== num) continue;
+              var r = result[j];
+              if (r === 'hit') return 'hit';
+              if (r === 'close' && best !== 'hit') best = 'close';
+              if (r === 'miss' && best === null) best = 'miss';
+            }
+          }
+          return best;
+        }
+
+        function addDart(dart) {
+          if (game.over || game.current.length >= WD_DARTS) return;
+          game.current.push(dart);
+          storage.set(WD_STATE, game);
+          drawGrid();
+          drawKeyboard();
+        }
+
+        function onSubmit() {
+          if (game.over || game.current.length !== WD_DARTS) return;
+          var guess = game.current.slice();
+          var result = evaluateGuess(guess, game.target.darts);
+          game.guesses.push(guess);
+          game.results.push(result);
+          game.current = [];
+          var won = result.every(function(r) {
+            return r === 'hit';
+          });
+          if (won) {
+            game.over = true;
+            game.won = true;
+            registerWin(game.guesses.length);
+          } else if (game.guesses.length >= game.maxGuesses) {
+            game.over = true;
+            game.won = false;
+            registerLoss();
+          }
+          storage.set(WD_STATE, game);
+          redraw();
+          if (game.over) setTimeout(showEnd, 700);
+        }
+
+        function registerWin(tries) {
+          var s = storage.get(WD_STATS, defaultStats());
+          s.played += 1;
+          s.won += 1;
+          s.streak += 1;
+          s.maxStreak = Math.max(s.maxStreak, s.streak);
+          s.distribution[tries - 1] = (s.distribution[tries - 1] || 0) + 1;
+          storage.set(WD_STATS, s);
+        }
+
+        function registerLoss() {
+          var s = storage.get(WD_STATS, defaultStats());
+          s.played += 1;
+          s.streak = 0;
+          storage.set(WD_STATS, s);
+        }
+
+        function drawStats() {
+          statsBox.innerHTML = '';
+          var s = storage.get(WD_STATS, defaultStats());
+          var row = el('div', 'stats-row');
+          row.appendChild(stat(s.played, 'Played'));
+          row.appendChild(stat(s.played ? Math.round(100 * s.won / s.played) : 0, 'Win %'));
+          row.appendChild(stat(s.streak, 'Streak'));
+          row.appendChild(stat(s.maxStreak, 'Max'));
+          statsBox.appendChild(row);
+        }
+
+        function stat(v, k) {
+          var w = el('div', 'stat');
+          w.appendChild(el('div', 'v', String(v)));
+          w.appendChild(el('div', 'k', k));
+          return w;
+        }
+
+        function showEnd() {
+          var overlay = el('div', 'overlay');
+          var card = el('div', 'overlay-card');
+          if (game.won) {
+            card.appendChild(el('h3', null, '🎯 Nailed it!'));
+            var tries = game.guesses.length;
+            card.appendChild(el('p', null, game.target.name + ' in ' + tries + ' ' + (tries === 1 ? 'try' : 'tries') + '.'));
+          } else {
+            card.appendChild(el('h3', null, 'So close.'));
+            var solution = game.target.darts.map(labelOf).join(' · ');
+            card.appendChild(el('p', null, 'The answer was ' + game.target.name + ': ' + solution));
+          }
+          var a = el('div', 'overlay-actions');
+          var again = el('button', 'btn-primary', 'New round');
+          again.onclick = function() {
+            overlay.remove();
+            game = {
+              target: randomTarget(),
+              guesses: [],
+              results: [],
+              current: [],
+              maxGuesses: getPreferredRounds(),
+              over: false,
+              won: false
+            };
+            storage.set(WD_STATE, game);
+            redraw();
+          };
+          var home = el('button', 'btn-ghost', 'Back to menu');
+          home.onclick = function() {
+            overlay.remove();
+            location.hash = '#/';
+          };
+          a.appendChild(again);
+          a.appendChild(home);
+          card.appendChild(a);
+          overlay.appendChild(card);
+          document.body.appendChild(overlay);
+        }
+
+        redraw();
+      }
+
+      // ============ GOLF DARTS ============
+      var GD_SAVE = 'golfdarts.save';
+      var GD_BEST_ROUND = 'golfdarts.bestRound';
+      var GD_BEST_TOUR = 'golfdarts.bestTournament';
+      var GD_ROUNDS_N = 4;
+      var GD_HOLES_N = 18;
+
+      function newGolfGame() {
+        return {
+          round: 1,
+          hole: 1,
+          rounds: [
+            [],
+            [],
+            [],
+            []
+          ],
+          labels: [
+            [],
+            [],
+            [],
+            []
+          ],
+          over: false
+        };
+      }
+
+      function golfShot(x, y) {
+        var r = Math.hypot(x, y);
+        if (r > BOARD_RADIUS) return {
+          delta: 3,
+          label: 'Miss',
+          term: 'Triple Bogey',
+          kind: 'triple'
+        };
+        if (r <= BULL_INNER) return {
+          delta: -2,
+          label: 'Bull',
+          term: 'Eagle',
+          kind: 'eagle'
+        };
+        if (r <= BULL_OUTER) return {
+          delta: -1,
+          label: '25',
+          term: 'Birdie',
+          kind: 'birdie'
+        };
+        var deg = (Math.atan2(x, -y) * 180 / Math.PI + 360) % 360;
+        var shifted = (deg + 9) % 360;
+        var idx = Math.floor(shifted / 18);
+        var segment = SECTORS[idx];
+        if (r < TRIPLE_INNER) return {
+          delta: 0,
+          label: String(segment),
+          term: 'Par',
+          kind: 'par'
+        };
+        if (r <= TRIPLE_OUTER) return {
+          delta: 1,
+          label: 'T' + segment,
+          term: 'Bogey',
+          kind: 'bogey'
+        };
+        if (r < DOUBLE_INNER) return {
+          delta: 1,
+          label: String(segment),
+          term: 'Bogey',
+          kind: 'bogey'
+        };
+        return {
+          delta: 2,
+          label: 'D' + segment,
+          term: 'Double Bogey',
+          kind: 'double'
+        };
+      }
+
+      function golfRoundTotal(game, roundIdx) {
+        var arr = game.rounds[roundIdx];
+        var t = 0;
+        for (var i = 0; i < arr.length; i++) t += arr[i];
+        return t;
+      }
+
+      function golfTotal(game) {
+        var t = 0;
+        for (var i = 0; i < game.rounds.length; i++) t += golfRoundTotal(game, i);
+        return t;
+      }
+
+      function golfFormat(n) {
+        if (n === 0) return 'E';
+        return (n > 0 ? '+' : '') + n;
+      }
+
+      function scoreSign(n) {
+        if (n < 0) return 'under';
+        if (n > 0) return 'over';
+        return 'par';
+      }
+
+      function kindForDelta(d) {
+        if (d === -2) return 'eagle';
+        if (d === -1) return 'birdie';
+        if (d === 0) return 'par';
+        if (d === 1) return 'bogey';
+        if (d === 2) return 'double';
+        return 'triple';
+      }
+
+      function ordinal(n) {
+        var s = ['th', 'st', 'nd', 'rd'];
+        var v = n % 100;
+        return n + (s[(v - 20) % 10] || s[v] || s[0]);
+      }
+
+      function formatGolfDate(iso) {
+        if (!iso) return '';
+        var d = new Date(iso);
+        if (isNaN(d.getTime())) return '';
+        var datePart = d.toLocaleDateString(undefined, {
+          month: 'short',
+          day: 'numeric'
+        });
+        var timePart = d.toLocaleTimeString(undefined, {
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        return datePart + ' · ' + timePart;
+      }
+
+      function recordIfBest(key, score) {
+        var prev = storage.get(key, null);
+        if (!prev || typeof prev.score !== 'number' || score < prev.score) {
+          var record = {
+            score: score,
+            at: new Date().toISOString()
+          };
+          storage.set(key, record);
+          return {
+            isNew: true,
+            record: record,
+            previous: prev
+          };
+        }
+        return {
+          isNew: false,
+          record: prev,
+          previous: prev
+        };
+      }
+
+      function tournamentResult(total) {
+        if (total <= -16) {
+          return {
+            position: 1,
+            title: 'Tournament Champion!',
+            trophy: '🏆',
+            blurb: 'A masterpiece of a weekend. The cup is yours.'
+          };
+        }
+        var pos = Math.max(2, Math.round(1 + (total + 16) * 1.5));
+        var title, blurb, trophy;
+        if (pos === 2) {
+          title = 'Runner Up';
+          trophy = '🥈';
+          blurb = 'So close to glory — held the lead until the back nine.';
+        } else if (pos === 3) {
+          title = 'Third Place';
+          trophy = '🥉';
+          blurb = 'A podium finish. The crowd loved it.';
+        } else if (pos <= 10) {
+          title = 'Top Ten Finish';
+          trophy = '⛳';
+          blurb = 'A great weekend on tour. Prize money banked.';
+        } else if (pos <= 20) {
+          title = 'Solid Finish';
+          trophy = '⛳';
+          blurb = 'Steady play all tournament. On to the next one.';
+        } else if (pos <= 40) {
+          title = 'Middle of the Pack';
+          trophy = '⛳';
+          blurb = 'A workmanlike weekend. Next week’s another chance.';
+        } else {
+          title = 'Played the Weekend';
+          trophy = '⛳';
+          blurb = 'Tough scoring conditions but you finished what you started.';
+        }
+        return {
+          position: pos,
+          title: title,
+          trophy: trophy,
+          blurb: blurb
+        };
+      }
+
+      function renderGolfDarts(root) {
+        root.innerHTML = '';
+        var game = storage.get(GD_SAVE);
+        if (!game || !game.rounds || game.rounds.length !== GD_ROUNDS_N || game.over) {
+          game = newGolfGame();
+          storage.set(GD_SAVE, game);
+        }
+
+        var wrap = el('div', 'gd-root');
+
+        var bar = el('div', 'bar');
+        var back = el('button', 'btn-ghost', '← Menu');
+        back.onclick = function() {
+          location.hash = '#/';
+        };
+        var title = el('h2', null, 'Golf Darts');
+        var actions = el('div', 'bar-actions');
+        var restart = el('button', 'btn-ghost', 'Restart');
+        restart.onclick = function() {
+          if (confirm('Abandon this tournament and start a new one?')) {
+            game = newGolfGame();
+            pendingRoundEnd = false;
+            storage.set(GD_SAVE, game);
+            feedback.textContent = '';
+            feedback.className = 'gd-shot-feedback';
+            draw();
+          }
+        };
+        actions.appendChild(restart);
+        bar.appendChild(back);
+        bar.appendChild(title);
+        bar.appendChild(actions);
+        wrap.appendChild(bar);
+
+        var hero = el('div', 'gd-hero');
+        var heroTitle = el('h3', null, '');
+        var heroSub = el('div', 'gd-sub', '');
+        hero.appendChild(heroTitle);
+        hero.appendChild(heroSub);
+        wrap.appendChild(hero);
+
+        var stats = el('div', 'gd-stats');
+        var tourStat = el('div', 'gd-stat');
+        tourStat.appendChild(el('div', 'gd-stat-k', 'Tournament'));
+        var tourV = el('div', 'gd-stat-v', '—');
+        tourStat.appendChild(tourV);
+        var roundStat = el('div', 'gd-stat');
+        roundStat.appendChild(el('div', 'gd-stat-k', 'This Round'));
+        var roundV = el('div', 'gd-stat-v', '—');
+        roundStat.appendChild(roundV);
+        var lastStat = el('div', 'gd-stat');
+        lastStat.appendChild(el('div', 'gd-stat-k', 'Last Hole'));
+        var lastV = el('div', 'gd-stat-v', '—');
+        lastStat.appendChild(lastV);
+        stats.appendChild(tourStat);
+        stats.appendChild(roundStat);
+        stats.appendChild(lastStat);
+        wrap.appendChild(stats);
+
+        var scoreCard = el('div', 'gd-card');
+        scoreCard.appendChild(el('div', 'gd-card-title', 'Round Scorecard'));
+        var holesGrid = el('div', 'gd-holes');
+        scoreCard.appendChild(holesGrid);
+        wrap.appendChild(scoreCard);
+
+        var roundsSummary = el('div', 'gd-rounds-summary');
+        wrap.appendChild(roundsSummary);
+
+        var bests = el('div', 'gd-bests');
+        wrap.appendChild(bests);
+
+        var instruction = el('div', 'gd-instruction', 'Where did you land?');
+        wrap.appendChild(instruction);
+
+        var keys = el('div', 'gd-keys');
+        wrap.appendChild(keys);
+
+        var feedback = el('div', 'gd-shot-feedback');
+        wrap.appendChild(feedback);
+
+        root.appendChild(wrap);
+
+        var GOLF_KEYS = [{
+            kind: 'eagle',
+            delta: -2,
+            term: 'Eagle',
+            label: 'Bullseye',
+            full: false
+          },
+          {
+            kind: 'birdie',
+            delta: -1,
+            term: 'Birdie',
+            label: 'Outer bull (25)',
+            full: false
+          },
+          {
+            kind: 'par',
+            delta: 0,
+            term: 'Par',
+            label: 'Inner single',
+            full: true
+          },
+          {
+            kind: 'bogey-treble',
+            delta: 1,
+            term: 'Bogey',
+            label: 'Treble',
+            full: false
+          },
+          {
+            kind: 'bogey-outer',
+            delta: 1,
+            term: 'Bogey',
+            label: 'Outer single',
+            full: false
+          },
+          {
+            kind: 'double',
+            delta: 2,
+            term: 'Double Bogey',
+            label: 'Double',
+            full: true
+          },
+          {
+            kind: 'triple',
+            delta: 3,
+            term: 'Triple Bogey',
+            label: 'Missed the board',
+            full: true
+          }
+        ];
+
+        function buildKeys() {
+          keys.innerHTML = '';
+          GOLF_KEYS.forEach(function(k) {
+            var b = el('button', 'gd-key ' + k.kind + (k.full ? ' full' : ''));
+            var term = el('span', 'gd-key-term', k.term + ' ' + (k.delta >= 0 ? '+' : '') + k.delta);
+            var sub = el('span', 'gd-key-sub', k.label);
+            b.appendChild(term);
+            b.appendChild(sub);
+            b.onclick = function() {
+              throwGolf(k);
+            };
+            if (game.over || pendingRoundEnd) b.disabled = true;
+            keys.appendChild(b);
+          });
+        }
+
+        function draw() {
+          heroTitle.textContent = 'Round ' + game.round + ' of ' + GD_ROUNDS_N;
+          heroSub.textContent = 'Hole ' + game.hole + ' of ' + GD_HOLES_N;
+
+          var tot = golfTotal(game);
+          tourV.textContent = golfFormat(tot);
+          tourStat.classList.remove('under', 'over');
+          if (tot < 0) tourStat.classList.add('under');
+          if (tot > 0) tourStat.classList.add('over');
+
+          var rTot = golfRoundTotal(game, game.round - 1);
+          roundV.textContent = golfFormat(rTot);
+          roundStat.classList.remove('under', 'over');
+          if (rTot < 0) roundStat.classList.add('under');
+          if (rTot > 0) roundStat.classList.add('over');
+
+          var current = game.rounds[game.round - 1];
+          var lastDelta = current.length ? current[current.length - 1] : null;
+          lastV.textContent = lastDelta === null ? '—' : golfFormat(lastDelta);
+          lastStat.classList.remove('under', 'over');
+          if (lastDelta !== null && lastDelta < 0) lastStat.classList.add('under');
+          if (lastDelta !== null && lastDelta > 0) lastStat.classList.add('over');
+
+          holesGrid.innerHTML = '';
+          var labels = ['Front 9', 'Back 9'];
+          for (var half = 0; half < 2; half++) {
+            holesGrid.appendChild(el('div', 'gd-nine-label', labels[half]));
+            for (var h = half * 9; h < half * 9 + 9; h++) {
+              var cell = el('div', 'gd-hole');
+              var shot = current[h];
+              if (shot !== undefined) {
+                cell.textContent = golfFormat(shot);
+                cell.classList.add(kindForDelta(shot));
+              } else if (h === (game.hole - 1) && !game.over) {
+                cell.classList.add('current');
+                cell.textContent = String(h + 1);
+              } else {
+                cell.textContent = String(h + 1);
+              }
+              holesGrid.appendChild(cell);
+            }
+          }
+
+          roundsSummary.innerHTML = '';
+          for (var rn = 0; rn < GD_ROUNDS_N; rn++) {
+            var rdiv = el('div', 'gd-r');
+            rdiv.appendChild(el('div', 'gd-r-k', 'R' + (rn + 1)));
+            var rv = el('div', 'gd-r-v');
+            if (game.rounds[rn].length === GD_HOLES_N) {
+              var t = golfRoundTotal(game, rn);
+              rv.textContent = golfFormat(t);
+              rv.classList.add(scoreSign(t));
+              rdiv.classList.add('done');
+            } else if (rn === game.round - 1) {
+              var progressing = golfRoundTotal(game, rn);
+              rv.textContent = game.rounds[rn].length ? golfFormat(progressing) : '—';
+              rdiv.classList.add('active');
+            } else {
+              rv.textContent = '—';
+            }
+            rdiv.appendChild(rv);
+            roundsSummary.appendChild(rdiv);
+          }
+
+          bests.innerHTML = '';
+          var bestRound = storage.get(GD_BEST_ROUND, null);
+          var bestTour = storage.get(GD_BEST_TOUR, null);
+          var br = el('div', 'gd-best');
+          br.appendChild(el('div', 'gd-best-k', 'Best Round'));
+          br.appendChild(el('div', 'gd-best-v', bestRound ? golfFormat(bestRound.score) : '—'));
+          if (bestRound) br.appendChild(el('div', 'gd-best-when', formatGolfDate(bestRound.at)));
+          bests.appendChild(br);
+          var bt = el('div', 'gd-best');
+          bt.appendChild(el('div', 'gd-best-k', 'Best Tournament'));
+          bt.appendChild(el('div', 'gd-best-v', bestTour ? golfFormat(bestTour.score) : '—'));
+          if (bestTour) bt.appendChild(el('div', 'gd-best-when', formatGolfDate(bestTour.at)));
+          bests.appendChild(bt);
+
+          buildKeys();
+        }
+
+        function showFeedback(shot) {
+          feedback.className = 'gd-shot-feedback ' + shot.kind;
+          feedback.textContent = shot.term + ' ' + (shot.delta >= 0 ? '+' : '') + shot.delta;
+          void feedback.offsetWidth;
+          feedback.classList.add('flash');
+        }
+
+        var pendingRoundEnd = false;
+
+        function throwGolf(key) {
+          if (game.over || pendingRoundEnd) return;
+          if (game.round > GD_ROUNDS_N) return;
+          if (game.rounds[game.round - 1].length >= GD_HOLES_N) return;
+          var shot = {
+            delta: key.delta,
+            label: key.label,
+            term: key.term,
+            kind: kindForDelta(key.delta)
+          };
+          game.rounds[game.round - 1].push(shot.delta);
+          game.labels[game.round - 1].push(shot.label);
+          showFeedback(shot);
+
+          var isRoundEnd = game.hole === GD_HOLES_N;
+          if (!isRoundEnd) {
+            game.hole += 1;
+            storage.set(GD_SAVE, game);
+            draw();
+          } else {
+            pendingRoundEnd = true;
+            storage.set(GD_SAVE, game);
+            draw();
+            buildKeys();
+            setTimeout(function() {
+              pendingRoundEnd = false;
+              showRoundOverlay();
+            }, 500);
+          }
+        }
+
+        function addCloseActions(card, overlay, primaryText, primaryHandler, menuHandler) {
+          var a = el('div', 'overlay-actions');
+          var primary = el('button', 'btn-primary', primaryText);
+          primary.onclick = primaryHandler;
+          var home = el('button', 'btn-ghost', 'Back to menu');
+          home.onclick = menuHandler || function() {
+            overlay.remove();
+            location.hash = '#/';
+          };
+          a.appendChild(primary);
+          a.appendChild(home);
+          card.appendChild(a);
+        }
+
+        function showRoundOverlay() {
+          var overlay = el('div', 'overlay');
+          var card = el('div', 'overlay-card gd-tournament-card');
+          var roundIdx = game.round - 1;
+          var roundTotal = golfRoundTotal(game, roundIdx);
+          var roundBest = recordIfBest(GD_BEST_ROUND, roundTotal);
+          var cumulative = golfTotal(game);
+          storage.set(GD_SAVE, game);
+
+          var isRound2 = game.round === 2;
+          var isFinal = game.round === GD_ROUNDS_N;
+          var madeCut = cumulative <= -1;
+
+          if (isRound2 && !madeCut) {
+            game.over = true;
+            storage.remove(GD_SAVE);
+            card.appendChild(el('div', 'gd-trophy', '✂️'));
+            card.appendChild(el('h3', 'gd-final-title', 'Missed the Cut'));
+            if (roundBest.isNew) card.appendChild(el('div', 'gd-badge-new', 'New best round! ' + golfFormat(roundTotal)));
+            card.appendChild(el('div', 'gd-final-score ' + scoreSign(cumulative), golfFormat(cumulative)));
+            card.appendChild(el('div', 'gd-final-position', 'After 36 holes · needed −1 to play the weekend'));
+            card.appendChild(el('p', 'gd-final-blurb', 'A rough couple of rounds. Regroup for next week’s event.'));
+            addCloseActions(card, overlay, 'New tournament', function() {
+              overlay.remove();
+              game = newGolfGame();
+              pendingRoundEnd = false;
+              storage.set(GD_SAVE, game);
+              feedback.textContent = '';
+              feedback.className = 'gd-shot-feedback';
+              draw();
+            });
+            overlay.appendChild(card);
+            document.body.appendChild(overlay);
+            return;
+          }
+
+          if (isFinal) {
+            game.over = true;
+            storage.remove(GD_SAVE);
+            var total = golfTotal(game);
+            var tourBest = recordIfBest(GD_BEST_TOUR, total);
+            var result = tournamentResult(total);
+            card.appendChild(el('div', 'gd-trophy', result.trophy));
+            card.appendChild(el('h3', 'gd-final-title', result.title));
+            if (roundBest.isNew) card.appendChild(el('div', 'gd-badge-new', 'New best round! ' + golfFormat(roundTotal)));
+            if (tourBest.isNew) card.appendChild(el('div', 'gd-badge-new', 'New best tournament!'));
+            card.appendChild(el('div', 'gd-final-score ' + scoreSign(total), golfFormat(total)));
+            card.appendChild(el('div', 'gd-final-position', 'Finished ' + ordinal(result.position) + ' place'));
+            card.appendChild(el('p', 'gd-final-blurb', result.blurb));
+            addCloseActions(card, overlay, 'New tournament', function() {
+              overlay.remove();
+              game = newGolfGame();
+              pendingRoundEnd = false;
+              storage.set(GD_SAVE, game);
+              feedback.textContent = '';
+              feedback.className = 'gd-shot-feedback';
+              draw();
+            });
+            overlay.appendChild(card);
+            document.body.appendChild(overlay);
+            return;
+          }
+
+          var isCutMade = isRound2 && madeCut;
+          card.appendChild(el('div', 'gd-trophy', isCutMade ? '⛳' : '🏌️'));
+          card.appendChild(el('h3', 'gd-final-title', isCutMade ? 'Made the Cut!' : ('End of Round ' + game.round)));
+          if (roundBest.isNew) card.appendChild(el('div', 'gd-badge-new', 'New best round!'));
+          card.appendChild(el('div', 'gd-final-score ' + scoreSign(roundTotal), golfFormat(roundTotal)));
+          if (isCutMade) {
+            card.appendChild(el('div', 'gd-final-position', 'Through 36 holes at ' + golfFormat(cumulative) + ' · you play the weekend'));
+            card.appendChild(el('p', 'gd-final-blurb', 'Solid work. Rounds 3 and 4 decide the finish.'));
+          } else {
+            card.appendChild(el('p', 'gd-final-blurb',
+              'Tournament so far: ' + golfFormat(cumulative) +
+              ' · Best round: ' + (roundBest.record ? golfFormat(roundBest.record.score) : '—')));
+          }
+          addCloseActions(card, overlay, 'Tee off Round ' + (game.round + 1), function() {
+            overlay.remove();
+            game.round += 1;
+            game.hole = 1;
+            pendingRoundEnd = false;
+            storage.set(GD_SAVE, game);
+            feedback.textContent = '';
+            feedback.className = 'gd-shot-feedback';
+            draw();
+          }, function() {
+            overlay.remove();
+            game.round += 1;
+            game.hole = 1;
+            pendingRoundEnd = false;
+            storage.set(GD_SAVE, game);
+            location.hash = '#/';
+          });
+          overlay.appendChild(card);
+          document.body.appendChild(overlay);
+        }
+
+        draw();
+      }
+
+      // ============ HOME / ROUTER ============
+      var root = document.getElementById('app');
+
+      function showDartQuestRules() {
+        var overlay = el('div', 'overlay');
+        overlay.onclick = function(e) {
+          if (e.target === overlay) overlay.remove();
+        };
+        var card = el('div', 'overlay-card rules-card');
+        card.appendChild(el('h3', null, '⚔️ DartQuest — how to play'));
+
+        card.appendChild(el('h4', null, 'Goal'));
+        var goal = el('ul');
+        goal.appendChild(el('li', null, 'Defeat enemies to level up. Survive as long as you can.'));
+        card.appendChild(goal);
+
+        card.appendChild(el('h4', null, 'Your turn (3 darts)'));
+        var your = el('ul');
+        var l1 = el('li');
+        l1.innerHTML = 'Pick a target for each dart (Bull, 25, T20, singles…). Each dart’s <strong>score = damage</strong> dealt.';
+        var l2 = el('li');
+        l2.innerHTML = '<strong>Triple ring</strong> → 1.5× damage (crit).';
+        var l3 = el('li');
+        l3.innerHTML = '<strong>Double bullseye</strong> (centre) → 2× damage.';
+        var l4 = el('li');
+        l4.innerHTML = '<strong>3-of-a-kind</strong> (all 3 darts same segment & ring) → +25% combo bonus.';
+        your.appendChild(l1);
+        your.appendChild(l2);
+        your.appendChild(l3);
+        your.appendChild(l4);
+        card.appendChild(your);
+
+        card.appendChild(el('h4', null, 'Enemy’s turn'));
+        var foe = el('ul');
+        foe.appendChild(el('li', null, 'If the enemy survives, it hits back for roughly 70–100% of its Attack stat.'));
+        card.appendChild(foe);
+
+        card.appendChild(el('h4', null, 'Victory rewards'));
+        var rew = el('ul');
+        var r1 = el('li');
+        r1.innerHTML = 'Normal enemy defeated → heal <strong>+20 HP</strong>.';
+        var r2 = el('li');
+        r2.innerHTML = 'Boss defeated → heal <strong>+40 HP</strong>.';
+        rew.appendChild(r1);
+        rew.appendChild(r2);
+        rew.appendChild(el('li', null, 'Advance to the next level. Your best level is saved.'));
+        card.appendChild(rew);
+
+        card.appendChild(el('h4', null, 'Bosses'));
+        var boss = el('ul');
+        boss.appendChild(el('li', null, 'Every 5th level (5, 10, 15…) is a boss — more HP, harder hits.'));
+        card.appendChild(boss);
+
+        card.appendChild(el('h4', null, 'Game over'));
+        var over = el('ul');
+        var o1 = el('li');
+        o1.innerHTML = 'You start with <strong>100 HP</strong>. Drop to 0 and the run ends.';
+        over.appendChild(o1);
+        card.appendChild(over);
+
+        var actions = el('div', 'overlay-actions');
+        var close = el('button', 'btn-primary', 'Got it');
+        close.onclick = function() {
+          overlay.remove();
+        };
+        actions.appendChild(close);
+        card.appendChild(actions);
+
+        overlay.appendChild(card);
+        document.body.appendChild(overlay);
+      }
+
+      function showWordleRules() {
+        var overlay = el('div', 'overlay');
+        overlay.onclick = function(e) {
+          if (e.target === overlay) overlay.remove();
+        };
+        var card = el('div', 'overlay-card rules-card');
+        card.appendChild(el('h3', null, '🎯 Wordle Darts — how to play'));
+
+        card.appendChild(el('h4', null, 'Goal'));
+        var goal = el('ul');
+        var g1 = el('li');
+        g1.innerHTML = 'Guess the secret <strong>3-dart combo</strong>. Every dart is a single between <strong>1 and 20</strong>.';
+        goal.appendChild(g1);
+        card.appendChild(goal);
+
+        card.appendChild(el('h4', null, 'How to guess'));
+        var how = el('ul');
+        how.appendChild(el('li', null, 'Tap numbers 1–20 to fill the three slots.'));
+        how.appendChild(el('li', null, 'Use ⌫ Delete to correct mistakes, then Submit to lock it in.'));
+        card.appendChild(how);
+
+        card.appendChild(el('h4', null, 'Colour feedback'));
+        var clr = el('ul');
+        var c1 = el('li');
+        c1.innerHTML = '<strong>Green</strong> — right number in the right slot.';
+        var c2 = el('li');
+        c2.innerHTML = '<strong>Yellow</strong> — that number is in the combo, but in a different slot.';
+        var c3 = el('li');
+        c3.innerHTML = '<strong>Grey</strong> — that number isn’t in the combo at all.';
+        clr.appendChild(c1);
+        clr.appendChild(c2);
+        clr.appendChild(c3);
+        card.appendChild(clr);
+
+        card.appendChild(el('h4', null, 'Slot order matters'));
+        var ord = el('ul');
+        ord.appendChild(el('li', null, 'The combo is ordered — guessing 20-5-10 is different from 5-10-20.'));
+        ord.appendChild(el('li', null, 'Numbers can repeat in the secret (e.g. 20, 20, 10).'));
+        card.appendChild(ord);
+
+        card.appendChild(el('h4', null, 'Difficulty'));
+        var diff = el('ul');
+        var d1 = el('li');
+        d1.innerHTML = 'Pick your round count: <strong>20</strong> (easiest) down to <strong>6</strong> (toughest).';
+        var d2 = el('li');
+        d2.innerHTML = 'Changing rounds mid-game starts a fresh combo.';
+        diff.appendChild(d1);
+        diff.appendChild(d2);
+        card.appendChild(diff);
+
+        card.appendChild(el('h4', null, 'Number pad hints'));
+        var hints = el('ul');
+        hints.appendChild(el('li', null, 'The number keys colour themselves based on your guesses so far, so you can see which numbers are in the combo.'));
+        card.appendChild(hints);
+
+        var actions = el('div', 'overlay-actions');
+        var close = el('button', 'btn-primary', 'Got it');
+        close.onclick = function() {
+          overlay.remove();
+        };
+        actions.appendChild(close);
+        card.appendChild(actions);
+
+        overlay.appendChild(card);
+        document.body.appendChild(overlay);
+      }
+
+      function showGolfRules() {
+        var overlay = el('div', 'overlay');
+        overlay.onclick = function(e) {
+          if (e.target === overlay) overlay.remove();
+        };
+        var card = el('div', 'overlay-card rules-card');
+        card.appendChild(el('h3', null, '🏌️ Golf Darts — how to play'));
+
+        card.appendChild(el('h4', null, 'Tournament'));
+        var tour = el('ul');
+        var t1 = el('li');
+        t1.innerHTML = 'Four rounds of 18 holes — <strong>72 darts total</strong>.';
+        var t2 = el('li');
+        t2.innerHTML = 'Each dart is one hole. Score is <strong>relative to par</strong>, golf-style.';
+        tour.appendChild(t1);
+        tour.appendChild(t2);
+        card.appendChild(tour);
+
+        card.appendChild(el('h4', null, 'Scoring per dart'));
+        var sc = el('ul');
+        var s1e = el('li');
+        s1e.innerHTML = '<strong>Bullseye</strong> — Eagle (−2)';
+        var s2e = el('li');
+        s2e.innerHTML = '<strong>Outer bull (25)</strong> — Birdie (−1)';
+        var s3e = el('li');
+        s3e.innerHTML = '<strong>Inner single</strong> — Par (0)';
+        var s4e = el('li');
+        s4e.innerHTML = '<strong>Treble</strong> — Bogey (+1)';
+        var s5e = el('li');
+        s5e.innerHTML = '<strong>Outer single</strong> — Bogey (+1)';
+        var s6e = el('li');
+        s6e.innerHTML = '<strong>Double</strong> — Double Bogey (+2)';
+        var s7e = el('li');
+        s7e.innerHTML = '<strong>Miss the board</strong> — Triple Bogey (+3)';
+        sc.appendChild(s1e);
+        sc.appendChild(s2e);
+        sc.appendChild(s3e);
+        sc.appendChild(s4e);
+        sc.appendChild(s5e);
+        sc.appendChild(s6e);
+        sc.appendChild(s7e);
+        card.appendChild(sc);
+
+        card.appendChild(el('h4', null, 'The cut'));
+        var cut = el('ul');
+        var c1 = el('li');
+        c1.innerHTML = 'After <strong>36 holes</strong> (end of round 2), your tournament score must be <strong>−1 or better</strong> to play the weekend.';
+        var c2 = el('li');
+        c2.innerHTML = 'Miss the cut and your tournament ends there — no rounds 3 and 4.';
+        cut.appendChild(c1);
+        cut.appendChild(c2);
+        card.appendChild(cut);
+
+        card.appendChild(el('h4', null, 'Final position'));
+        var fin = el('ul');
+        var f1 = el('li');
+        f1.innerHTML = '<strong>−16 or better</strong> — tournament winner.';
+        var f2 = el('li');
+        f2.innerHTML = 'Otherwise your 4-round total sets your place on the leaderboard — roughly −10 ≈ 10th.';
+        fin.appendChild(f1);
+        fin.appendChild(f2);
+        card.appendChild(fin);
+
+        card.appendChild(el('h4', null, 'Records'));
+        var rec = el('ul');
+        rec.appendChild(el('li', null, 'Your best single round and best 4-round total are saved on this device with date and time.'));
+        card.appendChild(rec);
+
+        var actions = el('div', 'overlay-actions');
+        var close = el('button', 'btn-primary', 'Got it');
+        close.onclick = function() {
+          overlay.remove();
+        };
+        actions.appendChild(close);
+        card.appendChild(actions);
+
+        overlay.appendChild(card);
+        document.body.appendChild(overlay);
+      }
+
+      function showClearDataModal() {
+        var GAMES = [{
+            title: '⚔️ DartQuest',
+            keys: [DQ_SAVE, DQ_BEST],
+            describe: function() {
+              var saved = storage.get(DQ_SAVE);
+              var best = storage.get(DQ_BEST, 0);
+              var bits = [];
+              if (saved) bits.push('In progress · Level ' + saved.level);
+              if (best > 0) bits.push('Best Level ' + best);
+              return bits.length ? bits.join(' · ') : 'No data';
+            }
+          },
+          {
+            title: '🏌️ Golf Darts',
+            keys: [GD_SAVE, GD_BEST_ROUND, GD_BEST_TOUR],
+            describe: function() {
+              var saved = storage.get(GD_SAVE);
+              var bestRound = storage.get(GD_BEST_ROUND);
+              var bestTour = storage.get(GD_BEST_TOUR);
+              var bits = [];
+              if (saved) bits.push('In progress · Round ' + saved.round);
+              if (bestTour) bits.push('Best tour ' + golfFormat(bestTour.score));
+              if (bestRound) bits.push('Best round ' + golfFormat(bestRound.score));
+              return bits.length ? bits.join(' · ') : 'No data';
+            }
+          },
+          {
+            title: '🎯 Wordle Darts',
+            keys: [WD_STATE, WD_STATS, WD_DIFFICULTY],
+            describe: function() {
+              var state = storage.get(WD_STATE);
+              var stats = storage.get(WD_STATS);
+              var difficulty = storage.get(WD_DIFFICULTY);
+              var bits = [];
+              if (state && state.guesses && state.guesses.length && !state.over) bits.push('Round in progress');
+              if (stats && stats.played) bits.push(stats.won + '/' + stats.played + ' wins');
+              if (difficulty) bits.push(difficulty + '-round preference');
+              return bits.length ? bits.join(' · ') : 'No data';
+            }
+          }
+        ];
+
+        var overlay = el('div', 'overlay');
+        overlay.onclick = function(e) {
+          if (e.target === overlay) overlay.remove();
+        };
+        var card = el('div', 'overlay-card rules-card');
+        card.appendChild(el('h3', null, 'Clear saved data'));
+        card.appendChild(el('p', null, 'Remove game progress from this device.'));
+
+        var list = el('div', 'clear-list');
+        card.appendChild(list);
+
+        function renderList() {
+          list.innerHTML = '';
+          GAMES.forEach(function(g) {
+            var hasData = g.keys.some(function(k) {
+              return storage.get(k) != null;
+            });
+            var row = el('div', 'clear-row');
+            var text = el('div', 'clear-row-text');
+            text.appendChild(el('div', 'clear-row-title', g.title));
+            text.appendChild(el('div', 'clear-row-desc', g.describe()));
+            var clearBtn = el('button', 'btn-ghost', 'Clear');
+            clearBtn.disabled = !hasData;
+            clearBtn.onclick = function() {
+              if (!confirm('Clear saved data for ' + g.title + '?')) return;
+              g.keys.forEach(function(k) {
+                storage.remove(k);
+              });
+              renderList();
+            };
+            row.appendChild(text);
+            row.appendChild(clearBtn);
+            list.appendChild(row);
+          });
+        }
+
+        renderList();
+
+        var actions = el('div', 'overlay-actions');
+        var clearAll = el('button', 'btn-primary', 'Clear everything');
+        clearAll.onclick = function() {
+          if (!confirm('Clear all saved data from every game? This can’t be undone.')) return;
+          GAMES.forEach(function(g) {
+            g.keys.forEach(function(k) {
+              storage.remove(k);
+            });
+          });
+          overlay.remove();
+          renderHome();
+        };
+        var close = el('button', 'btn-ghost', 'Close');
+        close.onclick = function() {
+          overlay.remove();
+          renderHome();
+        };
+        actions.appendChild(clearAll);
+        actions.appendChild(close);
+        card.appendChild(actions);
+
+        overlay.appendChild(card);
+        document.body.appendChild(overlay);
+      }
+
+      function renderHome() {
+        root.innerHTML = '';
+        var header = el('div', 'home-header');
+        var dartIcon = el('div', 'home-dart');
+        dartIcon.setAttribute('aria-hidden', 'true');
+        dartIcon.innerHTML = '' +
+          '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">' +
+          '<defs>' +
+          '<linearGradient id="homeDartFlight" x1="0" y1="0" x2="1" y2="1">' +
+          '<stop offset="0" stop-color="#e63946"/>' +
+          '<stop offset="1" stop-color="#f4a261"/>' +
+          '</linearGradient>' +
+          '<linearGradient id="homeDartBarrel" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0" stop-color="#cbd5e1"/>' +
+          '<stop offset="0.5" stop-color="#64748b"/>' +
+          '<stop offset="1" stop-color="#334155"/>' +
+          '</linearGradient>' +
+          '<linearGradient id="homeDartShaft" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0" stop-color="#cbd5e1"/>' +
+          '<stop offset="1" stop-color="#64748b"/>' +
+          '</linearGradient>' +
+          '</defs>' +
+          '<g transform="rotate(-45 50 50)">' +
+          '<path d="M4 50 L18 44 L18 56 Z" fill="#e2e8f0"/>' +
+          '<rect x="18" y="42" width="22" height="16" fill="url(#homeDartBarrel)" rx="2"/>' +
+          '<rect x="22" y="44" width="14" height="1.5" fill="rgba(255,255,255,0.35)"/>' +
+          '<rect x="40" y="48" width="26" height="4" fill="url(#homeDartShaft)"/>' +
+          '<path d="M66 50 L88 36 L96 40 L82 50 L96 60 L88 64 Z" fill="url(#homeDartFlight)"/>' +
+          '<path d="M66 50 L88 36 L82 50 Z" fill="rgba(255,255,255,0.22)"/>' +
+          '</g>' +
+          '</svg>';
+        header.appendChild(dartIcon);
+        header.appendChild(el('h1', null, 'Darts Games'));
+        header.appendChild(el('div', 'subtitle', 'Pick a game'));
+        root.appendChild(header);
+
+        var tiles = el('div', 'home-tiles');
+
+        var quest = el('div', 'tile');
+        quest.setAttribute('role', 'button');
+        quest.setAttribute('tabindex', '0');
+        var questRules = el('button', 'tile-rules-btn', 'How to play');
+        questRules.onclick = function(e) {
+          e.stopPropagation();
+          showDartQuestRules();
+        };
+        quest.appendChild(questRules);
+        quest.appendChild(el('h2', null, '⚔️ DartQuest'));
+        quest.appendChild(el('p', null, 'Throw darts, fight enemies, level up. Triples crit, bullseyes smash.'));
+        var bestLevel = storage.get(DQ_BEST, 0);
+        var saved = storage.get(DQ_SAVE);
+        var qStat = el('div', 'tile-stat');
+        if (saved) qStat.textContent = 'In progress · Level ' + saved.level + ' · Best Lv ' + bestLevel;
+        else qStat.textContent = bestLevel > 0 ? ('Best: Level ' + bestLevel) : 'New quest awaits';
+        quest.appendChild(qStat);
+        quest.onclick = function() {
+          location.hash = '#/dartquest';
+        };
+        quest.onkeydown = function(e) {
+          if (e.target !== quest) return;
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            location.hash = '#/dartquest';
+          }
+        };
+        tiles.appendChild(quest);
+
+        var golf = el('div', 'tile');
+        golf.setAttribute('role', 'button');
+        golf.setAttribute('tabindex', '0');
+        var golfRules = el('button', 'tile-rules-btn', 'How to play');
+        golfRules.onclick = function(e) {
+          e.stopPropagation();
+          showGolfRules();
+        };
+        golf.appendChild(golfRules);
+        golf.appendChild(el('h2', null, '🏌️ Golf Darts'));
+        golf.appendChild(el('p', null, '4 rounds, 18 holes. Aim for inner singles for par — bulls are eagles.'));
+        var golfSave = storage.get(GD_SAVE);
+        var golfBestRound = storage.get(GD_BEST_ROUND, null);
+        var golfBestTour = storage.get(GD_BEST_TOUR, null);
+        var gStat = el('div', 'tile-stat');
+        if (golfSave && golfSave.round) {
+          gStat.textContent = 'In progress · Round ' + golfSave.round + ' · Hole ' + golfSave.hole;
+        } else if (golfBestTour || golfBestRound) {
+          var bits = [];
+          if (golfBestTour) bits.push('Best tour ' + golfFormat(golfBestTour.score));
+          if (golfBestRound) bits.push('Best round ' + golfFormat(golfBestRound.score));
+          gStat.textContent = bits.join(' · ');
+        } else {
+          gStat.textContent = 'Tee it up';
+        }
+        golf.appendChild(gStat);
+        golf.onclick = function() {
+          location.hash = '#/golfdarts';
+        };
+        golf.onkeydown = function(e) {
+          if (e.target !== golf) return;
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            location.hash = '#/golfdarts';
+          }
+        };
+        tiles.appendChild(golf);
+
+        var wordle = el('div', 'tile');
+        wordle.setAttribute('role', 'button');
+        wordle.setAttribute('tabindex', '0');
+        var wordleRules = el('button', 'tile-rules-btn', 'How to play');
+        wordleRules.onclick = function(e) {
+          e.stopPropagation();
+          showWordleRules();
+        };
+        wordle.appendChild(wordleRules);
+        wordle.appendChild(el('h2', null, '🎯 Wordle Darts'));
+        wordle.appendChild(el('p', null, 'Guess the secret 3-dart combo of singles. Wordle-style feedback.'));
+        var stats = storage.get(WD_STATS);
+        var wStat = el('div', 'tile-stat');
+        if (stats && stats.played) {
+          wStat.textContent = stats.won + '/' + stats.played + ' wins · Streak ' + stats.streak;
+        } else {
+          wStat.textContent = 'First round ready';
+        }
+        wordle.appendChild(wStat);
+        wordle.onclick = function() {
+          location.hash = '#/wordle';
+        };
+        wordle.onkeydown = function(e) {
+          if (e.target !== wordle) return;
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            location.hash = '#/wordle';
+          }
+        };
+        tiles.appendChild(wordle);
+
+        root.appendChild(tiles);
+
+        root.appendChild(el('div', 'flex-spacer'));
+        var foot = el('div', 'subtitle');
+        foot.style.textAlign = 'center';
+        foot.style.padding = '16px';
+        foot.style.fontSize = '12px';
+        foot.appendChild(document.createTextNode('Progress saved on this device · '));
+        var clearLink = el('button', 'link-like', 'Clear');
+        clearLink.onclick = showClearDataModal;
+        foot.appendChild(clearLink);
+        root.appendChild(foot);
+      }
+
+      function route() {
+        var hash = location.hash || '#/';
+        if (hash.indexOf('#/dartquest') === 0) renderDartQuest(root);
+        else if (hash.indexOf('#/golfdarts') === 0) renderGolfDarts(root);
+        else if (hash.indexOf('#/wordle') === 0) renderWordleDarts(root);
+        else renderHome();
+        window.scrollTo(0, 0);
+      }
+
+      window.addEventListener('hashchange', route);
+      route();
+    })();
+  </script>
+</body>
+</html>

@@ -2005,16 +2005,15 @@
       }
 
       function randomTarget() {
-        var darts = [];
-        var total = 0;
-        for (var i = 0; i < WD_DARTS; i++) {
-          var n = 1 + Math.floor(Math.random() * 20);
-          darts.push({
-            s: n,
-            m: 1
-          });
-          total += n;
+        var pool = [{ s: 0, m: 0 }];
+        for (var i = 1; i <= 20; i++) pool.push({ s: i, m: 1 });
+        for (var k = pool.length - 1; k > 0; k--) {
+          var j = Math.floor(Math.random() * (k + 1));
+          var tmp = pool[k]; pool[k] = pool[j]; pool[j] = tmp;
         }
+        var darts = pool.slice(0, WD_DARTS);
+        var total = 0;
+        for (var d = 0; d < darts.length; d++) total += darts[d].s * darts[d].m;
         return {
           name: String(total),
           darts: darts
@@ -2072,8 +2071,17 @@
           !game.target || !game.target.darts ||
           game.target.darts.length !== WD_DARTS ||
           game.target.darts.some(function(d) {
-            return d.m !== 1;
+            return !(d.m === 1 || (d.s === 0 && d.m === 0));
           }) ||
+          (function() {
+            var seen = {};
+            for (var i = 0; i < game.target.darts.length; i++) {
+              var key = game.target.darts[i].s + ':' + game.target.darts[i].m;
+              if (seen[key]) return true;
+              seen[key] = true;
+            }
+            return false;
+          })() ||
           typeof game.maxGuesses !== 'number'
         );
         if (!game || game.over || stale) {
@@ -2134,11 +2142,13 @@
         var numRow2 = el('div', 'wordle-numbers');
         var numRow3 = el('div', 'wordle-numbers');
         var numRow4 = el('div', 'wordle-numbers');
+        var missRow = el('div', 'wordle-numbers');
         var actionRow = el('div', 'wordle-actions');
         keyboard.appendChild(numRow1);
         keyboard.appendChild(numRow2);
         keyboard.appendChild(numRow3);
         keyboard.appendChild(numRow4);
+        keyboard.appendChild(missRow);
         keyboard.appendChild(actionRow);
         view.appendChild(keyboard);
 
@@ -2230,6 +2240,7 @@
           buildNumRow(numRow2, [6, 7, 8, 9, 10]);
           buildNumRow(numRow3, [11, 12, 13, 14, 15]);
           buildNumRow(numRow4, [16, 17, 18, 19, 20]);
+          buildMissRow(missRow);
 
           actionRow.innerHTML = '';
           var del = el('button', 'btn-ghost', '⌫ Delete');
@@ -2251,7 +2262,7 @@
           rowEl.innerHTML = '';
           nums.forEach(function(n) {
             var b = el('button', null, String(n));
-            var st = keyStatus(n);
+            var st = keyStatus(n, 1);
             if (st) b.classList.add('key-' + st);
             b.onclick = function() {
               addDart({
@@ -2263,13 +2274,28 @@
           });
         }
 
-        function keyStatus(num) {
+        function buildMissRow(rowEl) {
+          rowEl.innerHTML = '';
+          var b = el('button', null, 'Miss');
+          b.style.gridColumn = '1 / -1';
+          var st = keyStatus(0, 0);
+          if (st) b.classList.add('key-' + st);
+          b.onclick = function() {
+            addDart({
+              s: 0,
+              m: 0
+            });
+          };
+          rowEl.appendChild(b);
+        }
+
+        function keyStatus(s, m) {
           var best = null;
           for (var i = 0; i < game.guesses.length; i++) {
             var guess = game.guesses[i];
             var result = game.results[i];
             for (var j = 0; j < guess.length; j++) {
-              if (guess[j].s !== num) continue;
+              if (guess[j].s !== s || guess[j].m !== m) continue;
               var r = result[j];
               if (r === 'hit') return 'hit';
               if (r === 'close' && best !== 'hit') best = 'close';
@@ -3052,13 +3078,13 @@
         card.appendChild(el('h4', null, 'Goal'));
         var goal = el('ul');
         var g1 = el('li');
-        g1.innerHTML = 'Guess the secret <strong>3-dart combo</strong>. Every dart is a single between <strong>1 and 20</strong>.';
+        g1.innerHTML = 'Guess the secret <strong>3-dart combo</strong>. Every dart is a single between <strong>1 and 20</strong>, or a complete <strong>Miss</strong> off the board.';
         goal.appendChild(g1);
         card.appendChild(goal);
 
         card.appendChild(el('h4', null, 'How to guess'));
         var how = el('ul');
-        how.appendChild(el('li', null, 'Tap numbers 1–20 to fill the three slots.'));
+        how.appendChild(el('li', null, 'Tap numbers 1–20 (or Miss) to fill the three slots.'));
         how.appendChild(el('li', null, 'Use ⌫ Delete to correct mistakes, then Submit to lock it in.'));
         card.appendChild(how);
 
@@ -3078,7 +3104,7 @@
         card.appendChild(el('h4', null, 'Slot order matters'));
         var ord = el('ul');
         ord.appendChild(el('li', null, 'The combo is ordered — guessing 20-5-10 is different from 5-10-20.'));
-        ord.appendChild(el('li', null, 'Numbers can repeat in the secret (e.g. 20, 20, 10).'));
+        ord.appendChild(el('li', null, 'All three darts in the secret are different — no repeats.'));
         card.appendChild(ord);
 
         card.appendChild(el('h4', null, 'Difficulty'));

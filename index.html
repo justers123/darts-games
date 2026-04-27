@@ -1160,6 +1160,13 @@
       text-align: center;
     }
 
+    .gd-key.undo {
+      background: #334155;
+      color: var(--gd-cream);
+      text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
+      border-style: dashed;
+    }
+
     .gd-key:active {
       transform: translateY(3px);
       box-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
@@ -1299,6 +1306,167 @@
       text-transform: uppercase;
       margin-bottom: 8px;
       animation: gdFlash .6s ease-out;
+    }
+
+    .gd-settings {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin: 6px 0 10px;
+    }
+
+    .gd-settings-block {
+      background: var(--gd-green-dark);
+      border: 2px solid var(--gd-yellow);
+      border-radius: 4px;
+      padding: 6px 8px 8px;
+    }
+
+    .gd-settings-label {
+      font-family: 'Courier New', Courier, monospace;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 10px;
+      color: var(--gd-yellow);
+      margin-bottom: 4px;
+    }
+
+    .gd-settings-grid {
+      display: grid;
+      gap: 4px;
+    }
+
+    .gd-difficulty-grid { grid-template-columns: repeat(4, 1fr); }
+    .gd-major-grid { grid-template-columns: repeat(2, 1fr); }
+
+    .gd-settings-grid button {
+      padding: 6px 2px;
+      font-family: 'Courier New', Courier, monospace;
+      font-weight: 900;
+      letter-spacing: 1px;
+      font-size: 11px;
+      background: var(--gd-green);
+      color: var(--gd-cream);
+      border: 2px solid transparent;
+      border-radius: 3px;
+      min-height: 32px;
+    }
+
+    .gd-settings-grid button.active {
+      background: var(--gd-yellow);
+      color: var(--gd-green-dark);
+      border-color: var(--gd-cream);
+    }
+
+    .gd-settings-summary {
+      grid-column: 1 / -1;
+      text-align: center;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gd-cream);
+      opacity: 0.85;
+    }
+
+    .gd-major-badge {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 10px;
+      letter-spacing: 4px;
+      color: #fde047;
+      text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.7);
+      margin-bottom: 6px;
+      text-align: center;
+      animation: gdMajorPulse 2.4s ease-in-out infinite;
+    }
+
+    @keyframes gdMajorPulse {
+      0%, 100% { opacity: 0.85; }
+      50% { opacity: 1; text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.7), 0 0 8px rgba(253, 224, 71, 0.7); }
+    }
+
+    .gd-root.major .gd-hero {
+      background:
+        radial-gradient(circle at 30% 20%, rgba(253, 224, 71, 0.14) 0%, transparent 55%),
+        repeating-linear-gradient(45deg, #2a1d05 0 20px, #1a1300 20px 40px);
+      border-color: #fbbf24;
+      box-shadow: 0 0 0 3px #422006, 0 6px 0 rgba(0, 0, 0, 0.45), 0 0 20px rgba(251, 191, 36, 0.25);
+    }
+
+    .gd-root.major .gd-hero h3,
+    .gd-root.major .gd-hero .gd-sub {
+      color: #fde047;
+    }
+
+    .gd-tournament-card.major {
+      background:
+        radial-gradient(circle at 30% 20%, rgba(253, 224, 71, 0.18) 0%, transparent 55%),
+        radial-gradient(circle at 70% 85%, rgba(245, 158, 11, 0.12) 0%, transparent 50%),
+        repeating-linear-gradient(45deg, #1a1300 0 18px, #2a1d05 18px 36px);
+      border-color: #fbbf24;
+      box-shadow:
+        0 0 0 4px #422006,
+        0 0 30px rgba(251, 191, 36, 0.55),
+        0 8px 0 rgba(0, 0, 0, 0.5);
+    }
+
+    .gd-tournament-card.major .gd-final-title {
+      color: #fde047;
+      text-shadow: 0 0 12px rgba(253, 224, 71, 0.55), 3px 3px 0 rgba(0, 0, 0, 0.7);
+    }
+
+    .gd-trophy-major {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 4px auto 12px;
+      padding: 12px 0 0;
+    }
+
+    .gd-trophy-icon {
+      font-size: 128px;
+      line-height: 1;
+      filter:
+        drop-shadow(0 0 18px gold)
+        drop-shadow(4px 4px 0 rgba(0, 0, 0, 0.6));
+      animation: gdTrophyPulse 2.2s ease-in-out infinite;
+    }
+
+    @keyframes gdTrophyPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .gd-trophy-sparkle {
+      position: absolute;
+      font-size: 26px;
+      pointer-events: none;
+      animation: gdSparkleAnim 1.6s ease-in-out infinite;
+    }
+
+    .gd-trophy-sparkle.s1 { top: 6px; left: 18%; }
+    .gd-trophy-sparkle.s2 { top: 30px; right: 16%; animation-delay: 0.55s; }
+    .gd-trophy-sparkle.s3 { top: 78px; left: 8%; animation-delay: 1.1s; font-size: 20px; }
+    .gd-trophy-sparkle.s4 { top: 90px; right: 6%; animation-delay: 0.3s; font-size: 22px; }
+
+    @keyframes gdSparkleAnim {
+      0%, 100% { opacity: 0.25; transform: scale(0.8) rotate(0deg); }
+      50% { opacity: 1; transform: scale(1.3) rotate(18deg); }
+    }
+
+    .gd-trophy-plinth {
+      margin-top: 6px;
+      background: linear-gradient(180deg, #fde047 0%, #f59e0b 100%);
+      color: #422006;
+      font-family: 'Courier New', Courier, monospace;
+      font-weight: 900;
+      letter-spacing: 6px;
+      padding: 6px 16px;
+      border-radius: 3px;
+      font-size: 13px;
+      text-shadow: 1px 1px 0 rgba(255, 248, 220, 0.6);
+      box-shadow: 0 4px 0 #422006, inset 0 1px 0 rgba(255, 255, 255, 0.5);
     }
   </style>
 </head>
@@ -2419,8 +2587,44 @@
       var GD_SAVE = 'golfdarts.save';
       var GD_BEST_ROUND = 'golfdarts.bestRound';
       var GD_BEST_TOUR = 'golfdarts.bestTournament';
+      var GD_DIFFICULTY = 'golfdarts.difficulty';
+      var GD_MAJOR = 'golfdarts.major';
       var GD_ROUNDS_N = 4;
       var GD_HOLES_N = 18;
+      var GD_DIFFICULTIES = [
+        { id: 'casual', label: 'Casual', win: -10 },
+        { id: 'pro', label: 'Pro', win: -13 },
+        { id: 'tour', label: 'Tour', win: -16 },
+        { id: 'master', label: 'Master', win: -19 }
+      ];
+      var GD_DEFAULT_DIFFICULTY = 'tour';
+      var GD_MAJOR_BONUS = -4;
+
+      function getGolfDifficulty() {
+        var id = storage.get(GD_DIFFICULTY, GD_DEFAULT_DIFFICULTY);
+        for (var i = 0; i < GD_DIFFICULTIES.length; i++) {
+          if (GD_DIFFICULTIES[i].id === id) return GD_DIFFICULTIES[i];
+        }
+        return GD_DIFFICULTIES[2];
+      }
+
+      function isMajorPref() {
+        return storage.get(GD_MAJOR, false) === true;
+      }
+
+      function buildGolfConfig() {
+        var diff = getGolfDifficulty();
+        var isMajor = isMajorPref();
+        var winScore = diff.win + (isMajor ? GD_MAJOR_BONUS : 0);
+        var cutScore = Math.round((winScore + 13) / 3);
+        return {
+          difficulty: diff.id,
+          difficultyLabel: diff.label,
+          isMajor: isMajor,
+          winScore: winScore,
+          cutScore: cutScore
+        };
+      }
 
       function newGolfGame() {
         return {
@@ -2438,7 +2642,8 @@
             [],
             []
           ],
-          over: false
+          over: false,
+          config: buildGolfConfig()
         };
       }
 
@@ -2567,16 +2772,20 @@
         };
       }
 
-      function tournamentResult(total) {
-        if (total <= -16) {
+      function tournamentResult(total, config) {
+        var winScore = (config && typeof config.winScore === 'number') ? config.winScore : -16;
+        var isMajor = !!(config && config.isMajor);
+        if (total <= winScore) {
           return {
             position: 1,
-            title: 'Tournament Champion!',
+            title: isMajor ? 'Major Champion!' : 'Tournament Champion!',
             trophy: '🏆',
-            blurb: 'A masterpiece of a weekend. The cup is yours.'
+            blurb: isMajor
+              ? 'A historic week. Your name is etched into the major record books forever.'
+              : 'A masterpiece of a weekend. The cup is yours.'
           };
         }
-        var pos = Math.max(2, Math.round(1 + (total + 16) * 1.5));
+        var pos = Math.max(2, Math.round(1 + (total - winScore) * 1.5));
         var title, blurb, trophy;
         if (pos === 2) {
           title = 'Runner Up';
@@ -2618,8 +2827,12 @@
           game = newGolfGame();
           storage.set(GD_SAVE, game);
         }
+        if (!game.config || typeof game.config.winScore !== 'number') {
+          game.config = buildGolfConfig();
+          storage.set(GD_SAVE, game);
+        }
 
-        var wrap = el('div', 'gd-root');
+        var wrap = el('div', 'gd-root' + (game.config.isMajor ? ' major' : ''));
 
         var bar = el('div', 'bar');
         var back = el('button', 'btn-ghost', '← Menu');
@@ -2645,9 +2858,14 @@
         bar.appendChild(actions);
         wrap.appendChild(bar);
 
+        var settings = el('div', 'gd-settings');
+        wrap.appendChild(settings);
+
         var hero = el('div', 'gd-hero');
+        var majorBadge = el('div', 'gd-major-badge', '⭐ MAJOR CHAMPIONSHIP ⭐');
         var heroTitle = el('h3', null, '');
         var heroSub = el('div', 'gd-sub', '');
+        hero.appendChild(majorBadge);
         hero.appendChild(heroTitle);
         hero.appendChild(heroSub);
         wrap.appendChild(hero);
@@ -2758,9 +2976,105 @@
             if (game.over || pendingRoundEnd) b.disabled = true;
             keys.appendChild(b);
           });
+
+          var undo = el('button', 'gd-key undo full');
+          undo.appendChild(el('span', 'gd-key-term', '↶ Undo'));
+          undo.appendChild(el('span', 'gd-key-sub', 'Erase last shot'));
+          undo.onclick = undoLastShot;
+          var current = game.rounds[game.round - 1] || [];
+          if (game.over || pendingRoundEnd || current.length === 0) undo.disabled = true;
+          keys.appendChild(undo);
+        }
+
+        function undoLastShot() {
+          if (game.over || pendingRoundEnd) return;
+          var current = game.rounds[game.round - 1];
+          if (!current || current.length === 0) return;
+          current.pop();
+          if (game.labels[game.round - 1]) game.labels[game.round - 1].pop();
+          game.hole = current.length + 1;
+          storage.set(GD_SAVE, game);
+          feedback.textContent = '';
+          feedback.className = 'gd-shot-feedback';
+          draw();
+        }
+
+        function drawSettings() {
+          settings.innerHTML = '';
+
+          var diffBlock = el('div', 'gd-settings-block');
+          diffBlock.appendChild(el('div', 'gd-settings-label', 'Difficulty'));
+          var diffGrid = el('div', 'gd-settings-grid gd-difficulty-grid');
+          GD_DIFFICULTIES.forEach(function(d) {
+            var b = el('button', null, d.label);
+            if (game.config.difficulty === d.id) b.classList.add('active');
+            b.onclick = function() { setDifficulty(d.id); };
+            diffGrid.appendChild(b);
+          });
+          diffBlock.appendChild(diffGrid);
+          settings.appendChild(diffBlock);
+
+          var majorBlock = el('div', 'gd-settings-block');
+          majorBlock.appendChild(el('div', 'gd-settings-label', 'Tournament'));
+          var majorGrid = el('div', 'gd-settings-grid gd-major-grid');
+          var stdBtn = el('button', null, 'Standard');
+          var majBtn = el('button', null, 'Major ⭐');
+          if (!game.config.isMajor) stdBtn.classList.add('active');
+          if (game.config.isMajor) majBtn.classList.add('active');
+          stdBtn.onclick = function() { setMajor(false); };
+          majBtn.onclick = function() { setMajor(true); };
+          majorGrid.appendChild(stdBtn);
+          majorGrid.appendChild(majBtn);
+          majorBlock.appendChild(majorGrid);
+          settings.appendChild(majorBlock);
+
+          var summary = el('div', 'gd-settings-summary',
+            'Win at ' + golfFormat(game.config.winScore) +
+            ' · Cut at ' + golfFormat(game.config.cutScore));
+          settings.appendChild(summary);
+        }
+
+        function hasGolfProgress() {
+          for (var i = 0; i < game.rounds.length; i++) {
+            if (game.rounds[i].length > 0) return true;
+          }
+          return false;
+        }
+
+        function setDifficulty(id) {
+          if (game.config.difficulty === id) return;
+          if (hasGolfProgress()) {
+            if (!confirm('Switch difficulty and start a new tournament?')) return;
+          }
+          storage.set(GD_DIFFICULTY, id);
+          game = newGolfGame();
+          pendingRoundEnd = false;
+          storage.set(GD_SAVE, game);
+          feedback.textContent = '';
+          feedback.className = 'gd-shot-feedback';
+          renderGolfDarts(root);
+        }
+
+        function setMajor(isMajor) {
+          if (game.config.isMajor === isMajor) return;
+          if (hasGolfProgress()) {
+            if (!confirm(isMajor
+              ? 'Switch to a Major event and start a new tournament?'
+              : 'Switch to a standard event and start a new tournament?')) return;
+          }
+          storage.set(GD_MAJOR, isMajor);
+          game = newGolfGame();
+          pendingRoundEnd = false;
+          storage.set(GD_SAVE, game);
+          feedback.textContent = '';
+          feedback.className = 'gd-shot-feedback';
+          renderGolfDarts(root);
         }
 
         function draw() {
+          drawSettings();
+          majorBadge.style.display = game.config.isMajor ? '' : 'none';
+          wrap.classList.toggle('major', !!game.config.isMajor);
           heroTitle.textContent = 'Round ' + game.round + ' of ' + GD_ROUNDS_N;
           heroSub.textContent = 'Hole ' + game.hole + ' of ' + GD_HOLES_N;
 
@@ -2897,16 +3211,18 @@
 
         function showRoundOverlay() {
           var overlay = el('div', 'overlay');
-          var card = el('div', 'overlay-card gd-tournament-card');
+          var isMajor = !!(game.config && game.config.isMajor);
+          var card = el('div', 'overlay-card gd-tournament-card' + (isMajor ? ' major' : ''));
           var roundIdx = game.round - 1;
           var roundTotal = golfRoundTotal(game, roundIdx);
           var roundBest = recordIfBest(GD_BEST_ROUND, roundTotal);
           var cumulative = golfTotal(game);
           storage.set(GD_SAVE, game);
 
+          var cutScore = (game.config && typeof game.config.cutScore === 'number') ? game.config.cutScore : -1;
           var isRound2 = game.round === 2;
           var isFinal = game.round === GD_ROUNDS_N;
-          var madeCut = cumulative <= -1;
+          var madeCut = cumulative <= cutScore;
 
           if (isRound2 && !madeCut) {
             game.over = true;
@@ -2915,7 +3231,7 @@
             card.appendChild(el('h3', 'gd-final-title', 'Missed the Cut'));
             if (roundBest.isNew) card.appendChild(el('div', 'gd-badge-new', 'New best round! ' + golfFormat(roundTotal)));
             card.appendChild(el('div', 'gd-final-score ' + scoreSign(cumulative), golfFormat(cumulative)));
-            card.appendChild(el('div', 'gd-final-position', 'After 36 holes · needed −1 to play the weekend'));
+            card.appendChild(el('div', 'gd-final-position', 'After 36 holes · needed ' + golfFormat(cutScore) + ' to play the weekend'));
             card.appendChild(el('p', 'gd-final-blurb', 'A rough couple of rounds. Regroup for next week’s event.'));
             addCloseActions(card, overlay, 'New tournament', function() {
               overlay.remove();
@@ -2936,8 +3252,18 @@
             storage.remove(GD_SAVE);
             var total = golfTotal(game);
             var tourBest = recordIfBest(GD_BEST_TOUR, total);
-            var result = tournamentResult(total);
-            card.appendChild(el('div', 'gd-trophy', result.trophy));
+            var result = tournamentResult(total, game.config);
+            if (isMajor && result.position === 1) {
+              var fancy = el('div', 'gd-trophy-major');
+              ['s1', 's2', 's3', 's4'].forEach(function(cls, idx) {
+                fancy.appendChild(el('div', 'gd-trophy-sparkle ' + cls, idx === 2 ? '⭐' : '✨'));
+              });
+              fancy.appendChild(el('div', 'gd-trophy-icon', '🏆'));
+              fancy.appendChild(el('div', 'gd-trophy-plinth', 'CHAMPION'));
+              card.appendChild(fancy);
+            } else {
+              card.appendChild(el('div', 'gd-trophy', result.trophy));
+            }
             card.appendChild(el('h3', 'gd-final-title', result.title));
             if (roundBest.isNew) card.appendChild(el('div', 'gd-badge-new', 'New best round! ' + golfFormat(roundTotal)));
             if (tourBest.isNew) card.appendChild(el('div', 'gd-badge-new', 'New best tournament!'));
@@ -3177,10 +3503,23 @@
         sc.appendChild(s7e);
         card.appendChild(sc);
 
+        card.appendChild(el('h4', null, 'Difficulty'));
+        var dff = el('ul');
+        var df1 = el('li');
+        df1.innerHTML = 'Pick a difficulty: <strong>Casual</strong> (win at −10), <strong>Pro</strong> (−13), <strong>Tour</strong> (−16, default), <strong>Master</strong> (−19).';
+        var df2 = el('li');
+        df2.innerHTML = 'Toggle <strong>Major ⭐</strong> for a championship event — winning is <strong>4 strokes harder</strong> (so Tour + Major = −20) and the trophy is bigger.';
+        var df3 = el('li');
+        df3.innerHTML = 'The cut and leaderboard scale with the win threshold automatically.';
+        dff.appendChild(df1);
+        dff.appendChild(df2);
+        dff.appendChild(df3);
+        card.appendChild(dff);
+
         card.appendChild(el('h4', null, 'The cut'));
         var cut = el('ul');
         var c1 = el('li');
-        c1.innerHTML = 'After <strong>36 holes</strong> (end of round 2), your tournament score must be <strong>−1 or better</strong> to play the weekend.';
+        c1.innerHTML = 'After <strong>36 holes</strong> (end of round 2) you must be at the cut score or better to play the weekend. The cut is shown above the scorecard.';
         var c2 = el('li');
         c2.innerHTML = 'Miss the cut and your tournament ends there — no rounds 3 and 4.';
         cut.appendChild(c1);
@@ -3190,9 +3529,9 @@
         card.appendChild(el('h4', null, 'Final position'));
         var fin = el('ul');
         var f1 = el('li');
-        f1.innerHTML = '<strong>−16 or better</strong> — tournament winner.';
+        f1.innerHTML = 'Beat the <strong>win threshold</strong> for your tournament type — you’re the champion.';
         var f2 = el('li');
-        f2.innerHTML = 'Otherwise your 4-round total sets your place on the leaderboard — roughly −10 ≈ 10th.';
+        f2.innerHTML = 'Otherwise your 4-round total sets your place on the leaderboard.';
         fin.appendChild(f1);
         fin.appendChild(f2);
         card.appendChild(fin);
@@ -3397,7 +3736,7 @@
         };
         golf.appendChild(golfRules);
         golf.appendChild(el('h2', null, '🏌️ Golf Darts'));
-        golf.appendChild(el('p', null, '4 rounds, 18 holes. Aim for inner singles for par — bulls are eagles.'));
+        golf.appendChild(el('p', null, '4 rounds, 18 holes. Pick a difficulty or play a Major. Bulls are eagles.'));
         var golfSave = storage.get(GD_SAVE);
         var golfBestRound = storage.get(GD_BEST_ROUND, null);
         var golfBestTour = storage.get(GD_BEST_TOUR, null);

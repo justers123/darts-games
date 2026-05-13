@@ -255,6 +255,20 @@
       grid-template-columns: repeat(4, 1fr);
     }
 
+    .dq-keys-row.cols-5 {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    .dq-keys-section {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.55;
+      margin-top: 6px;
+      padding-left: 2px;
+    }
+
     .dq-key {
       padding: 16px 6px;
       min-height: 56px;
@@ -267,6 +281,13 @@
       box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
       text-transform: uppercase;
       letter-spacing: 1px;
+    }
+
+    .dq-key.compact {
+      padding: 10px 4px;
+      min-height: 40px;
+      font-size: 14px;
+      letter-spacing: 0.5px;
     }
 
     .dq-key small {
@@ -295,6 +316,12 @@
       background: #ea580c;
       color: white;
       border-color: #9a3412;
+    }
+
+    .dq-key.double {
+      background: #2563eb;
+      color: white;
+      border-color: #1d4ed8;
     }
 
     .dq-key:active {
@@ -1840,6 +1867,24 @@
         root.appendChild(keys);
         root.appendChild(logEl);
 
+        function buildSegmentRows(kind, prefix) {
+          var rows = [];
+          for (var r = 0; r < 4; r++) {
+            var targets = [];
+            for (var c = 0; c < 5; c++) {
+              var seg = 20 - (r * 5 + c);
+              targets.push({
+                kind: kind,
+                segment: seg,
+                label: prefix + seg,
+                compact: true
+              });
+            }
+            rows.push({ cols: 5, targets: targets });
+          }
+          return rows;
+        }
+
         var DQ_TARGETS_ROWS = [{
             cols: 2,
             targets: [{
@@ -1854,63 +1899,13 @@
               }
             ]
           },
-          {
-            cols: 4,
-            targets: [{
-                kind: 'treble',
-                segment: 20,
-                label: 'T20',
-                sub: '90 dmg'
-              },
-              {
-                kind: 'treble',
-                segment: 19,
-                label: 'T19',
-                sub: '85 dmg'
-              },
-              {
-                kind: 'treble',
-                segment: 18,
-                label: 'T18',
-                sub: '81 dmg'
-              },
-              {
-                kind: 'treble',
-                segment: 17,
-                label: 'T17',
-                sub: '76 dmg'
-              }
-            ]
-          },
-          {
-            cols: 4,
-            targets: [{
-                kind: 'single',
-                segment: 20,
-                label: '20',
-                sub: '20 dmg'
-              },
-              {
-                kind: 'single',
-                segment: 19,
-                label: '19',
-                sub: '19 dmg'
-              },
-              {
-                kind: 'single',
-                segment: 18,
-                label: '18',
-                sub: '18 dmg'
-              },
-              {
-                kind: 'single',
-                segment: 17,
-                label: '17',
-                sub: '17 dmg'
-              }
-            ]
-          }
-        ];
+          { header: 'Trebles' }
+        ]
+          .concat(buildSegmentRows('treble', 'T'))
+          .concat([{ header: 'Doubles' }])
+          .concat(buildSegmentRows('double', 'D'))
+          .concat([{ header: 'Singles' }])
+          .concat(buildSegmentRows('single', ''));
 
         function dqAimCoords(t) {
           if (t.kind === 'bull') return {
@@ -1925,9 +1920,10 @@
           };
           var idx = SECTORS.indexOf(t.segment);
           var rad = idx * 18 * Math.PI / 180;
-          var r = t.kind === 'treble' ?
-            (TRIPLE_INNER + TRIPLE_OUTER) / 2 :
-            (BULL_OUTER + TRIPLE_INNER) / 2;
+          var r;
+          if (t.kind === 'treble') r = (TRIPLE_INNER + TRIPLE_OUTER) / 2;
+          else if (t.kind === 'double') r = (DOUBLE_INNER + DOUBLE_OUTER) / 2;
+          else r = (BULL_OUTER + TRIPLE_INNER) / 2;
           return {
             x: r * Math.sin(rad),
             y: -r * Math.cos(rad),
@@ -1938,9 +1934,15 @@
         function buildKeys() {
           keys.innerHTML = '';
           DQ_TARGETS_ROWS.forEach(function(row) {
+            if (row.header) {
+              keys.appendChild(el('div', 'dq-keys-section', row.header));
+              return;
+            }
             var rowEl = el('div', 'dq-keys-row cols-' + row.cols);
             row.targets.forEach(function(t) {
-              var b = el('button', 'dq-key ' + t.kind);
+              var cls = 'dq-key ' + t.kind;
+              if (t.compact) cls += ' compact';
+              var b = el('button', cls);
               b.appendChild(document.createTextNode(t.label));
               if (t.sub) {
                 b.appendChild(el('small', null, t.sub));

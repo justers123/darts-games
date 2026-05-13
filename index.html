@@ -1495,6 +1495,467 @@
       text-shadow: 1px 1px 0 rgba(255, 248, 220, 0.6);
       box-shadow: 0 4px 0 #422006, inset 0 1px 0 rgba(255, 255, 255, 0.5);
     }
+
+    /* ============ BOXING ============ */
+    .bx-root {
+      --bx-red: #dc2626;
+      --bx-red-dark: #7f1d1d;
+      --bx-blue: #2563eb;
+      --bx-blue-dark: #1e3a8a;
+      --bx-gold: #f5c518;
+      --bx-canvas: #1a0f0f;
+      --bx-rope: #b45309;
+      font-family: 'Impact', 'Arial Black', system-ui, sans-serif;
+    }
+
+    .bx-settings {
+      margin: 6px 0 10px;
+      background: var(--bx-canvas);
+      border: 2px solid var(--bx-gold);
+      border-radius: 6px;
+      padding: 8px;
+    }
+
+    .bx-settings-label {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--bx-gold);
+      margin-bottom: 6px;
+      text-align: center;
+    }
+
+    .bx-difficulty-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px;
+    }
+
+    .bx-difficulty-grid button {
+      padding: 8px 2px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      font-size: 12px;
+      background: #2a1818;
+      color: #e8c8c8;
+      border: 2px solid transparent;
+      border-radius: 4px;
+      min-height: 38px;
+      text-transform: uppercase;
+    }
+
+    .bx-difficulty-grid button.active {
+      background: var(--bx-gold);
+      color: #1a0a0a;
+      border-color: #fff;
+    }
+
+    .bx-arena {
+      background:
+        radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.04) 0%, transparent 60%),
+        linear-gradient(180deg, #2a1414 0%, #0a0505 100%);
+      border: 3px solid var(--bx-gold);
+      border-radius: 10px;
+      padding: 12px 10px;
+      margin-top: 8px;
+      box-shadow: 0 0 0 3px var(--bx-red-dark), 0 6px 0 rgba(0, 0, 0, 0.4);
+    }
+
+    .bx-corners {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .bx-corner {
+      border-radius: 8px;
+      padding: 10px 8px;
+      text-align: center;
+      color: #fff;
+      box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.15);
+    }
+
+    .bx-corner.red {
+      background: linear-gradient(180deg, var(--bx-red) 0%, var(--bx-red-dark) 100%);
+    }
+
+    .bx-corner.blue {
+      background: linear-gradient(180deg, var(--bx-blue) 0%, var(--bx-blue-dark) 100%);
+    }
+
+    .bx-corner-name {
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.85;
+    }
+
+    .bx-corner-fighter {
+      font-size: 36px;
+      line-height: 1;
+      margin: 4px 0 6px;
+    }
+
+    .bx-corner-score {
+      font-size: 32px;
+      font-weight: 900;
+      line-height: 1;
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+    }
+
+    .bx-round-badge {
+      background: var(--bx-canvas);
+      border: 3px solid var(--bx-gold);
+      border-radius: 50%;
+      width: 76px;
+      height: 76px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 0 12px rgba(245, 197, 24, 0.3);
+    }
+
+    .bx-round-label {
+      font-size: 9px;
+      letter-spacing: 2px;
+      color: var(--bx-gold);
+      text-transform: uppercase;
+    }
+
+    .bx-round-num {
+      font-size: 24px;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .bx-round-of {
+      font-size: 9px;
+      color: var(--bx-gold);
+      opacity: 0.8;
+    }
+
+    .bx-card {
+      margin-top: 10px;
+      background: var(--bx-canvas);
+      border: 2px solid var(--bx-gold);
+      border-radius: 8px;
+      padding: 10px 8px;
+    }
+
+    .bx-card-title {
+      color: var(--bx-gold);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .bx-rounds {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 4px;
+    }
+
+    .bx-round {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+      padding: 4px 2px;
+      text-align: center;
+      border: 2px solid transparent;
+      min-height: 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .bx-round-n {
+      font-size: 9px;
+      color: #d1c89f;
+      opacity: 0.65;
+      letter-spacing: 1px;
+    }
+
+    .bx-round-scores {
+      font-size: 13px;
+      font-weight: 800;
+      color: #fff;
+      margin-top: 1px;
+      line-height: 1.1;
+    }
+
+    .bx-round.current {
+      border-color: var(--bx-gold);
+      background: rgba(245, 197, 24, 0.1);
+    }
+
+    .bx-round.win {
+      background: rgba(220, 38, 38, 0.25);
+      border-color: var(--bx-red);
+    }
+
+    .bx-round.loss {
+      background: rgba(37, 99, 235, 0.25);
+      border-color: var(--bx-blue);
+    }
+
+    .bx-round.draw {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #888;
+    }
+
+    .bx-round.ko {
+      background: var(--bx-gold);
+      color: #1a0a0a;
+    }
+
+    .bx-round.ko .bx-round-n,
+    .bx-round.ko .bx-round-scores {
+      color: #1a0a0a;
+    }
+
+    .bx-last {
+      margin-top: 10px;
+      background: var(--bx-canvas);
+      border: 2px solid var(--bx-gold);
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      min-height: 70px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .bx-last-title {
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--bx-gold);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .bx-last-rows {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .bx-last-side {
+      text-align: center;
+    }
+
+    .bx-last-side-label {
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    .bx-last-side.red .bx-last-side-label { color: #fca5a5; }
+    .bx-last-side.blue .bx-last-side-label { color: #93c5fd; }
+
+    .bx-last-side-score {
+      font-size: 24px;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.1;
+    }
+
+    .bx-last-side-darts {
+      font-size: 10px;
+      opacity: 0.8;
+      color: #d1c89f;
+      margin-top: 2px;
+      letter-spacing: 1px;
+    }
+
+    .bx-last-verdict {
+      margin-top: 6px;
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--bx-gold);
+    }
+
+    .bx-last-verdict.ko {
+      color: var(--bx-red);
+      animation: bxFlash .8s ease-out;
+    }
+
+    @keyframes bxFlash {
+      0% { transform: scale(0.5); opacity: 0; }
+      40% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .bx-instruction {
+      color: var(--bx-gold);
+      text-align: center;
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin: 12px 0 6px;
+    }
+
+    .bx-display {
+      background: #000;
+      border: 2px solid var(--bx-gold);
+      border-radius: 8px;
+      color: var(--bx-gold);
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 44px;
+      font-weight: 900;
+      text-align: center;
+      padding: 10px;
+      letter-spacing: 4px;
+      min-height: 72px;
+      box-shadow: inset 0 0 12px rgba(245, 197, 24, 0.25);
+    }
+
+    .bx-display.invalid {
+      color: var(--bx-red);
+      border-color: var(--bx-red);
+    }
+
+    .bx-pad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .bx-pad button {
+      padding: 14px 4px;
+      min-height: 54px;
+      background: #2a1818;
+      color: #fff;
+      border: 2px solid rgba(245, 197, 24, 0.4);
+      border-radius: 8px;
+      font-size: 22px;
+      font-weight: 800;
+      box-shadow: 0 3px 0 rgba(0, 0, 0, 0.4);
+    }
+
+    .bx-pad button.aux {
+      background: #1a1a1a;
+      color: var(--bx-gold);
+      font-size: 18px;
+    }
+
+    .bx-pad button:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+    }
+
+    .bx-pad button:disabled {
+      opacity: 0.4;
+    }
+
+    .bx-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .bx-actions button {
+      padding: 14px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-size: 14px;
+      min-height: 52px;
+      border-radius: 8px;
+      box-shadow: 0 3px 0 rgba(0, 0, 0, 0.4);
+      border: 2px solid rgba(0, 0, 0, 0.3);
+    }
+
+    .bx-actions .bx-undo {
+      background: #334155;
+      color: #fff;
+      border-style: dashed;
+      border-color: rgba(245, 197, 24, 0.5);
+    }
+
+    .bx-actions .bx-throw {
+      background: linear-gradient(180deg, var(--bx-red) 0%, var(--bx-red-dark) 100%);
+      color: #fff;
+      text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
+    }
+
+    .bx-actions button:disabled {
+      opacity: 0.4;
+    }
+
+    .bx-actions button:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+    }
+
+    .bx-final-card {
+      background:
+        radial-gradient(circle at 30% 20%, rgba(245, 197, 24, 0.18) 0%, transparent 55%),
+        linear-gradient(180deg, #2a1414 0%, #0a0505 100%);
+      border: 4px solid var(--bx-gold);
+      color: #fff;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 0 0 4px var(--bx-red-dark), 0 0 30px rgba(245, 197, 24, 0.4), 0 8px 0 rgba(0, 0, 0, 0.5);
+    }
+
+    .bx-final-belt {
+      font-size: 96px;
+      line-height: 1;
+      filter: drop-shadow(0 0 16px gold) drop-shadow(3px 3px 0 rgba(0, 0, 0, 0.6));
+      animation: bxBeltPulse 2.4s ease-in-out infinite;
+      margin-bottom: 6px;
+    }
+
+    @keyframes bxBeltPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+
+    .bx-final-title {
+      font-family: 'Impact', 'Arial Black', system-ui, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      color: var(--bx-gold);
+      text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.7);
+      font-size: 24px;
+    }
+
+    .bx-final-method {
+      margin-top: 6px;
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #fff;
+      opacity: 0.9;
+    }
+
+    .bx-final-score {
+      font-family: 'Impact', 'Arial Black', system-ui, sans-serif;
+      font-size: 48px;
+      font-weight: 900;
+      letter-spacing: 6px;
+      margin: 14px 0 6px;
+      color: #fff;
+      text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.6);
+    }
+
+    .bx-final-blurb {
+      font-size: 13px;
+      color: #d1c89f;
+      margin: 8px 0 18px;
+    }
   </style>
 </head>
 <body>
@@ -3323,6 +3784,586 @@
         draw();
       }
 
+      // ============ BOXING ============
+      var BX_SAVE = 'boxing.save';
+      var BX_DIFFICULTY = 'boxing.difficulty';
+      var BX_BEST = 'boxing.best';
+      var BX_ROUNDS_N = 12;
+      var BX_DIFFICULTIES = [
+        { id: 'amateur',  label: 'Amateur',  tier: 0, missP: 0.18, singleP: 0.70, doubleP: 0.07, tripleP: 0.03, bullP: 0.02 },
+        { id: 'pro',      label: 'Pro',      tier: 1, missP: 0.08, singleP: 0.62, doubleP: 0.13, tripleP: 0.12, bullP: 0.05 },
+        { id: 'champion', label: 'Champion', tier: 2, missP: 0.03, singleP: 0.45, doubleP: 0.18, tripleP: 0.28, bullP: 0.06 },
+        { id: 'legend',   label: 'Legend',   tier: 3, missP: 0.01, singleP: 0.28, doubleP: 0.20, tripleP: 0.43, bullP: 0.08 }
+      ];
+      var BX_DEFAULT_DIFFICULTY = 'pro';
+
+      function getBoxingDifficulty() {
+        var id = storage.get(BX_DIFFICULTY, BX_DEFAULT_DIFFICULTY);
+        for (var i = 0; i < BX_DIFFICULTIES.length; i++) {
+          if (BX_DIFFICULTIES[i].id === id) return BX_DIFFICULTIES[i];
+        }
+        return BX_DIFFICULTIES[1];
+      }
+
+      function pickBoxingSegment(tier) {
+        var r = Math.random();
+        if (tier === 0) return 1 + Math.floor(Math.random() * 20);
+        if (tier === 1) {
+          if (r < 0.40) return 16 + Math.floor(Math.random() * 5);
+          if (r < 0.75) return 11 + Math.floor(Math.random() * 10);
+          return 1 + Math.floor(Math.random() * 20);
+        }
+        if (tier === 2) {
+          if (r < 0.55) return 18 + Math.floor(Math.random() * 3);
+          if (r < 0.85) return 13 + Math.floor(Math.random() * 7);
+          return 1 + Math.floor(Math.random() * 20);
+        }
+        if (r < 0.62) return 20;
+        if (r < 0.85) return 19;
+        return 16 + Math.floor(Math.random() * 5);
+      }
+
+      function simulateBoxingDart(diff) {
+        var r = Math.random();
+        var seg, label, score;
+        if (r < diff.missP) {
+          return { score: 0, label: 'Miss' };
+        }
+        r -= diff.missP;
+        if (r < diff.bullP) {
+          if (Math.random() < 0.45) return { score: 50, label: 'Bull' };
+          return { score: 25, label: '25' };
+        }
+        r -= diff.bullP;
+        if (r < diff.tripleP) {
+          seg = pickBoxingSegment(diff.tier);
+          return { score: seg * 3, label: 'T' + seg };
+        }
+        r -= diff.tripleP;
+        if (r < diff.doubleP) {
+          seg = pickBoxingSegment(diff.tier);
+          return { score: seg * 2, label: 'D' + seg };
+        }
+        seg = pickBoxingSegment(diff.tier);
+        return { score: seg, label: String(seg) };
+      }
+
+      function simulateBoxingTurn(diff) {
+        var darts = [simulateBoxingDart(diff), simulateBoxingDart(diff), simulateBoxingDart(diff)];
+        var total = darts[0].score + darts[1].score + darts[2].score;
+        return {
+          total: total,
+          darts: darts.map(function(d) { return d.label; })
+        };
+      }
+
+      function judgeBoxingRound(playerScore, cpuScore) {
+        var diff = Math.abs(playerScore - cpuScore);
+        var winner = playerScore === cpuScore ? 'draw' : (playerScore > cpuScore ? 'player' : 'cpu');
+        var method, playerPts, cpuPts, ko = false;
+        if (winner === 'draw') {
+          method = 'Draw';
+          playerPts = 10;
+          cpuPts = 10;
+        } else if (diff >= 100) {
+          ko = true;
+          method = 'KO';
+          if (winner === 'player') { playerPts = 10; cpuPts = 0; }
+          else { playerPts = 0; cpuPts = 10; }
+        } else if (diff >= 51) {
+          method = '10-8';
+          if (winner === 'player') { playerPts = 10; cpuPts = 8; }
+          else { playerPts = 8; cpuPts = 10; }
+        } else {
+          method = '10-9';
+          if (winner === 'player') { playerPts = 10; cpuPts = 9; }
+          else { playerPts = 9; cpuPts = 10; }
+        }
+        return {
+          playerScore: playerScore,
+          cpuScore: cpuScore,
+          winner: winner,
+          diff: diff,
+          method: method,
+          ko: ko,
+          playerPts: playerPts,
+          cpuPts: cpuPts
+        };
+      }
+
+      function newBoxingGame() {
+        return {
+          difficulty: getBoxingDifficulty().id,
+          round: 1,
+          rounds: [],
+          over: false,
+          input: '',
+          finishedAt: null
+        };
+      }
+
+      function boxingTotals(game) {
+        var p = 0, c = 0;
+        for (var i = 0; i < game.rounds.length; i++) {
+          p += game.rounds[i].playerPts;
+          c += game.rounds[i].cpuPts;
+        }
+        return { player: p, cpu: c };
+      }
+
+      function boxingHasProgress(game) {
+        return !!(game && (game.rounds.length > 0 || (game.input && game.input.length > 0)));
+      }
+
+      function showBoxingRules() {
+        var overlay = el('div', 'overlay');
+        overlay.onclick = function(e) {
+          if (e.target === overlay) overlay.remove();
+        };
+        var card = el('div', 'overlay-card rules-card');
+        card.appendChild(el('h3', null, '🥊 Boxing — how to play'));
+
+        card.appendChild(el('h4', null, 'Format'));
+        var fmt = el('ul');
+        var f1 = el('li');
+        f1.innerHTML = '<strong>12 rounds</strong> against a computer opponent. Each round is one set of 3 darts.';
+        var f2 = el('li');
+        f2.innerHTML = 'Enter your 3-dart total on the keypad. The opponent throws back automatically.';
+        fmt.appendChild(f1);
+        fmt.appendChild(f2);
+        card.appendChild(fmt);
+
+        card.appendChild(el('h4', null, 'Scoring a round'));
+        var sc = el('ul');
+        var s1 = el('li');
+        s1.innerHTML = 'Win by <strong>1–50</strong> → <strong>10–9</strong> round.';
+        var s2 = el('li');
+        s2.innerHTML = 'Win by <strong>51–99</strong> → <strong>10–8</strong> round.';
+        var s3 = el('li');
+        s3.innerHTML = 'Win by <strong>100+</strong> → <strong>Knockout</strong>. The fight ends instantly.';
+        var s4 = el('li');
+        s4.innerHTML = 'Tied score → <strong>10–10</strong> draw round.';
+        sc.appendChild(s1);
+        sc.appendChild(s2);
+        sc.appendChild(s3);
+        sc.appendChild(s4);
+        card.appendChild(sc);
+
+        card.appendChild(el('h4', null, 'Winning the fight'));
+        var win = el('ul');
+        var w1 = el('li');
+        w1.innerHTML = 'Score a <strong>KO</strong> at any point and the fight is over.';
+        var w2 = el('li');
+        w2.innerHTML = 'Otherwise, after 12 rounds the boxer with the <strong>higher total</strong> wins on points.';
+        win.appendChild(w1);
+        win.appendChild(w2);
+        card.appendChild(win);
+
+        card.appendChild(el('h4', null, 'Difficulty'));
+        var df = el('ul');
+        df.appendChild(el('li', null, 'Amateur, Pro, Champion, Legend — better opponents throw bigger averages.'));
+        df.appendChild(el('li', null, 'Switching difficulty mid-fight starts a new bout.'));
+        card.appendChild(df);
+
+        card.appendChild(el('h4', null, 'Input'));
+        var inp = el('ul');
+        inp.appendChild(el('li', null, 'Type your 3-dart score (0–180), then press Throw.'));
+        inp.appendChild(el('li', null, 'Made a typo? Use ⌫ to backspace or C to clear before throwing.'));
+        var i3 = el('li');
+        i3.innerHTML = 'Already submitted the wrong total? Press <strong>Undo</strong> to roll the last round back.';
+        inp.appendChild(i3);
+        card.appendChild(inp);
+
+        var actions = el('div', 'overlay-actions');
+        var close = el('button', 'btn-primary', 'Got it');
+        close.onclick = function() {
+          overlay.remove();
+        };
+        actions.appendChild(close);
+        card.appendChild(actions);
+
+        overlay.appendChild(card);
+        document.body.appendChild(overlay);
+      }
+
+      function renderBoxing(root) {
+        root.innerHTML = '';
+        var game = storage.get(BX_SAVE);
+        if (!game || game.over || !game.rounds || typeof game.round !== 'number') {
+          game = newBoxingGame();
+          storage.set(BX_SAVE, game);
+        }
+        if (typeof game.input !== 'string') game.input = '';
+
+        var wrap = el('div', 'bx-root');
+
+        var bar = el('div', 'bar');
+        var back = el('button', 'btn-ghost', '← Menu');
+        back.onclick = function() {
+          location.hash = '#/';
+        };
+        var title = el('h2', null, 'Boxing');
+        var actions = el('div', 'bar-actions');
+        var restart = el('button', 'btn-ghost', 'Restart');
+        restart.onclick = function() {
+          if (boxingHasProgress(game) && !confirm('Abandon this fight and start a new one?')) return;
+          game = newBoxingGame();
+          storage.set(BX_SAVE, game);
+          draw();
+        };
+        actions.appendChild(restart);
+        bar.appendChild(back);
+        bar.appendChild(title);
+        bar.appendChild(actions);
+        wrap.appendChild(bar);
+
+        var settings = el('div', 'bx-settings');
+        settings.appendChild(el('div', 'bx-settings-label', 'Difficulty'));
+        var diffGrid = el('div', 'bx-difficulty-grid');
+        settings.appendChild(diffGrid);
+        wrap.appendChild(settings);
+
+        var arena = el('div', 'bx-arena');
+        var corners = el('div', 'bx-corners');
+
+        var playerCorner = el('div', 'bx-corner red');
+        playerCorner.appendChild(el('div', 'bx-corner-name', 'You'));
+        playerCorner.appendChild(el('div', 'bx-corner-fighter', '🥊'));
+        var playerScoreEl = el('div', 'bx-corner-score', '0');
+        playerCorner.appendChild(playerScoreEl);
+
+        var roundBadge = el('div', 'bx-round-badge');
+        roundBadge.appendChild(el('div', 'bx-round-label', 'Round'));
+        var roundNumEl = el('div', 'bx-round-num', '1');
+        roundBadge.appendChild(roundNumEl);
+        roundBadge.appendChild(el('div', 'bx-round-of', 'of ' + BX_ROUNDS_N));
+
+        var cpuCorner = el('div', 'bx-corner blue');
+        cpuCorner.appendChild(el('div', 'bx-corner-name', 'CPU'));
+        cpuCorner.appendChild(el('div', 'bx-corner-fighter', '🤖'));
+        var cpuScoreEl = el('div', 'bx-corner-score', '0');
+        cpuCorner.appendChild(cpuScoreEl);
+
+        corners.appendChild(playerCorner);
+        corners.appendChild(roundBadge);
+        corners.appendChild(cpuCorner);
+        arena.appendChild(corners);
+        wrap.appendChild(arena);
+
+        var scoreCard = el('div', 'bx-card');
+        scoreCard.appendChild(el('div', 'bx-card-title', 'Round-by-Round'));
+        var roundsGrid = el('div', 'bx-rounds');
+        scoreCard.appendChild(roundsGrid);
+        wrap.appendChild(scoreCard);
+
+        var lastBox = el('div', 'bx-last');
+        wrap.appendChild(lastBox);
+
+        var instruction = el('div', 'bx-instruction', 'Enter your 3-dart score');
+        wrap.appendChild(instruction);
+
+        var display = el('div', 'bx-display', '0');
+        wrap.appendChild(display);
+
+        var pad = el('div', 'bx-pad');
+        wrap.appendChild(pad);
+
+        var actionRow = el('div', 'bx-actions');
+        wrap.appendChild(actionRow);
+
+        root.appendChild(wrap);
+
+        function getCurrentDiff() {
+          for (var i = 0; i < BX_DIFFICULTIES.length; i++) {
+            if (BX_DIFFICULTIES[i].id === game.difficulty) return BX_DIFFICULTIES[i];
+          }
+          return BX_DIFFICULTIES[1];
+        }
+
+        function drawDifficulty() {
+          diffGrid.innerHTML = '';
+          BX_DIFFICULTIES.forEach(function(d) {
+            var b = el('button', null, d.label);
+            if (game.difficulty === d.id) b.classList.add('active');
+            b.onclick = function() {
+              if (game.difficulty === d.id) return;
+              if (boxingHasProgress(game)) {
+                if (!confirm('Switch difficulty and start a new fight?')) return;
+              }
+              storage.set(BX_DIFFICULTY, d.id);
+              game = newBoxingGame();
+              storage.set(BX_SAVE, game);
+              draw();
+            };
+            diffGrid.appendChild(b);
+          });
+        }
+
+        function drawRoundsGrid() {
+          roundsGrid.innerHTML = '';
+          for (var i = 0; i < BX_ROUNDS_N; i++) {
+            var cell = el('div', 'bx-round');
+            cell.appendChild(el('div', 'bx-round-n', 'R' + (i + 1)));
+            var scores = el('div', 'bx-round-scores');
+            var r = game.rounds[i];
+            if (r) {
+              scores.textContent = r.ko ? 'KO' : (r.playerPts + '–' + r.cpuPts);
+              if (r.ko) {
+                cell.classList.add('ko');
+              } else if (r.winner === 'player') {
+                cell.classList.add('win');
+              } else if (r.winner === 'cpu') {
+                cell.classList.add('loss');
+              } else {
+                cell.classList.add('draw');
+              }
+            } else {
+              scores.textContent = '—';
+              if (!game.over && i === game.rounds.length) cell.classList.add('current');
+            }
+            cell.appendChild(scores);
+            roundsGrid.appendChild(cell);
+          }
+        }
+
+        function drawLast() {
+          lastBox.innerHTML = '';
+          if (game.rounds.length === 0) {
+            lastBox.appendChild(el('div', 'bx-last-title', 'Round 1 — bell about to ring'));
+            return;
+          }
+          var last = game.rounds[game.rounds.length - 1];
+          lastBox.appendChild(el('div', 'bx-last-title', 'Round ' + game.rounds.length + ' result'));
+          var rows = el('div', 'bx-last-rows');
+
+          var pSide = el('div', 'bx-last-side red');
+          pSide.appendChild(el('div', 'bx-last-side-label', 'You'));
+          pSide.appendChild(el('div', 'bx-last-side-score', String(last.playerScore)));
+          rows.appendChild(pSide);
+
+          var cSide = el('div', 'bx-last-side blue');
+          cSide.appendChild(el('div', 'bx-last-side-label', 'CPU'));
+          cSide.appendChild(el('div', 'bx-last-side-score', String(last.cpuScore)));
+          if (last.cpuDarts && last.cpuDarts.length) {
+            cSide.appendChild(el('div', 'bx-last-side-darts', last.cpuDarts.join(' · ')));
+          }
+          rows.appendChild(cSide);
+          lastBox.appendChild(rows);
+
+          var verdict = el('div', 'bx-last-verdict', '');
+          if (last.ko) {
+            verdict.classList.add('ko');
+            verdict.textContent = (last.winner === 'player' ? 'You scored a KO!' : 'KO — you went down!');
+          } else if (last.winner === 'draw') {
+            verdict.textContent = 'Draw · 10–10';
+          } else {
+            var who = last.winner === 'player' ? 'You' : 'CPU';
+            verdict.textContent = who + ' ' + last.method + ' (+' + last.diff + ')';
+          }
+          lastBox.appendChild(verdict);
+        }
+
+        function drawDisplay() {
+          var v = game.input === '' ? '0' : game.input;
+          display.textContent = v;
+          var n = parseInt(game.input, 10);
+          var invalid = game.input !== '' && (isNaN(n) || n > 180);
+          display.classList.toggle('invalid', invalid);
+        }
+
+        function drawPad() {
+          pad.innerHTML = '';
+          var disabled = game.over;
+          var nums = ['1','2','3','4','5','6','7','8','9','C','0','⌫'];
+          nums.forEach(function(label) {
+            var b = el('button', null, label);
+            if (label === 'C' || label === '⌫') b.classList.add('aux');
+            b.disabled = disabled;
+            b.onclick = function() {
+              if (game.over) return;
+              if (label === 'C') {
+                game.input = '';
+              } else if (label === '⌫') {
+                game.input = game.input.slice(0, -1);
+              } else if (game.input === '0') {
+                if (label !== '0') game.input = label;
+              } else if (game.input === '' && label === '0') {
+                game.input = '0';
+              } else if (game.input.length < 3) {
+                var next = game.input + label;
+                if (parseInt(next, 10) <= 180) game.input = next;
+              }
+              storage.set(BX_SAVE, game);
+              drawDisplay();
+              drawActions();
+            };
+            pad.appendChild(b);
+          });
+        }
+
+        function drawActions() {
+          actionRow.innerHTML = '';
+          var undo = el('button', 'bx-undo', '↶ Undo');
+          undo.disabled = game.rounds.length === 0;
+          undo.onclick = undoLastRound;
+          var throwBtn = el('button', 'bx-throw', 'Throw');
+          var n = parseInt(game.input, 10);
+          var valid = !isNaN(n) && n >= 0 && n <= 180 && game.input !== '';
+          throwBtn.disabled = game.over || !valid;
+          throwBtn.onclick = onThrow;
+          actionRow.appendChild(undo);
+          actionRow.appendChild(throwBtn);
+        }
+
+        function undoLastRound() {
+          if (game.rounds.length === 0) return;
+          var prev = game.rounds.pop();
+          if (game.over) {
+            game.over = false;
+            game.finishedAt = null;
+          }
+          game.round = game.rounds.length + 1;
+          game.input = String(prev.playerScore);
+          storage.set(BX_SAVE, game);
+          draw();
+        }
+
+        function onThrow() {
+          if (game.over) return;
+          var playerScore = parseInt(game.input, 10);
+          if (isNaN(playerScore) || playerScore < 0 || playerScore > 180) return;
+          var diff = getCurrentDiff();
+          var cpu = simulateBoxingTurn(diff);
+          var result = judgeBoxingRound(playerScore, cpu.total);
+          result.cpuDarts = cpu.darts;
+          game.rounds.push(result);
+          game.input = '';
+          if (result.ko || game.rounds.length >= BX_ROUNDS_N) {
+            finishGame();
+          } else {
+            game.round = game.rounds.length + 1;
+            storage.set(BX_SAVE, game);
+            draw();
+          }
+        }
+
+        function finishGame() {
+          game.over = true;
+          game.finishedAt = new Date().toISOString();
+          storage.set(BX_SAVE, game);
+          var totals = boxingTotals(game);
+          var lastRound = game.rounds[game.rounds.length - 1];
+          var verdict;
+          if (lastRound && lastRound.ko) {
+            verdict = lastRound.winner === 'player' ? 'win-ko' : 'loss-ko';
+          } else if (totals.player > totals.cpu) {
+            verdict = 'win-decision';
+          } else if (totals.cpu > totals.player) {
+            verdict = 'loss-decision';
+          } else {
+            verdict = 'draw';
+          }
+          recordBoxingBest(verdict);
+          draw();
+          setTimeout(function() { showBoxingEnd(verdict, totals); }, 500);
+        }
+
+        function recordBoxingBest(verdict) {
+          if (verdict !== 'win-ko' && verdict !== 'win-decision') return;
+          var diff = getCurrentDiff();
+          var prev = storage.get(BX_BEST, null);
+          var prevRank = prev ? prev.rank : -1;
+          var newRank = diff.tier * 2 + (verdict === 'win-ko' ? 1 : 0);
+          if (newRank > prevRank) {
+            storage.set(BX_BEST, {
+              rank: newRank,
+              difficulty: diff.id,
+              difficultyLabel: diff.label,
+              method: verdict === 'win-ko' ? 'KO' : 'Decision',
+              at: new Date().toISOString()
+            });
+          }
+        }
+
+        function showBoxingEnd(verdict, totals) {
+          var overlay = el('div', 'overlay');
+          var card = el('div', 'overlay-card bx-final-card');
+          var diff = getCurrentDiff();
+
+          var belt, title, method, blurb;
+          if (verdict === 'win-ko') {
+            belt = '🏆';
+            title = 'Knockout Win!';
+            method = 'You won by KO in round ' + game.rounds.length;
+            blurb = 'Devastating finish. The crowd is on its feet.';
+          } else if (verdict === 'win-decision') {
+            belt = '🥇';
+            title = 'Winner by Decision';
+            method = diff.label + ' difficulty · ' + game.rounds.length + ' rounds';
+            blurb = 'A workman-like performance. The judges had you all the way.';
+          } else if (verdict === 'loss-ko') {
+            belt = '💥';
+            title = 'Knocked Out';
+            method = 'KO in round ' + game.rounds.length;
+            blurb = 'Caught clean. Walk it off and book the rematch.';
+          } else if (verdict === 'loss-decision') {
+            belt = '🥊';
+            title = 'Lost by Decision';
+            method = diff.label + ' difficulty · ' + game.rounds.length + ' rounds';
+            blurb = 'Close, but not close enough. Back to the gym.';
+          } else {
+            belt = '🤝';
+            title = 'Draw';
+            method = diff.label + ' difficulty · ' + game.rounds.length + ' rounds';
+            blurb = 'A war of attrition. The judges couldn’t split you.';
+          }
+
+          card.appendChild(el('div', 'bx-final-belt', belt));
+          card.appendChild(el('h3', 'bx-final-title', title));
+          card.appendChild(el('div', 'bx-final-method', method));
+          card.appendChild(el('div', 'bx-final-score', totals.player + ' – ' + totals.cpu));
+          card.appendChild(el('p', 'bx-final-blurb', blurb));
+
+          var a = el('div', 'overlay-actions');
+          var again = el('button', 'btn-primary', 'New fight');
+          again.onclick = function() {
+            overlay.remove();
+            game = newBoxingGame();
+            storage.set(BX_SAVE, game);
+            draw();
+          };
+          var home = el('button', 'btn-ghost', 'Back to menu');
+          home.onclick = function() {
+            overlay.remove();
+            location.hash = '#/';
+          };
+          a.appendChild(again);
+          a.appendChild(home);
+          card.appendChild(a);
+          overlay.appendChild(card);
+          document.body.appendChild(overlay);
+        }
+
+        function draw() {
+          drawDifficulty();
+          var totals = boxingTotals(game);
+          playerScoreEl.textContent = String(totals.player);
+          cpuScoreEl.textContent = String(totals.cpu);
+          var displayRound = game.over ? game.rounds.length : Math.min(game.round, BX_ROUNDS_N);
+          roundNumEl.textContent = String(displayRound);
+          drawRoundsGrid();
+          drawLast();
+          drawDisplay();
+          drawPad();
+          drawActions();
+          instruction.textContent = game.over
+            ? 'Fight finished'
+            : ('Round ' + game.round + ' — enter your 3-dart score');
+        }
+
+        draw();
+      }
+
       // ============ HOME / ROUTER ============
       var root = document.getElementById('app');
 
@@ -3595,6 +4636,20 @@
               if (difficulty) bits.push(difficulty + '-round preference');
               return bits.length ? bits.join(' · ') : 'No data';
             }
+          },
+          {
+            title: '🥊 Boxing',
+            keys: [BX_SAVE, BX_DIFFICULTY, BX_BEST],
+            describe: function() {
+              var save = storage.get(BX_SAVE);
+              var best = storage.get(BX_BEST);
+              var difficulty = storage.get(BX_DIFFICULTY);
+              var bits = [];
+              if (save && save.rounds && save.rounds.length && !save.over) bits.push('Fight in progress · Round ' + save.round);
+              if (best) bits.push('Best: ' + best.method + ' on ' + best.difficultyLabel);
+              if (difficulty && !bits.length) bits.push(difficulty + ' preference');
+              return bits.length ? bits.join(' · ') : 'No data';
+            }
           }
         ];
 
@@ -3797,6 +4852,40 @@
         };
         tiles.appendChild(wordle);
 
+        var boxing = el('div', 'tile');
+        boxing.setAttribute('role', 'button');
+        boxing.setAttribute('tabindex', '0');
+        var boxingRules = el('button', 'tile-rules-btn', 'How to play');
+        boxingRules.onclick = function(e) {
+          e.stopPropagation();
+          showBoxingRules();
+        };
+        boxing.appendChild(boxingRules);
+        boxing.appendChild(el('h2', null, '🥊 Boxing'));
+        boxing.appendChild(el('p', null, '12 rounds vs the CPU. Win each round by more points or land a KO.'));
+        var bxSave = storage.get(BX_SAVE);
+        var bxBest = storage.get(BX_BEST);
+        var bxStat = el('div', 'tile-stat');
+        if (bxSave && bxSave.rounds && bxSave.rounds.length && !bxSave.over) {
+          bxStat.textContent = 'In progress · Round ' + bxSave.round;
+        } else if (bxBest) {
+          bxStat.textContent = 'Best win: ' + bxBest.method + ' on ' + bxBest.difficultyLabel;
+        } else {
+          bxStat.textContent = 'Step into the ring';
+        }
+        boxing.appendChild(bxStat);
+        boxing.onclick = function() {
+          location.hash = '#/boxing';
+        };
+        boxing.onkeydown = function(e) {
+          if (e.target !== boxing) return;
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            location.hash = '#/boxing';
+          }
+        };
+        tiles.appendChild(boxing);
+
         root.appendChild(tiles);
 
         root.appendChild(el('div', 'flex-spacer'));
@@ -3818,6 +4907,7 @@
         if (hash.indexOf('#/dartquest') === 0) renderDartQuest(root);
         else if (hash.indexOf('#/golfdarts') === 0) renderGolfDarts(root);
         else if (isWordle) renderWordleDarts(root);
+        else if (hash.indexOf('#/boxing') === 0) renderBoxing(root);
         else renderHome();
         window.scrollTo(0, 0);
       }

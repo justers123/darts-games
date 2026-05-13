@@ -3788,6 +3788,7 @@
       var BX_SAVE = 'boxing.save';
       var BX_DIFFICULTY = 'boxing.difficulty';
       var BX_BEST = 'boxing.best';
+      var BX_STATS = 'boxing.stats';
       var BX_ROUNDS_N = 12;
       var BX_DIFFICULTIES = [
         { id: 'amateur',  label: 'Amateur',  tier: 0, missP: 0.18, singleP: 0.70, doubleP: 0.07, tripleP: 0.03, bullP: 0.02 },
@@ -3900,6 +3901,28 @@
           input: '',
           finishedAt: null
         };
+      }
+
+      function defaultBoxingStats() {
+        return { fights: 0, wins: 0, losses: 0, draws: 0, kos: 0, koLosses: 0 };
+      }
+
+      function recordBoxingStats(verdict) {
+        var s = storage.get(BX_STATS, defaultBoxingStats());
+        s.fights = (s.fights || 0) + 1;
+        if (verdict === 'win-ko') { s.wins = (s.wins || 0) + 1; s.kos = (s.kos || 0) + 1; }
+        else if (verdict === 'win-decision') { s.wins = (s.wins || 0) + 1; }
+        else if (verdict === 'loss-ko') { s.losses = (s.losses || 0) + 1; s.koLosses = (s.koLosses || 0) + 1; }
+        else if (verdict === 'loss-decision') { s.losses = (s.losses || 0) + 1; }
+        else if (verdict === 'draw') { s.draws = (s.draws || 0) + 1; }
+        storage.set(BX_STATS, s);
+      }
+
+      function boxingRecordSummary(stats) {
+        if (!stats || !stats.fights) return null;
+        var parts = [stats.wins + 'W', stats.losses + 'L'];
+        if (stats.draws) parts.push(stats.draws + 'D');
+        return parts.join('–');
       }
 
       function boxingTotals(game) {
@@ -4264,6 +4287,7 @@
             verdict = 'draw';
           }
           recordBoxingBest(verdict);
+          recordBoxingStats(verdict);
           draw();
           setTimeout(function() { showBoxingEnd(verdict, totals); }, 500);
         }
@@ -4639,13 +4663,16 @@
           },
           {
             title: '🥊 Boxing',
-            keys: [BX_SAVE, BX_DIFFICULTY, BX_BEST],
+            keys: [BX_SAVE, BX_DIFFICULTY, BX_BEST, BX_STATS],
             describe: function() {
               var save = storage.get(BX_SAVE);
+              var stats = storage.get(BX_STATS);
               var best = storage.get(BX_BEST);
               var difficulty = storage.get(BX_DIFFICULTY);
               var bits = [];
               if (save && save.rounds && save.rounds.length && !save.over) bits.push('Fight in progress · Round ' + save.round);
+              var rec = boxingRecordSummary(stats);
+              if (rec) bits.push(stats.fights + ' fights · ' + rec);
               if (best) bits.push('Best: ' + best.method + ' on ' + best.difficultyLabel);
               if (difficulty && !bits.length) bits.push(difficulty + ' preference');
               return bits.length ? bits.join(' · ') : 'No data';
@@ -4865,13 +4892,16 @@
         boxing.appendChild(el('p', null, '12 rounds vs the CPU. Win each round by more points or land a KO.'));
         var bxSave = storage.get(BX_SAVE);
         var bxBest = storage.get(BX_BEST);
+        var bxStats = storage.get(BX_STATS);
         var bxStat = el('div', 'tile-stat');
         if (bxSave && bxSave.rounds && bxSave.rounds.length && !bxSave.over) {
           bxStat.textContent = 'In progress · Round ' + bxSave.round;
-        } else if (bxBest) {
-          bxStat.textContent = 'Best win: ' + bxBest.method + ' on ' + bxBest.difficultyLabel;
         } else {
-          bxStat.textContent = 'Step into the ring';
+          var bxBits = [];
+          var bxRec = boxingRecordSummary(bxStats);
+          if (bxRec) bxBits.push(bxRec);
+          if (bxBest) bxBits.push('best ' + bxBest.method + ' on ' + bxBest.difficultyLabel);
+          bxStat.textContent = bxBits.length ? bxBits.join(' · ') : 'Step into the ring';
         }
         boxing.appendChild(bxStat);
         boxing.onclick = function() {

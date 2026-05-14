@@ -2456,10 +2456,16 @@
           state.enemy.hp -= damage;
 
           if (state.enemy.hp <= 0) {
+            var overkill = -state.enemy.hp;
             push(state.enemy.name + ' defeated!', 'sys');
             var heal = state.enemy.isBoss ? 40 : 20;
-            state.hp = Math.min(PLAYER_MAX_HP, state.hp + heal);
-            push('You heal +' + heal + ' HP.', 'you');
+            var totalHeal = heal + overkill;
+            state.hp = Math.min(PLAYER_MAX_HP, state.hp + totalHeal);
+            if (overkill > 0) {
+              push('You heal +' + heal + ' HP (+' + overkill + ' overkill).', 'you');
+            } else {
+              push('You heal +' + heal + ' HP.', 'you');
+            }
             storage.set(DQ_BEST, Math.max(storage.get(DQ_BEST, 0), state.level));
             var defeatedLevel = state.level;
             state.level += 1;
@@ -4346,8 +4352,11 @@
         r1.innerHTML = 'Normal enemy defeated → heal <strong>+20 HP</strong>.';
         var r2 = el('li');
         r2.innerHTML = 'Boss defeated → heal <strong>+40 HP</strong>.';
+        var r3 = el('li');
+        r3.innerHTML = '<strong>Overkill bonus:</strong> any damage past the enemy’s remaining HP also heals you (e.g. enemy at 30 HP, you score 60 → +30 HP).';
         rew.appendChild(r1);
         rew.appendChild(r2);
+        rew.appendChild(r3);
         rew.appendChild(el('li', null, 'Advance to the next level. Your best level is saved.'));
         card.appendChild(rew);
 

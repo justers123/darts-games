@@ -4292,6 +4292,7 @@
           cpuScoreEl.textContent = String(totals.cpu);
           var displayRound = game.over ? game.rounds.length : Math.min(game.round, BX_ROUNDS_N);
           roundNumEl.textContent = String(displayRound);
+          scoreCard.style.display = game.over ? '' : 'none';
           drawRoundsGrid();
           drawLast();
           drawDisplay();

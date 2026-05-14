@@ -4149,13 +4149,33 @@
 
         function drawActions() {
           actionRow.innerHTML = '';
+          if (game.over) {
+            var showResult = el('button', 'bx-throw', 'Show result');
+            showResult.onclick = function() {
+              var totals = boxingTotals(game);
+              var lastRound = game.rounds[game.rounds.length - 1];
+              var verdict;
+              if (lastRound && lastRound.ko) {
+                verdict = lastRound.winner === 'player' ? 'win-ko' : 'loss-ko';
+              } else if (totals.player > totals.cpu) {
+                verdict = 'win-decision';
+              } else if (totals.cpu > totals.player) {
+                verdict = 'loss-decision';
+              } else {
+                verdict = 'draw';
+              }
+              showBoxingEnd(verdict, totals);
+            };
+            actionRow.appendChild(showResult);
+            return;
+          }
           var undo = el('button', 'bx-undo', '↶ Undo');
           undo.disabled = game.rounds.length === 0;
           undo.onclick = undoLastRound;
           var throwBtn = el('button', 'bx-throw', 'Throw');
           var n = parseInt(game.input, 10);
           var valid = !isNaN(n) && n >= 0 && n <= 180 && game.input !== '';
-          throwBtn.disabled = game.over || !valid;
+          throwBtn.disabled = !valid;
           throwBtn.onclick = onThrow;
           actionRow.appendChild(undo);
           actionRow.appendChild(throwBtn);
@@ -4233,7 +4253,9 @@
         }
 
         function showBoxingEnd(verdict, totals) {
-          var overlay = el('div', 'overlay');
+          var existing = document.querySelector('.bx-final-overlay');
+          if (existing) existing.remove();
+          var overlay = el('div', 'overlay bx-final-overlay');
           var card = el('div', 'overlay-card bx-final-card');
           var diff = getCurrentDiff();
 
@@ -4272,6 +4294,10 @@
           card.appendChild(el('p', 'bx-final-blurb', blurb));
 
           var a = el('div', 'overlay-actions');
+          var viewCard = el('button', 'btn-ghost', 'View scorecard');
+          viewCard.onclick = function() {
+            overlay.remove();
+          };
           var again = el('button', 'btn-primary', 'New fight');
           again.onclick = function() {
             overlay.remove();
@@ -4284,6 +4310,7 @@
             overlay.remove();
             location.hash = '#/';
           };
+          a.appendChild(viewCard);
           a.appendChild(again);
           a.appendChild(home);
           card.appendChild(a);

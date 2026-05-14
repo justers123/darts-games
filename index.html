@@ -3791,10 +3791,10 @@
       var BX_STATS = 'boxing.stats';
       var BX_ROUNDS_N = 12;
       var BX_DIFFICULTIES = [
-        { id: 'amateur',  label: 'Amateur',  tier: 0, missP: 0.18, singleP: 0.70, doubleP: 0.07, tripleP: 0.03, bullP: 0.02 },
-        { id: 'pro',      label: 'Pro',      tier: 1, missP: 0.08, singleP: 0.62, doubleP: 0.13, tripleP: 0.12, bullP: 0.05 },
-        { id: 'champion', label: 'Champion', tier: 2, missP: 0.03, singleP: 0.45, doubleP: 0.18, tripleP: 0.28, bullP: 0.06 },
-        { id: 'legend',   label: 'Legend',   tier: 3, missP: 0.01, singleP: 0.28, doubleP: 0.20, tripleP: 0.43, bullP: 0.08 }
+        { id: 'amateur',  label: 'Amateur',  tier: 0, missP: 0.18, singleP: 0.70, doubleP: 0.07, tripleP: 0.03, bullP: 0.02, koThreshold: 70 },
+        { id: 'pro',      label: 'Pro',      tier: 1, missP: 0.08, singleP: 0.62, doubleP: 0.13, tripleP: 0.12, bullP: 0.05, koThreshold: 100 },
+        { id: 'champion', label: 'Champion', tier: 2, missP: 0.03, singleP: 0.45, doubleP: 0.18, tripleP: 0.28, bullP: 0.06, koThreshold: 100 },
+        { id: 'legend',   label: 'Legend',   tier: 3, missP: 0.01, singleP: 0.28, doubleP: 0.20, tripleP: 0.43, bullP: 0.08, koThreshold: 100 }
       ];
       var BX_DEFAULT_DIFFICULTY = 'pro';
 
@@ -3858,15 +3858,16 @@
         };
       }
 
-      function judgeBoxingRound(playerScore, cpuScore) {
+      function judgeBoxingRound(playerScore, cpuScore, koThreshold) {
         var diff = Math.abs(playerScore - cpuScore);
         var winner = playerScore === cpuScore ? 'draw' : (playerScore > cpuScore ? 'player' : 'cpu');
         var method, playerPts, cpuPts, ko = false;
+        var koAt = typeof koThreshold === 'number' ? koThreshold : 100;
         if (winner === 'draw') {
           method = 'Draw';
           playerPts = 10;
           cpuPts = 10;
-        } else if (diff >= 100) {
+        } else if (diff >= koAt) {
           ko = true;
           method = 'KO';
           if (winner === 'player') { playerPts = 10; cpuPts = 0; }
@@ -3963,7 +3964,7 @@
         var s2 = el('li');
         s2.innerHTML = 'Win by <strong>51–99</strong> → <strong>10–8</strong> round.';
         var s3 = el('li');
-        s3.innerHTML = 'Win by <strong>100+</strong> → <strong>Knockout</strong>. The fight ends instantly.';
+        s3.innerHTML = 'Win by <strong>100+</strong> (<strong>70+</strong> on Amateur) → <strong>Knockout</strong>. The fight ends instantly.';
         var s4 = el('li');
         s4.innerHTML = 'Tied score → <strong>10–10</strong> draw round.';
         sc.appendChild(s1);
@@ -4257,7 +4258,7 @@
           if (isNaN(playerScore) || playerScore < 0 || playerScore > 180) return;
           var diff = getCurrentDiff();
           var cpu = simulateBoxingTurn(diff);
-          var result = judgeBoxingRound(playerScore, cpu.total);
+          var result = judgeBoxingRound(playerScore, cpu.total, diff.koThreshold);
           result.cpuDarts = cpu.darts;
           game.rounds.push(result);
           game.input = '';

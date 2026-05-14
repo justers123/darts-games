@@ -4290,9 +4290,12 @@
           var totals = boxingTotals(game);
           playerScoreEl.textContent = String(totals.player);
           cpuScoreEl.textContent = String(totals.cpu);
+          playerScoreEl.style.visibility = game.over ? '' : 'hidden';
+          cpuScoreEl.style.visibility = game.over ? '' : 'hidden';
           var displayRound = game.over ? game.rounds.length : Math.min(game.round, BX_ROUNDS_N);
           roundNumEl.textContent = String(displayRound);
           scoreCard.style.display = game.over ? '' : 'none';
+          lastBox.style.display = game.over ? '' : 'none';
           drawRoundsGrid();
           drawLast();
           drawDisplay();

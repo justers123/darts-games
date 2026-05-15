@@ -1956,6 +1956,575 @@
       color: #d1c89f;
       margin: 8px 0 18px;
     }
+
+    /* ============ TENNIS ============ */
+    .tn-root {
+      --tn-green: #1b5e20;
+      --tn-green-dark: #0e3e14;
+      --tn-green-light: #2e7d32;
+      --tn-line: #f5f5f5;
+      --tn-ball: #d8e85a;
+      --tn-ball-dark: #a3b820;
+      --tn-clay: #d2691e;
+      --tn-net: #e5e5e5;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
+    }
+
+    .tn-settings {
+      margin: 6px 0 8px;
+      background: var(--tn-green-dark);
+      border: 2px solid var(--tn-ball);
+      border-radius: 8px;
+      padding: 8px;
+    }
+
+    .tn-settings-label {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--tn-ball);
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .tn-difficulty-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px;
+    }
+
+    .tn-difficulty-grid button {
+      padding: 8px 2px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      font-size: 12px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #e8f4ea;
+      border: 2px solid transparent;
+      border-radius: 4px;
+      min-height: 38px;
+      text-transform: uppercase;
+    }
+
+    .tn-difficulty-grid button.active {
+      background: var(--tn-ball);
+      color: #1a2a08;
+      border-color: #fff;
+    }
+
+    .tn-format-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
+      margin-top: 6px;
+    }
+
+    .tn-format-grid button {
+      padding: 8px 4px;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 1px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #e8f4ea;
+      border: 2px solid transparent;
+      border-radius: 4px;
+      min-height: 36px;
+      text-transform: uppercase;
+    }
+
+    .tn-format-grid button.active {
+      background: var(--tn-ball);
+      color: #1a2a08;
+      border-color: #fff;
+    }
+
+    .tn-court {
+      background:
+        linear-gradient(180deg, var(--tn-green-light) 0%, var(--tn-green) 100%);
+      border: 3px solid var(--tn-ball);
+      border-radius: 10px;
+      padding: 12px 10px;
+      margin-top: 8px;
+      box-shadow: 0 0 0 3px var(--tn-green-dark), 0 6px 0 rgba(0, 0, 0, 0.4);
+    }
+
+    .tn-sides {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .tn-side {
+      text-align: center;
+      color: #fff;
+      padding: 8px 6px;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.18);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .tn-side.serving {
+      border-color: var(--tn-ball);
+      box-shadow: 0 0 0 1px var(--tn-ball);
+    }
+
+    .tn-side-name {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.85;
+    }
+
+    .tn-side-emoji {
+      font-size: 28px;
+      line-height: 1;
+      margin: 3px 0;
+    }
+
+    .tn-side-sets {
+      font-size: 30px;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--tn-ball);
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.45);
+    }
+
+    .tn-side-sets-label {
+      font-size: 9px;
+      letter-spacing: 2px;
+      color: rgba(255, 255, 255, 0.7);
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .tn-net {
+      background: var(--tn-net);
+      width: 4px;
+      align-self: stretch;
+      border-radius: 2px;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+      min-height: 110px;
+    }
+
+    .tn-scoreboard {
+      margin-top: 10px;
+      background: #fff8dc;
+      border: 2px solid var(--tn-clay);
+      border-radius: 8px;
+      padding: 8px 10px;
+      color: #2a1a08;
+    }
+
+    .tn-sb-header {
+      display: grid;
+      grid-template-columns: 1fr repeat(6, minmax(22px, 32px));
+      gap: 4px;
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #6b4423;
+      padding-bottom: 4px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+      margin-bottom: 4px;
+      align-items: center;
+    }
+
+    .tn-sb-header > div {
+      text-align: center;
+    }
+
+    .tn-sb-header > div:first-child {
+      text-align: left;
+    }
+
+    .tn-sb-row {
+      display: grid;
+      grid-template-columns: 1fr repeat(6, minmax(22px, 32px));
+      gap: 4px;
+      align-items: center;
+      padding: 3px 0;
+    }
+
+    .tn-sb-row + .tn-sb-row {
+      border-top: 1px dashed rgba(0, 0, 0, 0.1);
+    }
+
+    .tn-sb-row-name {
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 1px;
+      color: #2a1a08;
+      text-transform: uppercase;
+    }
+
+    .tn-sb-cell {
+      text-align: center;
+      font-weight: 800;
+      font-size: 15px;
+      color: #2a1a08;
+      position: relative;
+    }
+
+    .tn-sb-cell.empty {
+      color: rgba(0, 0, 0, 0.18);
+    }
+
+    .tn-sb-cell.win {
+      color: var(--tn-green);
+    }
+
+    .tn-sb-cell.current {
+      background: rgba(216, 232, 90, 0.5);
+      border-radius: 4px;
+    }
+
+    .tn-sb-cell sup {
+      position: absolute;
+      top: -2px;
+      right: 2px;
+      font-size: 9px;
+      font-weight: 700;
+      color: #6b4423;
+    }
+
+    .tn-current {
+      margin-top: 10px;
+      background: var(--tn-green-dark);
+      border: 2px solid var(--tn-ball);
+      border-radius: 8px;
+      padding: 10px;
+      color: #fff;
+      text-align: center;
+    }
+
+    .tn-current-label {
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--tn-ball);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .tn-current-score {
+      font-size: 38px;
+      font-weight: 900;
+      letter-spacing: 6px;
+      color: #fff;
+      line-height: 1;
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4);
+    }
+
+    .tn-current-badge {
+      margin-top: 6px;
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 10px;
+      letter-spacing: 2px;
+      font-weight: 800;
+      text-transform: uppercase;
+      background: var(--tn-ball);
+      color: #1a2a08;
+    }
+
+    .tn-current-badge.final {
+      background: var(--tn-clay);
+      color: #fff;
+    }
+
+    .tn-last {
+      margin-top: 10px;
+      background: var(--tn-green-dark);
+      border: 2px solid var(--tn-ball);
+      border-radius: 8px;
+      padding: 10px;
+      color: #fff;
+      text-align: center;
+      min-height: 70px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .tn-last-title {
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--tn-ball);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .tn-last-rows {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .tn-last-side {
+      text-align: center;
+    }
+
+    .tn-last-side-label {
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.8;
+    }
+
+    .tn-last-side-score {
+      font-size: 26px;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.1;
+    }
+
+    .tn-last-side-darts {
+      font-size: 10px;
+      color: #c8e6c9;
+      margin-top: 2px;
+      letter-spacing: 1px;
+    }
+
+    .tn-last-verdict {
+      margin-top: 6px;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--tn-ball);
+    }
+
+    .tn-last-verdict.let {
+      color: var(--tn-clay);
+    }
+
+    .tn-instruction {
+      color: var(--tn-ball);
+      text-align: center;
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin: 12px 0 6px;
+    }
+
+    .tn-display {
+      background: #062b0e;
+      border: 2px solid var(--tn-ball);
+      border-radius: 8px;
+      color: var(--tn-ball);
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 44px;
+      font-weight: 900;
+      text-align: center;
+      padding: 10px;
+      letter-spacing: 4px;
+      min-height: 72px;
+      box-shadow: inset 0 0 12px rgba(216, 232, 90, 0.25);
+    }
+
+    .tn-display.invalid {
+      color: var(--tn-clay);
+      border-color: var(--tn-clay);
+    }
+
+    .tn-pad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .tn-pad button {
+      padding: 14px 4px;
+      min-height: 54px;
+      background: #143d1b;
+      color: #fff;
+      border: 2px solid rgba(216, 232, 90, 0.4);
+      border-radius: 8px;
+      font-size: 22px;
+      font-weight: 800;
+      box-shadow: 0 3px 0 rgba(0, 0, 0, 0.4);
+    }
+
+    .tn-pad button.aux {
+      background: #0e2a13;
+      color: var(--tn-ball);
+      font-size: 18px;
+    }
+
+    .tn-pad button:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+    }
+
+    .tn-pad button:disabled {
+      opacity: 0.4;
+    }
+
+    .tn-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .tn-actions button {
+      padding: 14px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-size: 14px;
+      min-height: 52px;
+      border-radius: 8px;
+      box-shadow: 0 3px 0 rgba(0, 0, 0, 0.4);
+      border: 2px solid rgba(0, 0, 0, 0.3);
+    }
+
+    .tn-actions .tn-undo {
+      background: #334155;
+      color: #fff;
+      border-style: dashed;
+      border-color: rgba(216, 232, 90, 0.5);
+    }
+
+    .tn-actions .tn-throw {
+      background: linear-gradient(180deg, var(--tn-ball) 0%, var(--tn-ball-dark) 100%);
+      color: #1a2a08;
+      text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.25);
+    }
+
+    .tn-actions button:disabled {
+      opacity: 0.4;
+    }
+
+    .tn-actions button:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+    }
+
+    .tn-toast {
+      position: fixed;
+      top: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--tn-green-dark);
+      color: #fff;
+      border: 2px solid var(--tn-ball);
+      border-radius: 14px;
+      padding: 10px 18px;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+      z-index: 30;
+      animation: tnToastIn .3s ease-out, tnToastOut .3s ease-in 1.7s forwards;
+      max-width: 320px;
+      pointer-events: none;
+    }
+
+    .tn-toast.big {
+      animation: tnToastIn .3s ease-out, tnToastOut .3s ease-in 2.6s forwards;
+      padding: 14px 22px;
+      font-size: 16px;
+    }
+
+    .tn-toast-label {
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--tn-ball);
+      text-transform: uppercase;
+    }
+
+    .tn-toast-title {
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      margin-top: 2px;
+    }
+
+    .tn-toast-blurb {
+      font-size: 12px;
+      color: #c8e6c9;
+      margin-top: 3px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    @keyframes tnToastIn {
+      from { opacity: 0; transform: translate(-50%, -16px) scale(0.9); }
+      to { opacity: 1; transform: translate(-50%, 0) scale(1); }
+    }
+
+    @keyframes tnToastOut {
+      to { opacity: 0; transform: translate(-50%, -10px) scale(0.96); }
+    }
+
+    .tn-final-card {
+      background:
+        radial-gradient(circle at 30% 20%, rgba(216, 232, 90, 0.22) 0%, transparent 55%),
+        linear-gradient(180deg, var(--tn-green-light) 0%, var(--tn-green-dark) 100%);
+      border: 4px solid var(--tn-ball);
+      color: #fff;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 0 0 4px var(--tn-green-dark), 0 0 30px rgba(216, 232, 90, 0.35), 0 8px 0 rgba(0, 0, 0, 0.5);
+    }
+
+    .tn-final-trophy {
+      font-size: 84px;
+      line-height: 1;
+      filter: drop-shadow(0 0 14px rgba(216, 232, 90, 0.7)) drop-shadow(3px 3px 0 rgba(0, 0, 0, 0.5));
+      animation: tnTrophyPulse 2.2s ease-in-out infinite;
+      margin-bottom: 4px;
+    }
+
+    @keyframes tnTrophyPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.07); }
+    }
+
+    .tn-final-title {
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--tn-ball);
+      font-size: 24px;
+      font-weight: 900;
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+    }
+
+    .tn-final-method {
+      margin-top: 6px;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.9;
+    }
+
+    .tn-final-score {
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: 4px;
+      margin: 12px 0 4px;
+      color: #fff;
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+    }
+
+    .tn-final-sets {
+      font-size: 14px;
+      color: #c8e6c9;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+
+    .tn-final-blurb {
+      font-size: 13px;
+      color: #e6f4e7;
+      margin: 8px 0 16px;
+    }
   </style>
 </head>
 <body>
@@ -4342,6 +4911,741 @@
         draw();
       }
 
+      // ============ TENNIS ============
+      var TN_SAVE = 'tennis.save';
+      var TN_DIFFICULTY = 'tennis.difficulty';
+      var TN_FORMAT = 'tennis.format';
+      var TN_STATS = 'tennis.stats';
+      var TN_DIFFICULTIES = [
+        { id: 'rookie', label: 'Rookie', tier: 0, missP: 0.20, singleP: 0.72, doubleP: 0.05, tripleP: 0.02, bullP: 0.01 },
+        { id: 'club',   label: 'Club',   tier: 1, missP: 0.10, singleP: 0.64, doubleP: 0.13, tripleP: 0.10, bullP: 0.03 },
+        { id: 'pro',    label: 'Pro',    tier: 2, missP: 0.04, singleP: 0.47, doubleP: 0.18, tripleP: 0.26, bullP: 0.05 },
+        { id: 'slam',   label: 'Slam',   tier: 3, missP: 0.01, singleP: 0.30, doubleP: 0.20, tripleP: 0.41, bullP: 0.08 }
+      ];
+      var TN_FORMATS = [3, 5];
+      var TN_DEFAULT_DIFFICULTY = 'club';
+      var TN_DEFAULT_FORMAT = 3;
+
+      var TN_GAME_WIN_BLURBS = ['Boom!', 'Crisp.', 'Smashed it.', 'Pinpoint.', 'Down the line.', 'Ace stuff.', 'Whip!'];
+      var TN_GAME_LOSS_BLURBS = ['Returned hard.', 'Outplayed.', 'Tough hold.', 'On the line.', 'Brutal angle.', 'Caught napping.'];
+      var TN_LET_BLURBS = ['Let — replay!', 'Tied — replay!', 'Both on song — go again!', 'Mirror image — replay!'];
+
+      function getTennisDifficulty() {
+        var id = storage.get(TN_DIFFICULTY, TN_DEFAULT_DIFFICULTY);
+        for (var i = 0; i < TN_DIFFICULTIES.length; i++) {
+          if (TN_DIFFICULTIES[i].id === id) return TN_DIFFICULTIES[i];
+        }
+        return TN_DIFFICULTIES[1];
+      }
+
+      function getTennisFormat() {
+        var f = storage.get(TN_FORMAT, TN_DEFAULT_FORMAT);
+        return f === 5 ? 5 : 3;
+      }
+
+      function tennisSetsToWin(format) {
+        return Math.ceil(format / 2);
+      }
+
+      function pickTennisSegment(tier) {
+        var r = Math.random();
+        if (tier === 0) return 1 + Math.floor(Math.random() * 20);
+        if (tier === 1) {
+          if (r < 0.40) return 16 + Math.floor(Math.random() * 5);
+          if (r < 0.75) return 11 + Math.floor(Math.random() * 10);
+          return 1 + Math.floor(Math.random() * 20);
+        }
+        if (tier === 2) {
+          if (r < 0.55) return 18 + Math.floor(Math.random() * 3);
+          if (r < 0.85) return 13 + Math.floor(Math.random() * 7);
+          return 1 + Math.floor(Math.random() * 20);
+        }
+        if (r < 0.62) return 20;
+        if (r < 0.85) return 19;
+        return 16 + Math.floor(Math.random() * 5);
+      }
+
+      function simulateTennisDart(diff) {
+        var r = Math.random();
+        var seg;
+        if (r < diff.missP) return { score: 0, label: 'Miss' };
+        r -= diff.missP;
+        if (r < diff.bullP) {
+          if (Math.random() < 0.45) return { score: 50, label: 'Bull' };
+          return { score: 25, label: '25' };
+        }
+        r -= diff.bullP;
+        if (r < diff.tripleP) {
+          seg = pickTennisSegment(diff.tier);
+          return { score: seg * 3, label: 'T' + seg };
+        }
+        r -= diff.tripleP;
+        if (r < diff.doubleP) {
+          seg = pickTennisSegment(diff.tier);
+          return { score: seg * 2, label: 'D' + seg };
+        }
+        seg = pickTennisSegment(diff.tier);
+        return { score: seg, label: String(seg) };
+      }
+
+      function simulateTennisTurn(diff) {
+        var darts = [simulateTennisDart(diff), simulateTennisDart(diff), simulateTennisDart(diff)];
+        return {
+          total: darts[0].score + darts[1].score + darts[2].score,
+          darts: darts.map(function(d) { return d.label; })
+        };
+      }
+
+      function newTennisGame() {
+        return {
+          difficulty: getTennisDifficulty().id,
+          format: getTennisFormat(),
+          sets: [],
+          setScore: { player: 0, cpu: 0 },
+          games: [],
+          lastResult: null,
+          input: '',
+          over: false,
+          winner: null,
+          finishedAt: null
+        };
+      }
+
+      function defaultTennisStats() {
+        return { matches: 0, wins: 0, losses: 0, setsWon: 0, setsLost: 0, gamesWon: 0, gamesLost: 0 };
+      }
+
+      function recordTennisStats(game) {
+        var s = storage.get(TN_STATS, defaultTennisStats());
+        s.matches = (s.matches || 0) + 1;
+        if (game.winner === 'player') s.wins = (s.wins || 0) + 1;
+        else s.losses = (s.losses || 0) + 1;
+        var pSets = 0, cSets = 0, pGames = 0, cGames = 0;
+        for (var i = 0; i < game.sets.length; i++) {
+          var st = game.sets[i];
+          if (st.player > st.cpu) pSets++; else cSets++;
+          pGames += st.player;
+          cGames += st.cpu;
+        }
+        s.setsWon = (s.setsWon || 0) + pSets;
+        s.setsLost = (s.setsLost || 0) + cSets;
+        s.gamesWon = (s.gamesWon || 0) + pGames;
+        s.gamesLost = (s.gamesLost || 0) + cGames;
+        storage.set(TN_STATS, s);
+      }
+
+      function tennisRecordSummary(stats) {
+        if (!stats || !stats.matches) return null;
+        return stats.wins + 'W–' + stats.losses + 'L';
+      }
+
+      function tennisIsFinalSet(game) {
+        var toWin = tennisSetsToWin(game.format);
+        var pSets = 0, cSets = 0;
+        for (var i = 0; i < game.sets.length; i++) {
+          if (game.sets[i].player > game.sets[i].cpu) pSets++; else cSets++;
+        }
+        return pSets === toWin - 1 && cSets === toWin - 1;
+      }
+
+      function tennisSetsWon(game) {
+        var p = 0, c = 0;
+        for (var i = 0; i < game.sets.length; i++) {
+          if (game.sets[i].player > game.sets[i].cpu) p++; else c++;
+        }
+        return { player: p, cpu: c };
+      }
+
+      function tennisIsTiebreakNext(game) {
+        if (tennisIsFinalSet(game)) return false;
+        return game.setScore.player === 6 && game.setScore.cpu === 6;
+      }
+
+      function tennisCheckSetEnd(setScore, isFinalSet) {
+        var p = setScore.player, c = setScore.cpu;
+        if (p >= 6 && p - c >= 2) return 'player';
+        if (c >= 6 && c - p >= 2) return 'cpu';
+        if (!isFinalSet) {
+          if (p === 7 && c === 6) return 'player';
+          if (c === 7 && p === 6) return 'cpu';
+        }
+        return null;
+      }
+
+      function tennisHasProgress(game) {
+        return !!(game && (game.sets.length > 0 || game.setScore.player > 0 || game.setScore.cpu > 0 || game.games.length > 0 || (game.input && game.input.length > 0)));
+      }
+
+      function tennisPick(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+      }
+
+      function showTennisToast(opts) {
+        var existing = document.querySelectorAll('.tn-toast');
+        for (var i = 0; i < existing.length; i++) existing[i].remove();
+        var t = el('div', 'tn-toast' + (opts.big ? ' big' : ''));
+        if (opts.label) t.appendChild(el('div', 'tn-toast-label', opts.label));
+        if (opts.title) t.appendChild(el('div', 'tn-toast-title', opts.title));
+        if (opts.blurb) t.appendChild(el('div', 'tn-toast-blurb', opts.blurb));
+        document.body.appendChild(t);
+        var ttl = opts.big ? 3000 : 2100;
+        setTimeout(function() { if (t.parentNode) t.parentNode.removeChild(t); }, ttl);
+      }
+
+      function showTennisRules() {
+        var overlay = el('div', 'overlay');
+        overlay.onclick = function(e) { if (e.target === overlay) overlay.remove(); };
+        var card = el('div', 'overlay-card rules-card');
+        card.appendChild(el('h3', null, '🎾 Tennis — how to play'));
+
+        card.appendChild(el('h4', null, 'Format'));
+        var fmt = el('ul');
+        var f1 = el('li');
+        f1.innerHTML = 'Each <strong>3-dart set</strong> is one tennis <strong>game</strong>. Higher 3-dart total wins it.';
+        var f2 = el('li');
+        f2.innerHTML = 'Choose <strong>best-of-3</strong> or <strong>best-of-5</strong> sets, and a difficulty.';
+        var f3 = el('li');
+        f3.innerHTML = 'Tied 3-dart totals = <strong>let</strong> — the game is replayed.';
+        fmt.appendChild(f1); fmt.appendChild(f2); fmt.appendChild(f3);
+        card.appendChild(fmt);
+
+        card.appendChild(el('h4', null, 'Winning a set'));
+        var sc = el('ul');
+        var s1 = el('li');
+        s1.innerHTML = 'First to <strong>6 games</strong>, with a <strong>2-game lead</strong>.';
+        var s2 = el('li');
+        s2.innerHTML = 'At <strong>6–6</strong>, a <strong>tiebreak</strong> game decides it (set ends 7–6).';
+        var s3 = el('li');
+        s3.innerHTML = 'In the <strong>final set</strong> (1–1 in BO3 or 2–2 in BO5), <strong>no tiebreak</strong> — just win by 2.';
+        sc.appendChild(s1); sc.appendChild(s2); sc.appendChild(s3);
+        card.appendChild(sc);
+
+        card.appendChild(el('h4', null, 'Winning the match'));
+        var win = el('ul');
+        var w1 = el('li');
+        w1.innerHTML = 'Win <strong>2 sets</strong> in best-of-3, or <strong>3 sets</strong> in best-of-5.';
+        win.appendChild(w1);
+        card.appendChild(win);
+
+        card.appendChild(el('h4', null, 'Difficulty'));
+        var df = el('ul');
+        df.appendChild(el('li', null, 'Rookie, Club, Pro, Slam — better opponents throw bigger 3-dart averages.'));
+        df.appendChild(el('li', null, 'Switching difficulty or format mid-match starts a new match.'));
+        card.appendChild(df);
+
+        card.appendChild(el('h4', null, 'Input'));
+        var inp = el('ul');
+        inp.appendChild(el('li', null, 'Type your 3-dart score (0–180) then press Throw.'));
+        var i2 = el('li');
+        i2.innerHTML = 'Made a typo on a finished game? Press <strong>Undo</strong> to roll back.';
+        inp.appendChild(i2);
+        card.appendChild(inp);
+
+        var actions = el('div', 'overlay-actions');
+        var close = el('button', 'btn-primary', 'Got it');
+        close.onclick = function() { overlay.remove(); };
+        actions.appendChild(close);
+        card.appendChild(actions);
+
+        overlay.appendChild(card);
+        document.body.appendChild(overlay);
+      }
+
+      function renderTennis(root) {
+        root.innerHTML = '';
+        var game = storage.get(TN_SAVE);
+        if (!game || game.over || !game.sets || !game.setScore) {
+          game = newTennisGame();
+          storage.set(TN_SAVE, game);
+        }
+        if (typeof game.input !== 'string') game.input = '';
+        if (!game.games) game.games = [];
+
+        var wrap = el('div', 'tn-root');
+
+        var bar = el('div', 'bar');
+        var back = el('button', 'btn-ghost', '← Menu');
+        back.onclick = function() { location.hash = '#/'; };
+        var title = el('h2', null, 'Tennis');
+        var actions = el('div', 'bar-actions');
+        var restart = el('button', 'btn-ghost', 'Restart');
+        restart.onclick = function() {
+          if (tennisHasProgress(game) && !confirm('Abandon this match and start a new one?')) return;
+          game = newTennisGame();
+          storage.set(TN_SAVE, game);
+          draw();
+        };
+        actions.appendChild(restart);
+        bar.appendChild(back);
+        bar.appendChild(title);
+        bar.appendChild(actions);
+        wrap.appendChild(bar);
+
+        var settings = el('div', 'tn-settings');
+        settings.appendChild(el('div', 'tn-settings-label', 'Difficulty'));
+        var diffGrid = el('div', 'tn-difficulty-grid');
+        settings.appendChild(diffGrid);
+        settings.appendChild(el('div', 'tn-settings-label', 'Match format'));
+        var fmtGrid = el('div', 'tn-format-grid');
+        settings.appendChild(fmtGrid);
+        wrap.appendChild(settings);
+
+        var court = el('div', 'tn-court');
+        var sides = el('div', 'tn-sides');
+
+        var playerSide = el('div', 'tn-side');
+        playerSide.appendChild(el('div', 'tn-side-name', 'You'));
+        playerSide.appendChild(el('div', 'tn-side-emoji', '🎾'));
+        var playerSetsEl = el('div', 'tn-side-sets', '0');
+        playerSide.appendChild(playerSetsEl);
+        playerSide.appendChild(el('div', 'tn-side-sets-label', 'Sets'));
+
+        var net = el('div', 'tn-net');
+
+        var cpuSide = el('div', 'tn-side');
+        var cpuNameEl = el('div', 'tn-side-name', 'CPU');
+        cpuSide.appendChild(cpuNameEl);
+        cpuSide.appendChild(el('div', 'tn-side-emoji', '🤖'));
+        var cpuSetsEl = el('div', 'tn-side-sets', '0');
+        cpuSide.appendChild(cpuSetsEl);
+        cpuSide.appendChild(el('div', 'tn-side-sets-label', 'Sets'));
+
+        sides.appendChild(playerSide);
+        sides.appendChild(net);
+        sides.appendChild(cpuSide);
+        court.appendChild(sides);
+        wrap.appendChild(court);
+
+        var scoreboard = el('div', 'tn-scoreboard');
+        wrap.appendChild(scoreboard);
+
+        var currentBox = el('div', 'tn-current');
+        currentBox.appendChild(el('div', 'tn-current-label', 'Current set'));
+        var currentScoreEl = el('div', 'tn-current-score', '0 – 0');
+        currentBox.appendChild(currentScoreEl);
+        var currentBadgeEl = el('div', 'tn-current-badge', '');
+        currentBox.appendChild(currentBadgeEl);
+        wrap.appendChild(currentBox);
+
+        var lastBox = el('div', 'tn-last');
+        wrap.appendChild(lastBox);
+
+        var instruction = el('div', 'tn-instruction', 'Enter your 3-dart score');
+        wrap.appendChild(instruction);
+
+        var display = el('div', 'tn-display', '0');
+        wrap.appendChild(display);
+
+        var pad = el('div', 'tn-pad');
+        wrap.appendChild(pad);
+
+        var actionRow = el('div', 'tn-actions');
+        wrap.appendChild(actionRow);
+
+        root.appendChild(wrap);
+
+        function getCurrentDiff() {
+          for (var i = 0; i < TN_DIFFICULTIES.length; i++) {
+            if (TN_DIFFICULTIES[i].id === game.difficulty) return TN_DIFFICULTIES[i];
+          }
+          return TN_DIFFICULTIES[1];
+        }
+
+        function drawSettings() {
+          diffGrid.innerHTML = '';
+          TN_DIFFICULTIES.forEach(function(d) {
+            var b = el('button', null, d.label);
+            if (game.difficulty === d.id) b.classList.add('active');
+            b.onclick = function() {
+              if (game.difficulty === d.id) return;
+              if (tennisHasProgress(game) && !confirm('Switch difficulty and start a new match?')) return;
+              storage.set(TN_DIFFICULTY, d.id);
+              game = newTennisGame();
+              storage.set(TN_SAVE, game);
+              draw();
+            };
+            diffGrid.appendChild(b);
+          });
+          fmtGrid.innerHTML = '';
+          TN_FORMATS.forEach(function(f) {
+            var b = el('button', null, 'Best of ' + f);
+            if (game.format === f) b.classList.add('active');
+            b.onclick = function() {
+              if (game.format === f) return;
+              if (tennisHasProgress(game) && !confirm('Switch format and start a new match?')) return;
+              storage.set(TN_FORMAT, f);
+              game = newTennisGame();
+              storage.set(TN_SAVE, game);
+              draw();
+            };
+            fmtGrid.appendChild(b);
+          });
+        }
+
+        function drawScoreboard() {
+          scoreboard.innerHTML = '';
+          var maxSets = game.format;
+          var header = el('div', 'tn-sb-header');
+          header.appendChild(el('div', null, 'Player'));
+          for (var i = 1; i <= maxSets; i++) {
+            header.appendChild(el('div', null, 'S' + i));
+          }
+          scoreboard.appendChild(header);
+
+          var setsWon = tennisSetsWon(game);
+          var matchDone = !!game.winner;
+          var currentSetIdx = game.sets.length;
+
+          var rows = [
+            { name: 'You', side: 'player', other: 'cpu' },
+            { name: 'CPU', side: 'cpu', other: 'player' }
+          ];
+
+          rows.forEach(function(row) {
+            var r = el('div', 'tn-sb-row');
+            r.appendChild(el('div', 'tn-sb-row-name', row.name));
+            for (var i = 0; i < maxSets; i++) {
+              var cell = el('div', 'tn-sb-cell');
+              var st = game.sets[i];
+              if (st) {
+                cell.textContent = String(st[row.side]);
+                if (st[row.side] > st[row.other]) cell.classList.add('win');
+              } else if (i === currentSetIdx && !matchDone) {
+                cell.textContent = String(game.setScore[row.side]);
+                cell.classList.add('current');
+              } else {
+                cell.textContent = '–';
+                cell.classList.add('empty');
+              }
+              r.appendChild(cell);
+            }
+            scoreboard.appendChild(r);
+          });
+          playerSetsEl.textContent = String(setsWon.player);
+          cpuSetsEl.textContent = String(setsWon.cpu);
+          cpuNameEl.textContent = getCurrentDiff().label + ' Bot';
+        }
+
+        function drawCurrent() {
+          if (game.over) {
+            currentBox.style.display = 'none';
+            return;
+          }
+          currentBox.style.display = '';
+          currentScoreEl.textContent = game.setScore.player + ' – ' + game.setScore.cpu;
+          var setNum = game.sets.length + 1;
+          var isFinal = tennisIsFinalSet(game);
+          var isTb = tennisIsTiebreakNext(game);
+          currentBadgeEl.classList.remove('final');
+          if (isTb) {
+            currentBadgeEl.textContent = 'Tiebreak!';
+            currentBadgeEl.classList.add('final');
+            currentBadgeEl.style.display = '';
+          } else if (isFinal) {
+            currentBadgeEl.textContent = 'Final Set · win by 2';
+            currentBadgeEl.classList.add('final');
+            currentBadgeEl.style.display = '';
+          } else {
+            currentBadgeEl.textContent = 'Set ' + setNum;
+            currentBadgeEl.style.display = '';
+          }
+        }
+
+        function drawLast() {
+          lastBox.innerHTML = '';
+          if (!game.lastResult) {
+            lastBox.appendChild(el('div', 'tn-last-title', 'Match about to start'));
+            lastBox.appendChild(el('div', 'tn-last-verdict', 'First serve coming up'));
+            return;
+          }
+          var last = game.lastResult;
+          lastBox.appendChild(el('div', 'tn-last-title', last.tiebreak ? 'Tiebreak result' : 'Last game result'));
+          var rows = el('div', 'tn-last-rows');
+
+          var pSide = el('div', 'tn-last-side');
+          pSide.appendChild(el('div', 'tn-last-side-label', 'You'));
+          pSide.appendChild(el('div', 'tn-last-side-score', String(last.playerScore)));
+          rows.appendChild(pSide);
+
+          var cSide = el('div', 'tn-last-side');
+          cSide.appendChild(el('div', 'tn-last-side-label', 'CPU'));
+          cSide.appendChild(el('div', 'tn-last-side-score', String(last.cpuScore)));
+          if (last.cpuDarts && last.cpuDarts.length) {
+            cSide.appendChild(el('div', 'tn-last-side-darts', last.cpuDarts.join(' · ')));
+          }
+          rows.appendChild(cSide);
+          lastBox.appendChild(rows);
+
+          var verdict = el('div', 'tn-last-verdict');
+          if (last.winner === 'let') {
+            verdict.classList.add('let');
+            verdict.textContent = 'Let — replay';
+          } else if (last.winner === 'player') {
+            verdict.textContent = 'Game, You';
+          } else {
+            verdict.textContent = 'Game, CPU';
+          }
+          lastBox.appendChild(verdict);
+        }
+
+        function drawDisplay() {
+          var v = game.input === '' ? '0' : game.input;
+          display.textContent = v;
+          var n = parseInt(game.input, 10);
+          var invalid = game.input !== '' && (isNaN(n) || n > 180);
+          display.classList.toggle('invalid', invalid);
+        }
+
+        function drawPad() {
+          pad.innerHTML = '';
+          var disabled = game.over;
+          var nums = ['1','2','3','4','5','6','7','8','9','C','0','⌫'];
+          nums.forEach(function(label) {
+            var b = el('button', null, label);
+            if (label === 'C' || label === '⌫') b.classList.add('aux');
+            b.disabled = disabled;
+            b.onclick = function() {
+              if (game.over) return;
+              if (label === 'C') {
+                game.input = '';
+              } else if (label === '⌫') {
+                game.input = game.input.slice(0, -1);
+              } else if (game.input === '0') {
+                if (label !== '0') game.input = label;
+              } else if (game.input === '' && label === '0') {
+                game.input = '0';
+              } else if (game.input.length < 3) {
+                var next = game.input + label;
+                if (parseInt(next, 10) <= 180) game.input = next;
+              }
+              storage.set(TN_SAVE, game);
+              drawDisplay();
+              drawActions();
+            };
+            pad.appendChild(b);
+          });
+        }
+
+        function drawActions() {
+          actionRow.innerHTML = '';
+          if (game.over) {
+            var showResult = el('button', 'tn-throw', 'Show result');
+            showResult.onclick = function() { showTennisEnd(); };
+            actionRow.appendChild(showResult);
+            return;
+          }
+          var undo = el('button', 'tn-undo', '↶ Undo');
+          undo.disabled = game.games.length === 0 && game.sets.length === 0;
+          undo.onclick = undoLastGame;
+          var throwBtn = el('button', 'tn-throw', 'Throw');
+          var n = parseInt(game.input, 10);
+          var valid = !isNaN(n) && n >= 0 && n <= 180 && game.input !== '';
+          throwBtn.disabled = !valid;
+          throwBtn.onclick = onThrow;
+          actionRow.appendChild(undo);
+          actionRow.appendChild(throwBtn);
+        }
+
+        function undoLastGame() {
+          if (game.games.length > 0) {
+            var prev = game.games.pop();
+            if (prev.winner === 'player') game.setScore.player--;
+            else if (prev.winner === 'cpu') game.setScore.cpu--;
+            game.input = String(prev.playerScore);
+            game.lastResult = game.games.length > 0 ? game.games[game.games.length - 1] : null;
+          } else if (game.sets.length > 0) {
+            var lastSet = game.sets.pop();
+            game.setScore = { player: lastSet.player, cpu: lastSet.cpu };
+            game.games = lastSet.games || [];
+            var lastGame = game.games.length > 0 ? game.games[game.games.length - 1] : null;
+            if (lastGame) {
+              if (lastGame.winner === 'player') game.setScore.player--;
+              else if (lastGame.winner === 'cpu') game.setScore.cpu--;
+              game.games.pop();
+              game.input = String(lastGame.playerScore);
+            } else {
+              game.input = '';
+            }
+            game.lastResult = game.games.length > 0 ? game.games[game.games.length - 1] : null;
+          } else {
+            return;
+          }
+          if (game.over) {
+            game.over = false;
+            game.winner = null;
+            game.finishedAt = null;
+          }
+          storage.set(TN_SAVE, game);
+          draw();
+        }
+
+        function onThrow() {
+          if (game.over) return;
+          var playerScore = parseInt(game.input, 10);
+          if (isNaN(playerScore) || playerScore < 0 || playerScore > 180) return;
+          var diff = getCurrentDiff();
+          var cpu = simulateTennisTurn(diff);
+          var isTiebreak = tennisIsTiebreakNext(game);
+          var winner;
+          if (playerScore === cpu.total) winner = 'let';
+          else if (playerScore > cpu.total) winner = 'player';
+          else winner = 'cpu';
+
+          var result = {
+            playerScore: playerScore,
+            cpuScore: cpu.total,
+            cpuDarts: cpu.darts,
+            winner: winner,
+            tiebreak: isTiebreak
+          };
+          game.games.push(result);
+          game.lastResult = result;
+          game.input = '';
+
+          var roundLine = 'You ' + playerScore + ' · CPU ' + cpu.total;
+
+          if (winner === 'let') {
+            storage.set(TN_SAVE, game);
+            draw();
+            showTennisToast({ label: roundLine, title: 'LET — replay', blurb: tennisPick(TN_LET_BLURBS) });
+            return;
+          }
+
+          if (winner === 'player') game.setScore.player++;
+          else game.setScore.cpu++;
+
+          var isFinal = tennisIsFinalSet(game);
+          var setWinner = tennisCheckSetEnd(game.setScore, isFinal);
+
+          if (!setWinner) {
+            storage.set(TN_SAVE, game);
+            draw();
+            var setScoreStr = game.setScore.player + '–' + game.setScore.cpu;
+            showTennisToast({
+              label: roundLine,
+              title: winner === 'player' ? 'Game, You · Set ' + setScoreStr : 'Game, CPU · Set ' + setScoreStr,
+              blurb: tennisPick(winner === 'player' ? TN_GAME_WIN_BLURBS : TN_GAME_LOSS_BLURBS)
+            });
+            return;
+          }
+
+          var completedSet = {
+            player: game.setScore.player,
+            cpu: game.setScore.cpu,
+            tiebreak: game.setScore.player + game.setScore.cpu === 13,
+            games: game.games.slice()
+          };
+          game.sets.push(completedSet);
+          game.setScore = { player: 0, cpu: 0 };
+          game.games = [];
+
+          var setsWon = tennisSetsWon(game);
+          var toWin = tennisSetsToWin(game.format);
+
+          if (setsWon.player >= toWin || setsWon.cpu >= toWin) {
+            game.winner = setsWon.player >= toWin ? 'player' : 'cpu';
+            game.over = true;
+            game.finishedAt = new Date().toISOString();
+            recordTennisStats(game);
+            storage.set(TN_SAVE, game);
+            draw();
+            var setSummary = completedSet.player + '–' + completedSet.cpu;
+            showTennisToast({
+              big: true,
+              label: 'Set ' + setSummary + ' · Match decided',
+              title: setWinner === 'player' ? 'Set & Match — You!' : 'Set & Match — CPU',
+              blurb: setWinner === 'player' ? 'Championship point converted!' : 'They took it on the line.'
+            });
+            setTimeout(function() { showTennisEnd(); }, 900);
+            return;
+          }
+
+          storage.set(TN_SAVE, game);
+          draw();
+          showTennisToast({
+            big: true,
+            label: 'Set ' + (game.sets.length) + ' · ' + completedSet.player + '–' + completedSet.cpu,
+            title: setWinner === 'player' ? 'Set, You!' : 'Set, CPU',
+            blurb: setWinner === 'player' ? 'One step closer. Keep serving.' : 'Heads up — they’re finding the lines.'
+          });
+        }
+
+        function showTennisEnd() {
+          var existing = document.querySelector('.tn-final-overlay');
+          if (existing) existing.remove();
+          var overlay = el('div', 'overlay tn-final-overlay');
+          var card = el('div', 'overlay-card tn-final-card');
+          var diff = getCurrentDiff();
+          var setsWon = tennisSetsWon(game);
+          var isWin = game.winner === 'player';
+          var trophy = isWin ? '🏆' : '🎾';
+          var title = isWin ? 'Champion!' : 'Defeated';
+          var method = (isWin ? 'You beat ' : 'Lost to ') + diff.label + ' Bot · Best of ' + game.format;
+          var blurb;
+          if (isWin) {
+            if (game.format === 5 && setsWon.cpu === 0) blurb = 'A straight-sets demolition. Crowd on its feet.';
+            else if (setsWon.cpu === 0) blurb = 'A clean sweep — no reply from the other side.';
+            else if (setsWon.player - setsWon.cpu === 1) blurb = 'Down to the wire. Held nerve when it counted.';
+            else blurb = 'A clinic out there.';
+          } else {
+            if (setsWon.player === 0) blurb = 'Outplayed today. Back to the practice court.';
+            else if (setsWon.cpu - setsWon.player === 1) blurb = 'So close. Heartbreaker.';
+            else blurb = 'They had the answers in the big moments.';
+          }
+
+          card.appendChild(el('div', 'tn-final-trophy', trophy));
+          card.appendChild(el('h3', 'tn-final-title', title));
+          card.appendChild(el('div', 'tn-final-method', method));
+          card.appendChild(el('div', 'tn-final-score', setsWon.player + ' – ' + setsWon.cpu));
+          var setsStr = game.sets.map(function(s) { return s.player + '–' + s.cpu; }).join('  ·  ');
+          card.appendChild(el('div', 'tn-final-sets', setsStr));
+          card.appendChild(el('p', 'tn-final-blurb', blurb));
+
+          var a = el('div', 'overlay-actions');
+          var viewCard = el('button', 'btn-ghost', 'View scoreboard');
+          viewCard.onclick = function() { overlay.remove(); };
+          var again = el('button', 'btn-primary', 'New match');
+          again.onclick = function() {
+            overlay.remove();
+            game = newTennisGame();
+            storage.set(TN_SAVE, game);
+            draw();
+          };
+          var home = el('button', 'btn-ghost', 'Back to menu');
+          home.onclick = function() {
+            overlay.remove();
+            location.hash = '#/';
+          };
+          a.appendChild(viewCard);
+          a.appendChild(again);
+          a.appendChild(home);
+          card.appendChild(a);
+          overlay.appendChild(card);
+          document.body.appendChild(overlay);
+        }
+
+        function draw() {
+          drawSettings();
+          drawScoreboard();
+          drawCurrent();
+          drawLast();
+          drawDisplay();
+          drawPad();
+          drawActions();
+          if (game.over) {
+            instruction.textContent = 'Match finished';
+          } else if (tennisIsTiebreakNext(game)) {
+            instruction.textContent = 'Tiebreak — enter your 3-dart score';
+          } else if (tennisIsFinalSet(game)) {
+            instruction.textContent = 'Final set — enter your 3-dart score';
+          } else {
+            instruction.textContent = 'Set ' + (game.sets.length + 1) + ' — enter your 3-dart score';
+          }
+        }
+
+        draw();
+      }
+
       // ============ HOME / ROUTER ============
       var root = document.getElementById('app');
 
@@ -4628,6 +5932,22 @@
               if (difficulty && !bits.length) bits.push(difficulty + ' preference');
               return bits.length ? bits.join(' · ') : 'No data';
             }
+          },
+          {
+            title: '🎾 Tennis',
+            keys: [TN_SAVE, TN_DIFFICULTY, TN_FORMAT, TN_STATS],
+            describe: function() {
+              var save = storage.get(TN_SAVE);
+              var stats = storage.get(TN_STATS);
+              var bits = [];
+              if (save && tennisHasProgress(save) && !save.over) {
+                var sets = tennisSetsWon(save);
+                bits.push('In progress · Sets ' + sets.player + '–' + sets.cpu);
+              }
+              var rec = tennisRecordSummary(stats);
+              if (rec) bits.push(stats.matches + ' matches · ' + rec);
+              return bits.length ? bits.join(' · ') : 'No data';
+            }
           }
         ];
 
@@ -4867,6 +6187,40 @@
         };
         tiles.appendChild(boxing);
 
+        var tennis = el('div', 'tile');
+        tennis.setAttribute('role', 'button');
+        tennis.setAttribute('tabindex', '0');
+        var tennisRules = el('button', 'tile-rules-btn', 'How to play');
+        tennisRules.onclick = function(e) {
+          e.stopPropagation();
+          showTennisRules();
+        };
+        tennis.appendChild(tennisRules);
+        tennis.appendChild(el('h2', null, '🎾 Tennis'));
+        tennis.appendChild(el('p', null, '3 darts = one game. Win sets, tiebreaks at 6–6, best of 3 or 5.'));
+        var tnSave = storage.get(TN_SAVE);
+        var tnStats = storage.get(TN_STATS);
+        var tnStat = el('div', 'tile-stat');
+        if (tnSave && tennisHasProgress(tnSave) && !tnSave.over) {
+          var tnSets = tennisSetsWon(tnSave);
+          tnStat.textContent = 'In progress · Sets ' + tnSets.player + '–' + tnSets.cpu + ' · BO' + tnSave.format;
+        } else {
+          var tnRec = tennisRecordSummary(tnStats);
+          tnStat.textContent = tnRec ? (tnStats.matches + ' matches · ' + tnRec) : 'Step on court';
+        }
+        tennis.appendChild(tnStat);
+        tennis.onclick = function() {
+          location.hash = '#/tennis';
+        };
+        tennis.onkeydown = function(e) {
+          if (e.target !== tennis) return;
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            location.hash = '#/tennis';
+          }
+        };
+        tiles.appendChild(tennis);
+
         root.appendChild(tiles);
 
         root.appendChild(el('div', 'flex-spacer'));
@@ -4889,6 +6243,7 @@
         else if (hash.indexOf('#/golfdarts') === 0) renderGolfDarts(root);
         else if (isWordle) renderWordleDarts(root);
         else if (hash.indexOf('#/boxing') === 0) renderBoxing(root);
+        else if (hash.indexOf('#/tennis') === 0) renderTennis(root);
         else renderHome();
         window.scrollTo(0, 0);
       }
